@@ -1,13 +1,13 @@
 .text {
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   color: #444;
 }
 
 .textLink {
   margin-left: 0.5rem;
 
-  font-size: 1rem;
-  color: #00bfa6;
+  font-size: var(--font-size-base);
+  color: var(--color-text-link);
   text-decoration: none;
 }
 
@@ -18,13 +18,13 @@
 @media screen and (min-width: 768px) {
   .text,
   .textLink {
-    font-size: 1.25rem;
+    font-size: var(--font-size-m);
   }
 }
 
 @media screen and (min-width: 1200px) {
   .text,
   .textLink {
-    font-size: 1.85rem;
+    font-size: var(--font-size-l);
   }
 }

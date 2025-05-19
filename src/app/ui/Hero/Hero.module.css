@@ -1,90 +1,72 @@
-.section {
-  padding-block: 30px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  align-items: center;
-  text-align: center;
+.hero {
+  padding-top: 0;
 }
+
 .logoHero {
   width: 128px;
   height: 128px;
+
+  margin: 0 auto;
+  margin-bottom: 10px;
 }
-.section h1 {
-  font-size: 1.25rem;
+.titleHero {
+  font-size: var(--font-size-m);
 }
-.section h2 {
-  font-size: 1rem;
+.subtitleHero {
+  font-size: var(--font-size-base);
 }
 .description {
   margin-top: 0.625rem;
-  font-size: 1rem;
+  font-size: var(--font-size-base);
 }
 
 .ctaBox {
   padding: 12px 22px;
 
-  background-color: #e0f7fa;
-  border: 1px solid #b2ebf2;
+  background-color: var(--color-bg-btn);
+  border: 1px solid var(--color-border-btn);
   border-radius: 6px;
 
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   font-weight: 700;
-  color: #00796b;
+  color: var(--color-text-btn);
 }
 
 @media screen and (min-width: 768px) {
-  .section {
-    padding-block: 50px;
-
-    gap: 50px;
-  }
-
   .logoHero {
     width: 256px;
     height: 256px;
   }
 
-  .section h1,
-  .section h2 {
-    font-size: 2rem;
+  .titleHero,
+  .subtitleHero {
+    font-size: var(--font-size-xl);
   }
 
   .description {
-    margin-top: 0.625rem;
-    font-size: 1.25rem;
+    font-size: var(--font-size-m);
   }
 
   .ctaBox {
     padding: 20px 52px;
 
-    font-size: 1.25rem;
+    font-size: var(--font-size-m);
   }
 }
 
 @media screen and (min-width: 1200px) {
-  .section {
-    padding-block: 70px;
-  }
-
-  .logoHero {
-    width: 300px;
-    height: 300px;
-  }
-
-  .section h1,
-  .section h2 {
-    font-size: 3rem;
+  .titleHero,
+  .subtitleHero {
+    font-size: var(--font-size-xxl);
   }
 
   .description {
-    font-size: 2rem;
+    font-size: var(--font-size-l);
   }
 
   .ctaBox {
     padding: 20px 52px;
 
-    font-size: 2rem;
+    font-size: var(--font-size-xl);
   }
 }
