@@ -17,7 +17,7 @@
 .section h2 {
   font-size: 1rem;
 }
-.section p {
+.description {
   margin-top: 0.625rem;
   font-size: 1rem;
 }
@@ -32,4 +32,59 @@
   font-size: 1rem;
   font-weight: 700;
   color: #00796b;
+}
+
+@media screen and (min-width: 768px) {
+  .section {
+    padding-block: 50px;
+
+    gap: 50px;
+  }
+
+  .logoHero {
+    width: 256px;
+    height: 256px;
+  }
+
+  .section h1,
+  .section h2 {
+    font-size: 2rem;
+  }
+
+  .description {
+    margin-top: 0.625rem;
+    font-size: 1.25rem;
+  }
+
+  .ctaBox {
+    padding: 20px 52px;
+
+    font-size: 1.25rem;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .section {
+    padding-block: 70px;
+  }
+
+  .logoHero {
+    width: 300px;
+    height: 300px;
+  }
+
+  .section h1,
+  .section h2 {
+    font-size: 3rem;
+  }
+
+  .description {
+    font-size: 2rem;
+  }
+
+  .ctaBox {
+    padding: 20px 52px;
+
+    font-size: 2rem;
+  }
 }

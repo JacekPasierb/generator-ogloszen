@@ -17,7 +17,7 @@ const Hero = () => {
       <div>
         <h1>Zamiast pisać – wygeneruj! </h1>
         <h2>Opis ogłoszenia gotowy od ręki.</h2>
-        <p>
+        <p className={styles.description}>
           Zobacz, jak wyglądają przykładowe opisy generowane przez AI i zacznij
           tworzyć własne.
         </p>
@@ -25,7 +25,7 @@ const Hero = () => {
       <Link href="/login" className={styles.ctaBox}>
         Logowanie
       </Link>
-     <RegisterLink/>
+      <RegisterLink />
     </section>
   );
 };

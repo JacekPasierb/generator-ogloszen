@@ -1,5 +1,5 @@
 .text {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: #444;
 }
 
@@ -13,4 +13,18 @@
 
 .textLink:hover {
   text-decoration: underline;
+}
+
+@media screen and (min-width: 768px) {
+  .text,
+  .textLink {
+    font-size: 1.25rem;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .text,
+  .textLink {
+    font-size: 1.85rem;
+  }
 }
