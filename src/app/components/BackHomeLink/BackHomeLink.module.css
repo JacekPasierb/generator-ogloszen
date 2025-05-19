@@ -1,0 +1,11 @@
+.link {
+  margin-top: 1rem;
+
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  color: var(--color-text-link);
+  text-decoration: none;
+}
+.link:hover {
+  text-decoration: underline;
+}
