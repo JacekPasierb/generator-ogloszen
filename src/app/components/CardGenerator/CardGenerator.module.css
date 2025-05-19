@@ -1,0 +1,27 @@
+.card {
+  max-width: 320px;
+
+  padding: 20px;
+
+  background-color: var(--color-bg-third);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+
+  text-align: left;
+
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.title {
+  font-size: var(--font-size-m);
+  text-align: center;
+}
+
+.description {
+  margin-top: 20px;
+  font-size: var(--font-size-base);
+}
