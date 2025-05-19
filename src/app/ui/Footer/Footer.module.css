@@ -1,0 +1,24 @@
+.footer {
+  margin-top: auto;
+
+  background-color: F8F9FA;
+}
+.links {
+  margin-top: 0.5rem;
+
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.link {
+  font-size: var(--font-size-base);
+  color: var(--color-text-link);
+  text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: #019d89;
+}

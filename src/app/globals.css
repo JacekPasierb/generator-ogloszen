@@ -37,13 +37,21 @@
 html,
 body {
   height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--color-bg-body);
+
   font-family: Inter, sans-serif;
   font-size: 16px;
   line-height: 1.5;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--color-bg-body);
   color: var(--color-text-main);
+
+ 
 }
 
 img,
@@ -67,7 +75,7 @@ select {
 
 a {
   text-decoration: none;
-  color: #3f51b5;
+  color: var(--color-text-link);
 }
 
 ul,

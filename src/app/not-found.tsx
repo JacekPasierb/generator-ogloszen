@@ -5,7 +5,7 @@ import BackHomeLink from "./components/BackHomeLink/BackHomeLink";
 
 const notfound = () => {
   return (
-    <section className={`section container`}>
+    <section className={`section container`} style={{flex: 1, justifyContent:"center", alignItems:"center"}}>
       <div>
         <Image
           src="/logo.png"
