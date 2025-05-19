@@ -1,5 +1,11 @@
+import LandingPage from "./ui/LandingPage/LandingPage";
+
 const Home = () => {
-  return <>HI</>;
+  return (
+    <>
+      <LandingPage />
+    </>
+  );
 };
 
 export default Home;

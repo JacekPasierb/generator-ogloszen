@@ -1,0 +1,16 @@
+.text {
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.textLink {
+  margin-left: 0.5rem;
+
+  font-size: 1rem;
+  color: #00bfa6;
+  text-decoration: none;
+}
+
+.textLink:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,35 @@
+.section {
+  padding-block: 30px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  text-align: center;
+}
+.logoHero {
+  width: 128px;
+  height: 128px;
+}
+.section h1 {
+  font-size: 1.25rem;
+}
+.section h2 {
+  font-size: 1rem;
+}
+.section p {
+  margin-top: 0.625rem;
+  font-size: 1rem;
+}
+
+.ctaBox {
+  padding: 12px 22px;
+
+  background-color: #e0f7fa;
+  border: 1px solid #b2ebf2;
+  border-radius: 6px;
+
+  font-size: 1rem;
+  font-weight: 700;
+  color: #00796b;
+}
