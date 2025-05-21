@@ -50,8 +50,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--color-text-main);
-
- 
 }
 
 img,
@@ -69,7 +67,7 @@ textarea,
 select {
   font: inherit;
   outline: none;
-  border: none;
+  border: 1px solid black;
   background: none;
 }
 

@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import CardAuth from "../components/CardAuth/CardAuth";
 
 const page = () => {
   return (
-    <div>page</div>
-  )
-}
+    <section className={`section container`}>
+      <CardAuth />
+    </section>
+  );
+};
 
-export default page
+export default page;

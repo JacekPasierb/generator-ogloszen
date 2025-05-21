@@ -19,11 +19,82 @@
 .title {
   font-size: var(--font-size-m);
 }
+/* Style Form */
+.form {
+  margin-top: 1rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.inputBox {
+  margin-bottom: 1rem;
+}
+.input {
+  padding: 0.75rem 1rem;
+
+  border: 1px solid #ccc;
+  border-radius: 8px;
+
+  font-size: 1rem;
+}
+
+.errorInput {
+  border: 1px solid red;
+  fill: red;
+}
+
+.inputRegister {
+  width: 100%;
+  font-size: 14px;
+  color: black;
+  background-color: transparent;
+  outline: none;
+  border: 0;
+}
+
+.form button {
+  padding: 0.75rem;
+
+  background-color: #00bfa6;
+  border-radius: 8px;
+  border: none;
+
+  color: white;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.form button:hover {
+  background-color: #019d89;
+}
+
+.errorMessage {
+  font-size: 0.625rem;
+  color: #ff0000;
+  text-align: left;
+}
+
+.checkboxLabel {
+  display: flex;
+  gap: 8px;
+
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+
+  font-size: 10px;
+}
 
 @media screen and (min-width: 768px) {
-
   .title {
     font-size: var(--font-size-xl);
+  }
+
+  .checkboxLabel {
+    font-size: 12px;
   }
 }
 @media screen and (min-width: 1200px) {

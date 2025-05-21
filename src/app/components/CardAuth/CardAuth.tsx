@@ -9,6 +9,7 @@ import SubTitle from "../SubTitle/SubTitle";
 import LoginForm from "../LoginForm/LoginForm";
 import RegisterLink from "../RegisterLink/RegisterLink";
 import BackHomeLink from "../BackHomeLink/BackHomeLink";
+import RegisterForm from "../RegisterForm/RegisterForm";
 
 const CardAuth = () => {
   const pathname = usePathname();
@@ -23,11 +24,9 @@ const CardAuth = () => {
         className={styles.logo}
       />
 
-      <Title>
-        {isRegister ? "Załóż darmowe konto" : "Zaloguj się do konta"}
-      </Title>
+      <Title>{isRegister ? "Załóż konto" : "Zaloguj się do konta"}</Title>
       <SubTitle>Uzyskaj dostęp do opisów AI</SubTitle>
-      {isRegister ? "" : <LoginForm />}
+      {isRegister ? <RegisterForm /> : <LoginForm />}
       <RegisterLink />
       <BackHomeLink />
     </div>
