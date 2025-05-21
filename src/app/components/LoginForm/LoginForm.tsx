@@ -13,7 +13,10 @@ const LoginForm = () => {
     email: "",
     password: "",
   };
-
+const handleSubmit = ()=>{
+    console.log("nie");
+    
+}
   const renderInputField = (
     name: keyof FormValues,
     type: string,
@@ -54,12 +57,7 @@ const LoginForm = () => {
     <Formik
       initialValues={initialValues}
       validationSchema={loginValidationSchema}
-      onSubmit={(values, {setSubmitting}) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
-      }}
+      onSubmit={handleSubmit}
     >
       {({isSubmitting, errors, touched}) => (
         <Form className={styles.form} autoComplete="off">
