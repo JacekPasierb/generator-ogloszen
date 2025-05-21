@@ -1,7 +1,12 @@
 import React from "react";
+import Header from "../Header/Header";
 
 const DashboardPage = () => {
-  return <div>DashboardPage</div>;
+  return (
+    <>
+      <Header />
+    </>
+  );
 };
 
 export default DashboardPage;

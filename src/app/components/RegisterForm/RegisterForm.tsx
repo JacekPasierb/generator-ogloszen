@@ -5,6 +5,7 @@ import {registerValidationSchema} from "./registerValidation";
 import Link from "next/link";
 import RegulaminModal from "../ModalRegulamin/ModalRegulamin";
 import {useRouter} from "next/navigation";
+import {toast} from "react-toastify";
 
 interface FormValues {
   email: string;
@@ -69,15 +70,15 @@ const RegisterForm = () => {
 
       const data = await res.json();
       if (!res.ok) {
-        console.log(data.error || "Błąd rejestracji");
+        toast.error(data.error || "Błąd rejestracji");
 
         return;
       }
-
+      toast.success("Zarejestrowano pomyślnie");
       resetForm();
       router.push("/login");
-    } catch (error) {
-      console.log(error || "Coś poszło nie tak");
+    } catch {
+      toast.error("Wystąpił błąd serwera");
     }
   };
   return (

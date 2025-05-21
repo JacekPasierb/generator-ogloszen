@@ -1,0 +1,54 @@
+.header {
+  align-items: unset;
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.logoHeader {
+  width: 66px;
+  height: 66px;
+}
+
+.boxIcons {
+  display: flex;
+  gap: 20px;
+}
+
+.boxActions {
+}
+
+.levelAccount {
+  font-size: var(--font-size-m);
+}
+
+.boxUsage {
+  margin: 1rem auto;
+  padding: 1rem;
+  width: fit-content;
+  background-color: var(--color-bg-second);
+  border-radius: 8px;
+}
+.boxUsage .text {
+  font-size: var(--font-size-base);
+  color: var(--color-text-main);
+}
+
+.boxBtn {
+  margin: 1rem auto;
+  padding: 1rem;
+  width: fit-content;
+
+  background: var(--color-bg-btn);
+  border: 1px solid var(--color-border-btn);
+  border-radius: 8px;
+}
+
+.linkAsBtn {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--color-text-btn);
+  text-decoration: none;
+}

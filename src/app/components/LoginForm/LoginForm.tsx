@@ -1,7 +1,8 @@
-import {ErrorMessage, Field, Form, Formik, FormikErrors, FormikTouched} from "formik";
+import {ErrorMessage, Field, Form, Formik, useField} from "formik";
 import React from "react";
 import styles from "../CardAuth/CardAuth.module.css";
 import {loginValidationSchema} from "./loginValidation";
+import {toast} from "react-toastify";
 
 interface FormValues {
   email: string;
@@ -13,59 +14,79 @@ const LoginForm = () => {
     email: "",
     password: "",
   };
-const handleSubmit = ()=>{
-    console.log("nie");
-    
-}
-  const renderInputField = (
-    name: keyof FormValues,
-    type: string,
-    placeholder: string,
-    touched: FormikTouched<FormValues>,
-    errors: FormikErrors<FormValues>
-  ) => (
-    <div className={styles.inputBox}>
-      <div
-        className={`${styles.input} ${
-          touched[name] && errors[name] ? styles.errorInput : ""
-        }`}
-      >
-        <Field
-          type={type}
-          name={name}
-          placeholder={placeholder}
-          className={styles.inputRegister}
-          autoComplete={
-            name === "password"
-              ? "current-password"
-              : name === "email"
-              ? "username"
-              : "off"
-          }
-        />
+
+  const InputField: React.FC<{
+    name: keyof FormValues;
+    type: string;
+    placeholder: string;
+  }> = ({name, type, placeholder}) => {
+    const [field, meta] = useField(name);
+    const hasError = meta.touched && meta.error;
+    return (
+      <div className={styles.inputBox}>
+        <div className={`${styles.input} ${hasError ? styles.errorInput : ""}`}>
+          <Field
+            {...field}
+            type={type}
+            name={name}
+            placeholder={placeholder}
+            className={styles.inputRegister}
+            autoComplete={
+              name === "password"
+                ? "current-password"
+                : name === "email"
+                ? "username"
+                : "off"
+            }
+          />
+        </div>
+        <div style={{minHeight: "1em"}}>
+          <ErrorMessage
+            name={name}
+            component="div"
+            className={styles.errorMessage}
+          />
+        </div>
       </div>
-      <div style={{minHeight: "1em"}}>
-        <ErrorMessage
-          name={name}
-          component="div"
-          className={styles.errorMessage}
-        />
-      </div>
-    </div>
-  );
+    );
+  };
+
+  const handleSubmit = async (
+    values: FormValues,
+    {resetForm}: {resetForm: () => void}
+  ) => {
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(values),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error || "Błąd logowania");
+
+        return;
+      }
+      toast.success("Zalogowano pomyślnie");
+      resetForm();
+    } catch {
+      toast.error("Wystąpił błąd serwera");
+    }
+  };
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={loginValidationSchema}
       onSubmit={handleSubmit}
     >
-      {({isSubmitting, errors, touched}) => (
+      {({isSubmitting}) => (
         <Form className={styles.form} autoComplete="off">
-          {renderInputField("email", "email", "Email", touched, errors)}
-          {renderInputField("password", "password", "Hasło", touched, errors)}
+          <InputField name="email" type="email" placeholder="Email" />
+          <InputField name="password" type="password" placeholder="Hasło" />
 
           <button type="submit" disabled={isSubmitting}>
-            Zaloguj
+            {isSubmitting ? <div className={styles.spinner} /> : "Zaloguj"}
           </button>
         </Form>
       )}

@@ -3,6 +3,7 @@ import {Inter} from "next/font/google";
 import "./globals.css";
 import {ReactNode} from "react";
 import Footer from "./ui/Footer/Footer";
+import { Bounce, ToastContainer } from "react-toastify";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,8 +26,23 @@ interface RootLayoutProps {
 const RootLayout: React.FC<RootLayoutProps> = ({children}) => {
   return (
     <html lang="pl" className={inter.className}>
-      <body >
-        <main >{children}</main>
+      <body>
+        <main>
+          {children}{" "}
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            transition={Bounce}
+          />
+        </main>
         <Footer />
       </body>
     </html>
