@@ -3,6 +3,7 @@ import React from "react";
 import styles from "../CardAuth/CardAuth.module.css";
 import {loginValidationSchema} from "./loginValidation";
 import {toast} from "react-toastify";
+import { useRouter } from "next/navigation";
 
 interface FormValues {
   email: string;
@@ -10,6 +11,7 @@ interface FormValues {
 }
 
 const LoginForm = () => {
+  const router = useRouter();
   const initialValues: FormValues = {
     email: "",
     password: "",
@@ -70,6 +72,7 @@ const LoginForm = () => {
       }
       toast.success("Zalogowano pomyślnie");
       resetForm();
+      router.push("/");
     } catch {
       toast.error("Wystąpił błąd serwera");
     }

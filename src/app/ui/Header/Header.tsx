@@ -7,26 +7,35 @@ import Link from "next/link";
 const Header = () => {
   const {isPro, aiUsed, aiLimit} = useUser();
 
+  const handleLogout = async () => {
+    await fetch("/api/logout", {method: "POST"});
+    location.reload();
+  };
+
   return (
     <section className={`container section ${styles.header}`}>
       <nav className={styles.nav}>
-        <Image
-          src="/logo.png"
-          width={300}
-          height={300}
-          alt="logo GO"
-          className={styles.logoHeader}
-        />
+        <div style={{display: "flex", alignItems: "center"}}>
+          <Image
+            src="/logo.png"
+            width={300}
+            height={300}
+            alt="logo GO"
+            className={styles.logoHeader}
+          />
+        </div>
         <div className={styles.boxIcons}>
-          <span style={{fontSize: "45px"}}>📓</span>
-          <span style={{fontSize: "45px"}}>🙋‍♂️</span>
+          <span className={styles.icons}>📓</span>
+          <span className={styles.icons} onClick={handleLogout}>
+            🙋‍♂️
+          </span>
         </div>
       </nav>
       <div className={styles.boxActions}>
         <p className={styles.levelAccount}>
           <strong> Status Konta:</strong> {isPro ? "Pakiet AI 💎" : "Darmowe"}
         </p>
-        {!isPro ? (
+        {isPro ? (
           <div className={styles.boxUsage}>
             <p className={styles.text}>
               Pozostałe zapytania:{" "}

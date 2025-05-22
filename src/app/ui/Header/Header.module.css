@@ -17,16 +17,24 @@
   gap: 20px;
 }
 
+.icons {
+  font-size: 45px;
+
+  cursor: pointer;
+}
+
 .boxActions {
 }
 
 .levelAccount {
+margin-bottom: 2rem;
+
   font-size: var(--font-size-m);
 }
 
 .boxUsage {
   margin: 1rem auto;
-  padding: 1rem;
+  padding: 12px 22px;
   width: fit-content;
   background-color: var(--color-bg-second);
   border-radius: 8px;
@@ -51,4 +59,29 @@
   font-weight: 700;
   color: var(--color-text-btn);
   text-decoration: none;
+}
+
+@media screen and (min-width: 768px) {
+  .logoHeader {
+    width: 76px;
+    height: 76px;
+  }
+
+  .icons {
+    font-size: 55px;
+  }
+
+  .levelAccount {
+    font-size: var(--font-size-xl);
+  }
+
+  .boxUsage {
+    padding: 20px 52px;
+  }
+  .boxUsage .text {
+    font-size: var(--font-size-m);
+  }
+}
+
+@media screen and (min-width: 1200px) {
 }
