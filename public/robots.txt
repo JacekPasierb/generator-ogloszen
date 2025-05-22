@@ -1,4 +1,9 @@
+# *
 User-agent: *
-Disallow:
+Allow: /
 
-Sitemap: https://twojadomena.pl/sitemap.xml
+# Host
+Host: https://generatoropisow.pl
+
+# Sitemaps
+Sitemap: https://generatoropisow.pl/sitemap.xml
