@@ -1,12 +1,17 @@
 import React from "react";
 import Header from "../Header/Header";
 import Generator from "../Generator/Generator";
+import Description from "../Description/Description";
+import { DescriptionProvider } from "../../context/DescriptionContext";
 
 const DashboardPage = () => {
   return (
     <>
       <Header />
-      <Generator/>
+      <DescriptionProvider>
+        <Generator />
+        <Description />
+      </DescriptionProvider>
     </>
   );
 };

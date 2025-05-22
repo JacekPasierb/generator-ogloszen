@@ -1,3 +1,57 @@
 .generator {
-    background-color: var(--color-bg-primary);
+  background-color: var(--color-bg-primary);
+}
+
+.locked {
+  position: relative;
+
+  height: 300px;
+
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+
+  opacity: 0.4;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.locked::after {
+  content: "🔒 Dostęp z pakietem AI";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  padding: 2rem 2rem;
+
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+
+  font-size: clamp(20px, 5vw, 36px);
+  font-weight: bold;
+  color: #ffffff;
+  white-space: pre-line;
+
+  animation: fadeIn 0.3s ease-in-out;
+
+  transform: translate(-50%, -50%);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .locked {
+    height: 500px;
+  }
 }
