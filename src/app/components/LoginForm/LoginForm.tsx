@@ -3,7 +3,8 @@ import React from "react";
 import styles from "../CardAuth/CardAuth.module.css";
 import {loginValidationSchema} from "./loginValidation";
 import {toast} from "react-toastify";
-import { useRouter } from "next/navigation";
+import {useRouter} from "next/navigation";
+import BtnAuth from "../BtnAuth/BtnAuth";
 
 interface FormValues {
   email: string;
@@ -87,10 +88,7 @@ const LoginForm = () => {
         <Form className={styles.form} autoComplete="off">
           <InputField name="email" type="email" placeholder="Email" />
           <InputField name="password" type="password" placeholder="Hasło" />
-
-          <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? <div className={styles.spinner} /> : "Zaloguj"}
-          </button>
+          <BtnAuth isSubmitting={isSubmitting}>Zaloguj</BtnAuth>
         </Form>
       )}
     </Formik>

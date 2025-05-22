@@ -1,0 +1,25 @@
+.form {
+  width: 100%;
+}
+.boxInput {
+  margin-bottom: 2rem;
+  padding: 10px;
+  width: 100%;
+
+  background-color: var(--color-bg-third);
+}
+
+.textarea {
+  width: 100%;
+  margin-bottom: 1rem;
+
+  border: none;
+  resize: none;
+
+  font-size: var(--font-size-base);
+}
+
+.charCounter {
+  font-size: var(--font-size-base);
+  text-align: end;
+}

@@ -6,6 +6,7 @@ import Link from "next/link";
 import RegulaminModal from "../ModalRegulamin/ModalRegulamin";
 import {useRouter} from "next/navigation";
 import {toast} from "react-toastify";
+import BtnAuth from "../BtnAuth/BtnAuth";
 
 interface FormValues {
   email: string;
@@ -118,9 +119,8 @@ const RegisterForm = () => {
               className={styles.errorMessage}
             />
           </div>
-          <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? <div className={styles.spinner} /> : "Zarejestruj"}
-          </button>
+          <BtnAuth isSubmitting={isSubmitting}>Zarejestruj</BtnAuth>
+   
         </Form>
       )}
     </Formik>
