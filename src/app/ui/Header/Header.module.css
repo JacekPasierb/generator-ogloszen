@@ -27,7 +27,7 @@
 }
 
 .levelAccount {
-margin-bottom: 2rem;
+  margin-bottom: 2rem;
 
   font-size: var(--font-size-m);
 }
@@ -39,6 +39,7 @@ margin-bottom: 2rem;
   background-color: var(--color-bg-second);
   border-radius: 8px;
 }
+
 .boxUsage .text {
   font-size: var(--font-size-base);
   color: var(--color-text-main);
@@ -79,6 +80,14 @@ margin-bottom: 2rem;
     padding: 20px 52px;
   }
   .boxUsage .text {
+    font-size: var(--font-size-m);
+  }
+
+  .boxBtn {
+    padding: 20px 52px;
+  }
+
+  .linkAsBtn {
     font-size: var(--font-size-m);
   }
 }
