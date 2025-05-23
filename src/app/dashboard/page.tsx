@@ -7,7 +7,7 @@ import Description from "../ui/Description/Description";
 import Loading from "../components/Loading/Loading";
 import {useDescription} from "../context/DescriptionContext";
 import {useUser} from "../hooks/useUser";
-import { useRouter } from "next/navigation";
+import {useRouter} from "next/navigation";
 
 const DashboardPage = () => {
   const {description} = useDescription();
@@ -15,11 +15,12 @@ const DashboardPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !user) {
+    if (loading &&!user) {
       router.push("/login");
     }
   }, [loading, user, router]);
 
+  if (loading) return <Loading />;
   if (!user) return null;
   return (
     <>
