@@ -1,3 +1,4 @@
+
 import React from "react";
 import styles from "./Generator.module.css";
 import Title from "../../components/Title/Title";

@@ -1,16 +1,21 @@
-"use client"
+"use client";
 
-import { useUser } from "./hooks/useUser";
-import DashboardPage from "./ui/DashboardPage/DashboardPage";
-import LandingPage from "./ui/LandingPage/LandingPage";
+import Loading from "./components/Loading/Loading";
+import {useUser} from "./hooks/useUser";
+import ExGenerator from "./ui/ExGenerator/ExGenerator";
+import Hero from "./ui/Hero/Hero";
+import Pricing from "./ui/Pricing/Pricing";
 
 const Home = () => {
   const {user, loading} = useUser();
 
-  if (loading) return <p>Ładowanie...</p>;
+  if (loading) return <Loading />;
+  
   return (
     <>
-      {user ? <DashboardPage /> : <LandingPage />}
+      <Hero />
+      <Pricing />
+      <ExGenerator />
     </>
   );
 };

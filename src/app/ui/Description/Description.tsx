@@ -8,8 +8,8 @@ const Description = () => {
   return (
     <section className={`section container`}>
       <Title>Wygenerowany opis:</Title>
-      {<p>{description}</p>
-    }
+      <textarea readOnly value={description} className={styles.result} ></textarea>
+    
     </section>
   );
 };

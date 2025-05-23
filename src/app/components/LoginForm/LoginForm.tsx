@@ -73,7 +73,7 @@ const LoginForm = () => {
       }
       toast.success("Zalogowano pomyślnie");
       resetForm();
-      router.push("/");
+      router.push("/dashboard");
     } catch {
       toast.error("Wystąpił błąd serwera");
     }
