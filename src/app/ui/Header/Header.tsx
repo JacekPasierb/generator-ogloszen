@@ -1,11 +1,49 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Header.module.css";
 import {useUser} from "../../hooks/useUser";
 import Link from "next/link";
+import ModalDescriptions from "../../components/ModalDescription/ModalDescription";
+
+export interface SavedDescription {
+  text: string;
+  date: string;
+  _id: string;
+}
 
 const Header = () => {
   const {isPro, aiUsed, aiLimit} = useUser();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [savedDescriptions, setSavedDescriptions] = useState<
+    SavedDescription[]
+  >([]);
+
+  const fetchSavedDescriptions = async () => {
+    try {
+      const res = await fetch("/api/descriptions");
+      const data = await res.json();
+      if (res.ok) {
+        setSavedDescriptions(data.descriptions);
+      } else {
+        console.error("Błąd pobierania opisów:", data.error);
+      }
+    } catch (err) {
+      console.error("Błąd podczas pobierania zapisanych opisów:", err);
+    }
+  };
+
+  const handleOpenModal = async () => {
+    await fetchSavedDescriptions();
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleDeleteDescription = (id: string) => {
+    setSavedDescriptions((prev) => prev.filter((desc) => desc._id !== id));
+  };
 
   const handleLogout = async () => {
     await fetch("/api/logout", {method: "POST"});
@@ -25,7 +63,7 @@ const Header = () => {
           />
         </div>
         <div className={styles.boxIcons}>
-          <span className={styles.icons}>📓</span>
+          <span onClick={handleOpenModal} className={styles.icons}>📓</span>
           <span className={styles.icons} onClick={handleLogout}>
             🙋‍♂️
           </span>
@@ -52,6 +90,14 @@ const Header = () => {
           </div>
         )}
       </div>
+      {isModalOpen && (
+        <ModalDescriptions
+          onClose={handleCloseModal}
+          title="Zapisane opisy"
+          data={savedDescriptions}
+          onDelete={handleDeleteDescription}
+        />
+      )}
     </section>
   );
 };
