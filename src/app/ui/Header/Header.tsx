@@ -1,9 +1,12 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./Header.module.css";
 import {useUser} from "../../hooks/useUser";
 import Link from "next/link";
 import ModalDescriptions from "../../components/ModalDescription/ModalDescription";
+import {fetchDescription} from "../../services/descriptionServices";
+import {logoutUser} from "../../services/authService";
+import {useRouter} from "next/navigation";
 
 export interface SavedDescription {
   text: string;
@@ -18,22 +21,18 @@ const Header = () => {
     SavedDescription[]
   >([]);
 
+  const router = useRouter();
+
   const fetchSavedDescriptions = async () => {
     try {
-      const res = await fetch("/api/descriptions");
-      const data = await res.json();
-      if (res.ok) {
-        setSavedDescriptions(data.descriptions);
-      } else {
-        console.error("Błąd pobierania opisów:", data.error);
-      }
+      const descriptions = await fetchDescription();
+      setSavedDescriptions(descriptions);
     } catch (err) {
       console.error("Błąd podczas pobierania zapisanych opisów:", err);
     }
   };
 
   const handleOpenModal = async () => {
-    await fetchSavedDescriptions();
     setIsModalOpen(true);
   };
 
@@ -46,9 +45,18 @@ const Header = () => {
   };
 
   const handleLogout = async () => {
-    await fetch("/api/logout", {method: "POST"});
-    location.reload();
+    try {
+      await logoutUser();
+
+      router.push("/login");
+    } catch (err) {
+      console.error("Błąd wylogowania", err);
+    }
   };
+
+  useEffect(() => {
+    fetchSavedDescriptions();
+  }, []);
 
   return (
     <section className={`container section ${styles.header}`}>
@@ -63,7 +71,9 @@ const Header = () => {
           />
         </div>
         <div className={styles.boxIcons}>
-          <span onClick={handleOpenModal} className={styles.icons}>📓</span>
+          <span onClick={handleOpenModal} className={styles.icons}>
+            📓
+          </span>
           <span className={styles.icons} onClick={handleLogout}>
             🙋‍♂️
           </span>

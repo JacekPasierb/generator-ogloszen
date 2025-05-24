@@ -7,6 +7,7 @@ import RegulaminModal from "../ModalRegulamin/ModalRegulamin";
 import {useRouter} from "next/navigation";
 import {toast} from "react-toastify";
 import BtnAuth from "../BtnAuth/BtnAuth";
+import {registerUser} from "../../services/authService";
 
 interface FormValues {
   email: string;
@@ -63,23 +64,16 @@ const RegisterForm = () => {
     {resetForm}: {resetForm: () => void}
   ) => {
     try {
-      const res = await fetch("/api/register", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(values),
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.error || "Błąd rejestracji");
-
-        return;
-      }
+      await registerUser(values);
       toast.success("Zarejestrowano pomyślnie");
       resetForm();
       router.push("/login");
-    } catch {
-      toast.error("Wystąpił błąd serwera");
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("Wystąpił błąd serwera");
+      }
     }
   };
   return (
@@ -120,7 +114,6 @@ const RegisterForm = () => {
             />
           </div>
           <BtnAuth isSubmitting={isSubmitting}>Zarejestruj</BtnAuth>
-   
         </Form>
       )}
     </Formik>

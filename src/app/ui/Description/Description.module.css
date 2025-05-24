@@ -15,13 +15,11 @@
 }
 
 .boxBtn {
-  width: 100%;
   display: flex;
-  justify-content: space-between;
+  gap: 20px;
 }
 
 .actionButton {
-  min-width: 160px;
   padding: 1rem;
 
   display: flex;
@@ -55,13 +53,17 @@
     padding: 20px 52px;
 
     font-size: var(--font-size-m);
-
   }
 }
 
 @media screen and (min-width: 768px) {
- .boxBtn {
+  .boxBtn {
     justify-content: center;
     gap: 30px;
- }
   }
+
+  .actionButton {
+
+    font-size: var(--font-size-l);
+  }
+}

@@ -3,6 +3,7 @@ import styles from "./Description.module.css";
 import Title from "../../components/Title/Title";
 import {useDescription} from "../../context/DescriptionContext";
 import {toast} from "react-toastify";
+import { saveDescription } from "../../services/descriptionServices";
 
 const Description = () => {
   const {description, setDescription} = useDescription();
@@ -16,23 +17,16 @@ const Description = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const saveDescription = async () => {
+  const addDescription = async () => {
     try {
-      const res = await fetch("/api/descriptions", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({description}),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) throw new Error(data.error || "Błąd zapisu opisu");
+      await saveDescription(description);
       setSaved(true);
       setDescription("");
-      toast(`Opis zapisany!`);
+      toast("Opis zapisany!");
     } catch (err) {
       setCooldown(true);
       setTimeout(() => setCooldown(false), 4000);
+  
       if (err instanceof Error) {
         switch (err.message) {
           case "Można zapisać maksymalnie 5 opisów":
@@ -41,9 +35,7 @@ const Description = () => {
             );
             break;
           default:
-            toast.error(
-              "Nie udało się zapisać opisu. Spróbuj ponownie później."
-            );
+            toast.error("Nie udało się zapisać opisu. Spróbuj ponownie później.");
         }
       } else {
         toast.error("Wystąpił nieznany błąd.");
@@ -64,14 +56,14 @@ const Description = () => {
       </div>
       <div className={styles.boxBtn}>
         <button className={styles.actionButton} onClick={handleCopy}>
-          {copied ? "Skopiowano!" : "📋 Kopiuj do schowka"}
+          {copied ? "Skopiowano!" : "📋 Kopiuj"}
         </button>
         <button
           className={styles.actionButton}
-          onClick={saveDescription}
+          onClick={addDescription}
           disabled={saved || cooldown}
         >
-          {saved ? "Zapisano!" : "📂 Zapisz opis"}
+          {saved ? "Zapisano!" : "📂 Zapisz"}
         </button>
       </div>
     </section>

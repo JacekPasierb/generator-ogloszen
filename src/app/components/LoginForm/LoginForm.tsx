@@ -5,8 +5,7 @@ import {loginValidationSchema} from "./loginValidation";
 import {toast} from "react-toastify";
 import {useRouter} from "next/navigation";
 import BtnAuth from "../BtnAuth/BtnAuth";
-
-
+import {loginUser} from "../../services/authService";
 
 interface FormValues {
   email: string;
@@ -61,23 +60,17 @@ const LoginForm = () => {
     {resetForm}: {resetForm: () => void}
   ) => {
     try {
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(values),
-      });
+      await loginUser(values);
 
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.error || "Błąd logowania");
-
-        return;
-      }
       toast.success("Zalogowano pomyślnie");
       resetForm();
       router.push("/dashboard");
-    } catch {
-      toast.error("Wystąpił błąd serwera");
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("Wystąpił błąd serwera");
+      }
     }
   };
   return (
