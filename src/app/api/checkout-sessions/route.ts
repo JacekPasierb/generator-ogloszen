@@ -19,9 +19,10 @@ export async function POST() {
     });
     return NextResponse.json({url: session.url});
   } catch (err) {
-    return NextResponse.json(
-      {error: err.message},
-      {status: err.statusCode || 500}
-    );
+    if (err instanceof Error) {
+      return NextResponse.json({error: err.message}, {status: 500});
+    }
+
+    return NextResponse.json({error: "Wystąpił nieznany błąd"}, {status: 500});
   }
 }
