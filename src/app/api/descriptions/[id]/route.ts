@@ -3,16 +3,12 @@ import {connectMongo} from "@/app/lib/mongoose";
 import User from "@/app/models/User";
 import {cookies} from "next/headers";
 import jwt from "jsonwebtoken";
-interface Context {
-  params: {
-    id: string;
-  };
-}
+
 export const DELETE = async (
   req: NextRequest,
-  context: Context
+  { params }: { params: { id: string } }
 ) => {
-  const { id } = context.params;
+  const { id } = params;
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
