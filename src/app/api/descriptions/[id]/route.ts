@@ -6,9 +6,9 @@ import jwt from "jsonwebtoken";
 
 export const DELETE = async (
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) => {
-  const { id } = params;
+  const { id } = await context.params;
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
