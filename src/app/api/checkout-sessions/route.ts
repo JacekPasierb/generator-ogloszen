@@ -25,4 +25,4 @@ export async function POST() {
 
     return NextResponse.json({error: "Wystąpił nieznany błąd"}, {status: 500});
   }
-}
+} 
