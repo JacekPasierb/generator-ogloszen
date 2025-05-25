@@ -115,8 +115,8 @@ const Header = () => {
           </div>
         ) : (
           <div className={styles.boxBtn}>
-            <button onClick={handleBuyClick} className={styles.linkAsBtn}>
-              🔓 Odblokuj Pakiet AI (5 zł)
+            <button onClick={handleBuyClick} className={styles.linkAsBtn} disabled={loading}>
+            {loading ? "Przekierowywanie..." : "🔓 Odblokuj Pakiet AI 5 zł"} 
             </button>
             
           </div>

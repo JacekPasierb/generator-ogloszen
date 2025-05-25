@@ -1,31 +1,27 @@
-import { NextResponse } from 'next/server'
-import { headers } from 'next/headers'
+import {NextResponse} from "next/server";
 
-import { stripe } from '../../lib/stripe'
+import {stripe} from "../../lib/stripe";
 
 export async function POST() {
   try {
-    const headersList = await headers()
-    const origin = headersList.get('origin')
-
     // Create Checkout Sessions from body params.
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
           // Provide the exact Price ID (for example, price_1234) of the product you want to sell
-          price: 'price_1RSkSJ4PTJFcKLjRhsZlpQ7T',
+          price: "price_1RSkSJ4PTJFcKLjRhsZlpQ7T",
           quantity: 1,
         },
       ],
-      mode: 'payment',
-      success_url:`${process.env.NEXT_PUBLIC_BASE_URL}/success`,
+      mode: "payment",
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cancel`,
     });
-    return NextResponse.json({ url: session.url });
+    return NextResponse.json({url: session.url});
   } catch (err) {
     return NextResponse.json(
-      { error: err.message },
-      { status: err.statusCode || 500 }
-    )
+      {error: err.message},
+      {status: err.statusCode || 500}
+    );
   }
 }
