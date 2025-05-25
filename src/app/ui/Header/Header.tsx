@@ -2,7 +2,6 @@ import Image from "next/image";
 import React, {useEffect, useState} from "react";
 import styles from "./Header.module.css";
 import {useUser} from "../../hooks/useUser";
-import Link from "next/link";
 import ModalDescriptions from "../../components/ModalDescription/ModalDescription";
 import {fetchDescription} from "../../services/descriptionServices";
 import {logoutUser} from "../../services/authService";
@@ -20,6 +19,9 @@ const Header = () => {
   const [savedDescriptions, setSavedDescriptions] = useState<
     SavedDescription[]
   >([]);
+
+  const [loading, setLoading] = useState(false);
+
 
   const router = useRouter();
 
@@ -54,6 +56,25 @@ const Header = () => {
     }
   };
 
+  const handleBuyClick=async()=>{
+    setLoading(true);
+    try {
+      const res = await fetch("/api/checkout-sessions", { method: "POST" });
+      
+      console.log("1", res);
+      const data = await res.json();
+      console.log("2",data);
+      
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (err) {
+      console.error("Błąd płatności", err);
+      alert("Wystąpił błąd");
+    } finally {
+      setLoading(false);
+    }
+  }
   useEffect(() => {
     fetchSavedDescriptions();
   }, []);
@@ -94,9 +115,10 @@ const Header = () => {
           </div>
         ) : (
           <div className={styles.boxBtn}>
-            <Link href="/pricing" className={styles.linkAsBtn}>
+            <button onClick={handleBuyClick} className={styles.linkAsBtn}>
               🔓 Odblokuj Pakiet AI (5 zł)
-            </Link>
+            </button>
+            
           </div>
         )}
       </div>
