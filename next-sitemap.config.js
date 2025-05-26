@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-    siteUrl: 'https://generatoropisow.pl', // ← podmień jeśli masz inną domenę
+    siteUrl: 'https://generator-ogloszen.com', // ← podmień jeśli masz inną domenę
     generateRobotsTxt: true, // wygeneruje też public/robots.txt
     changefreq: 'weekly',
     priority: 0.7,

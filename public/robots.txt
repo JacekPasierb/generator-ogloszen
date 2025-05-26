@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://generatoropisow.pl
+Host: https://generator-ogloszen.com
 
 # Sitemaps
-Sitemap: https://generatoropisow.pl/sitemap.xml
+Sitemap: https://generator-ogloszen.com/sitemap.xml
