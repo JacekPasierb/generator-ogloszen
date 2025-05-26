@@ -42,7 +42,7 @@ export const POST = async (req: Request) => {
     // 👇 Sprawdzenie czy użytkownik wykorzystał cały pakiet
     const updatedUser = await User.findById(userId);
     if (updatedUser && updatedUser.aiUsed >= updatedUser.aiLimit) {
-      await User.findByIdAndUpdate(userId, {isPro: false, aiUsed: 0});
+      await User.findByIdAndUpdate(userId, {isPro: false, aiUsed: 50});
     }
 
     return NextResponse.json({description});
