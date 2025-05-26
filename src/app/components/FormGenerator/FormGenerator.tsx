@@ -5,6 +5,7 @@ import {generateDescriptionSchema} from "./formValidation";
 import BtnAuth from "../BtnAuth/BtnAuth";
 import {toast} from "react-toastify";
 import {useDescription} from "../../context/DescriptionContext";
+import { useUser } from "../../hooks/useUser";
 
 interface FormValues {
   input: string;
@@ -12,6 +13,7 @@ interface FormValues {
 
 const FormGenerator = () => {
   const {setDescription} = useDescription();
+  const { mutate } = useUser();
   const maxLength = 300;
 
   const handleSubmit = async (
@@ -30,6 +32,7 @@ const FormGenerator = () => {
 
       const data = await res.json();
       setDescription(data.description);
+      mutate(); 
       resetForm();
     } catch (err) {
       console.error("Błąd generowania opisu:", err);

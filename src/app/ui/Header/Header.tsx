@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, {useEffect, useState} from "react";
+import React, { useState} from "react";
 import styles from "./Header.module.css";
 import {useUser} from "../../hooks/useUser";
 import ModalDescriptions from "../../components/ModalDescription/ModalDescription";
@@ -22,7 +22,6 @@ const Header = () => {
 
   const [loading, setLoading] = useState(false);
 
-
   const router = useRouter();
 
   const fetchSavedDescriptions = async () => {
@@ -35,6 +34,7 @@ const Header = () => {
   };
 
   const handleOpenModal = async () => {
+    await fetchSavedDescriptions();
     setIsModalOpen(true);
   };
 
@@ -56,15 +56,15 @@ const Header = () => {
     }
   };
 
-  const handleBuyClick=async()=>{
+  const handleBuyClick = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/checkout-sessions", { method: "POST" });
-      
+      const res = await fetch("/api/checkout-sessions", {method: "POST"});
+
       console.log("1", res);
       const data = await res.json();
-      console.log("2",data);
-      
+      console.log("2", data);
+
       if (data.url) {
         window.location.href = data.url;
       }
@@ -74,10 +74,7 @@ const Header = () => {
     } finally {
       setLoading(false);
     }
-  }
-  useEffect(() => {
-    fetchSavedDescriptions();
-  }, []);
+  };
 
   return (
     <section className={`container section ${styles.header}`}>
@@ -115,10 +112,13 @@ const Header = () => {
           </div>
         ) : (
           <div className={styles.boxBtn}>
-            <button onClick={handleBuyClick} className={styles.linkAsBtn} disabled={loading}>
-            {loading ? "Przekierowywanie..." : "🔓 Odblokuj Pakiet AI 5 zł"} 
+            <button
+              onClick={handleBuyClick}
+              className={styles.linkAsBtn}
+              disabled={loading}
+            >
+              {loading ? "Przekierowywanie..." : "🔓 Odblokuj Pakiet AI 5 zł"}
             </button>
-            
           </div>
         )}
       </div>

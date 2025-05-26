@@ -1,27 +1,36 @@
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import styles from "./Description.module.css";
 import Title from "../../components/Title/Title";
 import {useDescription} from "../../context/DescriptionContext";
 import {toast} from "react-toastify";
 import { saveDescription } from "../../services/descriptionServices";
+import { useUser } from "../../hooks/useUser";
 
 const Description = () => {
   const {description, setDescription} = useDescription();
   const [copied, setCopied] = useState(false);
   const [saved, setSaved] = useState(false);
   const [cooldown, setCooldown] = useState(false);
+  const { mutate } = useUser();
 
+  useEffect(() => {
+    if (description && resultRef.current) {
+      resultRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [description]);
   const handleCopy = () => {
     navigator.clipboard.writeText(description);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+  const resultRef = useRef<HTMLDivElement | null>(null);
 
   const addDescription = async () => {
     try {
       await saveDescription(description);
       setSaved(true);
       setDescription("");
+      mutate();
       toast("Opis zapisany!");
     } catch (err) {
       setCooldown(true);
@@ -44,7 +53,7 @@ const Description = () => {
   };
 
   return (
-    <section className={`section container`}>
+    <section className={`section container`} ref={resultRef}>
       <Title>Wygenerowany opis:</Title>
       <div className={styles.boxDescription}>
         <textarea
