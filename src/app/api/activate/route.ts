@@ -18,7 +18,9 @@ export const POST = async () => {
     await connectMongo();
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { isPro: true },
+      { isPro: true,
+        aiUsed: 0,  
+       },
       { new: true }
     );
 
