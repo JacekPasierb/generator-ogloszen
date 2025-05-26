@@ -1,36 +1,52 @@
-// app/success/page.tsx
 "use client";
 
-import {useEffect} from "react";
-import {useRouter} from "next/navigation";
-import {toast} from "react-toastify";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "react-toastify";
 
 const SuccessPage = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const sessionId = searchParams.get("session_id");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log("s",sessionId);
+    
     const activatePro = async () => {
-      try {
-        const res = await fetch("/api/activate", {method: "POST"});
-        const data = await res.json();
+      if (!sessionId) {
+       
+        router.replace("/"); 
+        return;
+      }
 
-        if (res.ok) {
+      try {
+        const res = await fetch(`/api/verify-checkout?session_id=${sessionId}`);
+        const data = await res.json();
+console.log("sesionId",sessionId);
+console.log("data",data.paid);
+
+        if (res.ok && data.paid) {
           toast.success("Dziękujemy za zakup pakietu AI!");
         } else {
           toast.error("Błąd aktywacji pakietu: " + data.error);
         }
+
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 3000);
       } catch (err) {
         console.error(err);
         toast.error("Błąd połączenia z serwerem.");
+      } finally {
+        setLoading(false);
       }
     };
 
-    setTimeout(() => {
-      router.push("/dashboard");
-    }, 3000);
-
     activatePro();
-  }, [router]);
+  }, [router, sessionId]);
+
+  if (loading) return <p className="section container">Trwa weryfikacja płatności...</p>;
 
   return (
     <section className="section container">

@@ -14,9 +14,11 @@ export async function POST() {
         },
       ],
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cancel`,
     });
+    
     return NextResponse.json({url: session.url});
   } catch (err) {
     if (err instanceof Error) {
@@ -25,4 +27,4 @@ export async function POST() {
 
     return NextResponse.json({error: "Wystąpił nieznany błąd"}, {status: 500});
   }
-} 
+}
