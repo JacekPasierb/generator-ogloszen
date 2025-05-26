@@ -1,6 +1,6 @@
 "use client";
 
-import {useState} from "react";
+import { useState } from "react";
 import styles from "./ModalRegulamin.module.css";
 
 export default function RegulaminModal() {
@@ -26,18 +26,28 @@ export default function RegulaminModal() {
               Właścicielem serwisu jest osoba fizyczna prowadząca działalność
               nierejestrowaną.
             </p>
-            <p>Serwis umożliwia generowanie opisów ogłoszeń przy pomocy AI.</p>
             <p>
-              Usługa dostępna jest w ramach pakietów płatnych, płatności
-              obsługuje Stripe.
+              Serwis umożliwia generowanie opisów ogłoszeń przy pomocy sztucznej
+              inteligencji (AI).
             </p>
-            <p>Użytkownik ponosi odpowiedzialność za wykorzystanie opisów.</p>
             <p>
-              Po zakupie pakietu użytkownik traci prawo do odstąpienia od umowy.
+              Usługa dostępna jest w ramach pakietów płatnych. Płatności
+              realizowane są za pośrednictwem operatora Stripe.
             </p>
-            <p>Zmiany regulaminu będą publikowane na stronie.</p>
-            <p style={{fontSize: "0.9rem", marginTop: "1rem", color: "#888"}}>
-              Data ostatniej aktualizacji: [tu wpisz datę]
+            <p>
+              Użytkownik ponosi pełną odpowiedzialność za sposób wykorzystania
+              wygenerowanych opisów.
+            </p>
+            <p>
+              Zgodnie z art. 38 ust. 1 pkt 13 ustawy o prawach konsumenta, po
+              zakupie pakietu użytkownik traci prawo do odstąpienia od umowy,
+              ponieważ usługa jest w pełni realizowana z chwilą zakupu.
+            </p>
+            <p>
+              Aktualizacje niniejszego regulaminu będą publikowane na stronie.
+            </p>
+            <p style={{ fontSize: "0.9rem", marginTop: "1rem", color: "#888" }}>
+              Data ostatniej aktualizacji: 26.05.2025
             </p>
           </div>
         </div>

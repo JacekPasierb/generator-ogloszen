@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <section className={`section container ${styles.footer}`} >
       <div>
-        <p>&copy; {currentYear} GeneratorOpisów.pl</p>
+        <p>&copy; {currentYear} generator-ogloszen.com</p>
         <div className={styles.links}>
           <Link href="/polityka-prywatnosci" className={styles.link}>
             Polityka prywatności

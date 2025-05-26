@@ -1,46 +1,75 @@
+/* ModalRegulamin.module.css */
+
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .modal {
-    background: white;
-    padding: 2rem;
-    max-width: 600px;
-    width: 90%;
-    border-radius: 8px;
-    position: relative;
-    max-height: 80vh;
-    overflow-y: auto;
-  }
-  
-  .closeBtn {
-    position: absolute;
-    top: 10px;
-    right: 14px;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #333;
-  }
-  
-  .regulaminLink {
-    color: #3b5bdb; /* ciemny niebieski */
-    text-decoration: underline;
-    font-weight: 600;
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 0;
-  }
-  
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal {
+  position: relative;
+  background-color: #fff;
+  padding: 2rem;
+  max-width: 600px;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+.modal .closeBtn  {
+  padding: 2px;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 2.5rem;
+  background: transparent;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.modal .closeBtn:hover {
+ color: #007b7f;
+ background-color: transparent;
+}
+
+.modal h2 {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.modal p {
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+  font-size: 1rem;
+  color: #333;
+}
+
+.modal p:last-child {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.regulaminLink {
+  cursor: pointer;
+  color: #007b7f;
+  text-decoration: underline;
+  font-size: 0.95rem;
+}
+
+.regulaminLink:hover {
+  color: #005f63;
+}

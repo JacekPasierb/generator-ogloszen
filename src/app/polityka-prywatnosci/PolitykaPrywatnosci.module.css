@@ -1,0 +1,26 @@
+.wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    line-height: 1.6;
+    font-size: 1rem;
+  }
+  
+  .wrapper h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .wrapper h2 {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+  }
+  
+  .wrapper ul {
+    padding-left: 1.5rem;
+  }
+  
+  .wrapper li {
+    margin-bottom: 0.5rem;
+  }
+  
