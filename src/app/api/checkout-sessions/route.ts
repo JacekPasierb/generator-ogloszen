@@ -1,30 +1,15 @@
 import {NextResponse} from "next/server";
-
-import {stripe} from "../../lib/stripe";
+import {createCheckoutSession} from "../../lib/stripe/createCheckoutSession";
 
 export async function POST() {
   try {
-    // Create Checkout Sessions from body params.
-    const session = await stripe.checkout.sessions.create({
-      line_items: [
-        {
-          // Provide the exact Price ID (for example, price_1234) of the product you want to sell
-          price: "price_1RSnYTG8nESrhIoFcIhYzF2n",
-          quantity: 1,
-        },
-      ],
-      mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
-
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard?cancelled=true`,
-    });
-    
-    return NextResponse.json({url: session.url});
+    const url = await createCheckoutSession();
+    return NextResponse.json({url});
   } catch (err) {
-    if (err instanceof Error) {
-      return NextResponse.json({error: err.message}, {status: 500});
-    }
+    const error = err as {status?: number; message?: string};
+    const status = error.status || 500;
+    const message = error.message || "Wewnętrzny błąd serwera";
 
-    return NextResponse.json({error: "Wystąpił nieznany błąd"}, {status: 500});
+    return NextResponse.json({error: message}, {status});
   }
 }

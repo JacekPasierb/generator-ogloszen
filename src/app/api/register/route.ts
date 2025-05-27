@@ -2,22 +2,33 @@ import {NextRequest, NextResponse} from "next/server";
 import {connectMongo} from "@/app/lib/mongoose";
 import bcrypt from "bcryptjs";
 import User from "../../models/User";
+import handleError from "../../lib/errors/userErrors";
 
 export const POST = async (req: NextRequest) => {
-  const {email, password, acceptedTerms} = await req.json();
+  try {
+    const {email, password, acceptedTerms} = await req.json();
 
-  if (!acceptedTerms)
-    NextResponse.json({error: "Brak akceptacji regulaminu"}, {status: 400});
+    if (!acceptedTerms) {
+      throw handleError(400, "Brak akceptacji regulaminu");
+    }
+    await connectMongo();
+    const existing = await User.findOne({email});
+    if (existing) {
+      throw handleError(400, "Użytkownik już istnieje");
+    }
+    const passwordHash = await bcrypt.hash(password, 10);
 
-  await connectMongo();
+    const newUser = await User.create({email, passwordHash, isPro: false});
 
-  const existing = await User.findOne({email});
-  if (existing) {
-    return NextResponse.json({error: "Użytkownik już istnieje"}, {status: 400});
+    return NextResponse.json({
+      message: "Konto utworzone",
+      userId: newUser._id,
+    });
+  } catch (err) {
+    const error = err as {status?: number; message?: string};
+    return NextResponse.json(
+      {error: error.message || "Wewnętrzny błąd serwera"},
+      {status: error.status || 500}
+    );
   }
-
-  const passwordHash = await bcrypt.hash(password, 10);
-  const newUser = await User.create({email, passwordHash, isPro: false});
-
-  return NextResponse.json({message: "Konto utworzone", userId: newUser._id});
 };

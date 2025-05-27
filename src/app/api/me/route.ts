@@ -1,26 +1,34 @@
 import {cookies} from "next/headers";
-import jwt from "jsonwebtoken";
 import {connectMongo} from "@/app/lib/mongoose";
 import User from "@/app/models/User";
 import {NextResponse} from "next/server";
+import handleError from "../../lib/errors/userErrors";
+import {getUserIdFromToken} from "../../lib/auth/getUserIdFromToken";
 
 export const GET = async () => {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+    if (!token) throw handleError(401, "Brak tokena");
 
-  if (!token) return NextResponse.json(null, {status: 401});
+    const userId = getUserIdFromToken(token);
+    await connectMongo();
+    const user = await User.findById(userId).select(
+      "email isPro aiUsed aiLimit"
+    );
+    if (!user) throw handleError(401, "Użytkownik nie znaleziony");
 
-  const {userId} = jwt.verify(token, process.env.JWT_SECRET!) as {
-    userId: string;
-  };
-  await connectMongo();
-  const user = await User.findById(userId);
-  if (!user) return NextResponse.json(null, {status: 401});
-
-  return NextResponse.json({
-    email: user.email,
-    isPro: user.isPro,
-    aiUsed: user.aiUsed,
-    aiLimit: user.aiLimit,
-  });
+    return NextResponse.json({
+      email: user.email,
+      isPro: user.isPro,
+      aiUsed: user.aiUsed,
+      aiLimit: user.aiLimit,
+    });
+  } catch (err) {
+    const error = err as {status?: number; message?: string};
+    return NextResponse.json(
+      {error: error.message || "Błąd serwera"},
+      {status: error.status || 500}
+    );
+  }
 };

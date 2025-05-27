@@ -1,44 +1,37 @@
-import { stripe } from "@/app/lib/stripe";
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
-import { connectMongo } from "@/app/lib/mongoose";
+import {stripe} from "@/app/lib/stripe";
+import {cookies} from "next/headers";
+import {connectMongo} from "@/app/lib/mongoose";
 import User from "@/app/models/User";
-import { NextResponse } from "next/server";
+import {NextResponse} from "next/server";
+import handleError from "../../lib/errors/userErrors";
+import {getUserIdFromToken} from "../../lib/auth/getUserIdFromToken";
 
 export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const sessionId = searchParams.get("session_id");
-
-  if (!sessionId) {
-    return NextResponse.json({ error: "Brak session_id" }, { status: 400 });
-  }
-
   try {
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    const {searchParams} = new URL(req.url);
+    const sessionId = searchParams.get("session_id");
+    if (!sessionId) throw handleError(400, "Brak session_id");
 
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
     if (session.payment_status !== "paid") {
-      return NextResponse.json({ error: "Płatność nie zakończona" }, { status: 400 });
+      throw handleError(400, "Płatność nie zakończona");
     }
 
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
-    if (!token) return NextResponse.json({ error: "Brak tokena" }, { status: 401 });
+    if (!token) throw handleError(401, "Brak tokena");
 
-    const { userId } = jwt.verify(token, process.env.JWT_SECRET!) as {
-      userId: string;
-    };
-
+    const userId = getUserIdFromToken(token);
     await connectMongo();
 
-    await User.findByIdAndUpdate(
-      userId,
-      { isPro: true, aiUsed: 0 },
-      { new: true }
-    );
+    await User.findByIdAndUpdate(userId, {isPro: true, aiUsed: 0}, {new: true});
 
-    return NextResponse.json({ paid: true });
+    return NextResponse.json({paid: true});
   } catch (err) {
-    console.error("❌ Błąd aktywacji:", err);
-    return NextResponse.json({ error: "Błąd serwera" }, { status: 500 });
+    const error = err as {status?: number; message?: string};
+    return NextResponse.json(
+      {error: error.message || "Błąd serwera"},
+      {status: error.status || 500}
+    );
   }
 }

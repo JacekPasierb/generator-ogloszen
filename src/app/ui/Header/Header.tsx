@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useState} from "react";
+import React, {useState} from "react";
 import styles from "./Header.module.css";
 import {useUser} from "../../hooks/useUser";
 import ModalDescriptions from "../../components/ModalDescription/ModalDescription";
@@ -60,18 +60,14 @@ const Header = () => {
     setLoading(true);
     try {
       const res = await fetch("/api/checkout-sessions", {method: "POST"});
-console.log("1");
 
-      
       const data = await res.json();
-      console.log("2", data.url);
 
       if (data.url) {
         window.location.href = data.url;
       }
     } catch (err) {
       console.error("Błąd płatności", err);
-      alert("Wystąpił błąd");
     } finally {
       setLoading(false);
     }
