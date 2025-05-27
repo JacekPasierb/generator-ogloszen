@@ -9,14 +9,14 @@ export async function POST() {
       line_items: [
         {
           // Provide the exact Price ID (for example, price_1234) of the product you want to sell
-          price: "price_1RSnYTG8nESrhIoFcIhYzF2n",
+          price: "price_1RSkSJ4PTJFcKLjRhsZlpQ7T",
           quantity: 1,
         },
       ],
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
 
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cancel`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard?cancelled=true`,
     });
     
     return NextResponse.json({url: session.url});

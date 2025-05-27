@@ -60,10 +60,11 @@ const Header = () => {
     setLoading(true);
     try {
       const res = await fetch("/api/checkout-sessions", {method: "POST"});
+console.log("1");
 
-      console.log("1", res);
+      
       const data = await res.json();
-      console.log("2", data);
+      console.log("2", data.url);
 
       if (data.url) {
         window.location.href = data.url;

@@ -29,6 +29,7 @@ export async function GET(req: Request) {
     };
 
     await connectMongo();
+
     await User.findByIdAndUpdate(
       userId,
       { isPro: true, aiUsed: 0 },
