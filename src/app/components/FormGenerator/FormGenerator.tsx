@@ -6,6 +6,7 @@ import BtnAuth from "../BtnAuth/BtnAuth";
 import {toast} from "react-toastify";
 import {useDescription} from "../../context/DescriptionContext";
 import { useUser } from "../../hooks/useUser";
+import { generateDescription } from "../../services/aiService";
 
 interface FormValues {
   input: string;
@@ -24,13 +25,14 @@ const FormGenerator = () => {
     }: {setSubmitting: (v: boolean) => void; resetForm: () => void}
   ) => {
     try {
-      const res = await fetch("/api/ai-generate", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({input: values.input}),
-      });
+      // const res = await fetch("/api/ai-generate", {
+      //   method: "POST",
+      //   headers: {"Content-Type": "application/json"},
+      //   body: JSON.stringify({input: values.input}),
+      // });
 
-      const data = await res.json();
+      // const data = await res.json();
+      const data = await generateDescription(values);
       setDescription(data.description);
       mutate(); 
       resetForm();
