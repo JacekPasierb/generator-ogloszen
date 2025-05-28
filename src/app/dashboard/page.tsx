@@ -21,8 +21,6 @@ const DashboardPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log("user",user);
-    
     if (!loading && !user) {
       router.push("/login");
     }
