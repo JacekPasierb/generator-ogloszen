@@ -3,9 +3,9 @@ import React from "react";
 import Title from "./components/Title/Title";
 import BackHomeLink from "./components/BackHomeLink/BackHomeLink";
 
-const notfound = () => {
+const NotFound = () => {
   return (
-    <section className={`section container`} style={{flex: 1, justifyContent:"center", alignItems:"center"}}>
+    <section className={`section container centered`}>
       <div>
         <Image
           src="/logo.png"
@@ -17,10 +17,11 @@ const notfound = () => {
 
         <Title>404</Title>
         <Title> Ta strona nie istnieje.</Title>
+        <p>Sprawdź, czy adres jest poprawny lub wróć do strony głównej.</p>
       </div>
       <BackHomeLink />
     </section>
   );
 };
 
-export default notfound;
+export default NotFound;

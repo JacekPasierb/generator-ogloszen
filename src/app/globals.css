@@ -106,6 +106,15 @@ ol {
   margin: 0 auto;
   margin-bottom: 10px;
 }
+.centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  text-align: center;
+}
+
 
 @media screen and (min-width: 768px) {
   .container {
