@@ -8,6 +8,7 @@ import {getUserIdFromToken} from "../../lib/auth/getUserIdFromToken";
 export const GET = async () => {
   try {
     const cookieStore = await cookies();
+    console.log("token1:");
     const token = cookieStore.get("token")?.value;
     console.log("token:", token);
 
