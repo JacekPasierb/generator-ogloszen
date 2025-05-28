@@ -8,9 +8,7 @@ interface UserResponse {
   aiLimit: number;
 }
 
-const fetcher = (url: string) => fetch(url,{
-  credentials:"include",
-}).then((res) => res.json());
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export function useUser() {
   const {data, error, isLoading, mutate} = useSWR<UserResponse>(
@@ -18,13 +16,15 @@ export function useUser() {
     fetcher
   );
 
+  const isUser = data && !("error" in data);
+
   return {
-    user: data,
-    isPro: data?.isPro ?? false,
-    aiUsed: data?.aiUsed ?? 0,
-    aiLimit: data?.aiLimit ?? 0,
+    user: isUser ? data : null,
+    isPro: isUser ? data?.isPro ?? false : false,
+    aiUsed: isUser ? data?.aiUsed ?? 0 : 0,
+    aiLimit: isUser ? data?.aiLimit ?? 0 : 0,
     loading: isLoading,
-    error,
+    error: isUser ? null : data?.error || error,
     mutate,
   };
 }

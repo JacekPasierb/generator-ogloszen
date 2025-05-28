@@ -11,7 +11,6 @@ import {useRouter} from "next/navigation";
 const Home = () => {
   const {user, loading} = useUser();
   const router = useRouter();
-  
 
   useEffect(() => {
     if (user) {

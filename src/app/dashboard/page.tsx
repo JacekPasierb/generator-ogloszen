@@ -17,14 +17,16 @@ const SessionHandler = dynamic(
 );
 const DashboardPage = () => {
   const {description} = useDescription();
-  const {user, loading,error} = useUser();
+  const {user, loading, error} = useUser();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && (!user || error)) {
+    console.log("user",user);
+    
+    if (!loading && !user) {
       router.push("/login");
     }
-  }, [loading, user, router,error]);
+  }, [loading, user, router]);
 
   if (loading) return <Loading />;
   if (!user || error) return null;
