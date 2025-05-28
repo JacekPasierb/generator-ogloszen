@@ -4,6 +4,7 @@ import {useEffect} from "react";
 import {useSearchParams} from "next/navigation";
 import {toast} from "react-toastify";
 import {useUser} from "../../hooks/useUser";
+import {verifyPaid} from "../../services/stripeService";
 
 const SessionHandler = () => {
   const searchParams = useSearchParams();
@@ -22,10 +23,9 @@ const SessionHandler = () => {
     const activatePro = async () => {
       if (!sessionId) return;
       try {
-        const res = await fetch(`/api/verify-checkout?session_id=${sessionId}`);
-        const data = await res.json();
+        const data = await verifyPaid(sessionId);
 
-        if (res.ok && data.paid) {
+        if (data.paid) {
           toast.success("Dziękujemy za zakup pakietu AI!");
           mutate();
           window.history.replaceState(null, "", "/dashboard");
