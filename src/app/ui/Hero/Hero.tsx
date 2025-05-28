@@ -7,12 +7,12 @@ import RegisterLink from "../../components/RegisterLink/RegisterLink";
 const Hero = () => {
   return (
     <section className={`container section ${styles.hero}`}>
-      <div>
+      <article>
         <Image
           src="/logo.png"
           width={300}
           height={300}
-          alt="logo GO"
+          alt="Logo Generatora Ogłoszeń"
           className={styles.logoHero}
         />
 
@@ -22,8 +22,8 @@ const Hero = () => {
           Zobacz, jak wyglądają przykładowe opisy generowane przez AI i zacznij
           tworzyć własne.
         </p>
-      </div>
-      <Link href="/login" className={styles.ctaBox}>
+      </article>
+      <Link href="/login" aria-label="Zaloguj się" className={styles.ctaBox}>
         Logowanie
       </Link>
       <RegisterLink />
