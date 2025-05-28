@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./BtnAuth.module.css";
 
 interface BtnAuthProps {
@@ -6,12 +5,9 @@ interface BtnAuthProps {
   children?: React.ReactNode;
 }
 
-const BtnAuth: React.FC<BtnAuthProps> = ({
-  isSubmitting,
-  children,
-}) => {
+const BtnAuth = ({isSubmitting = false, children}: BtnAuthProps) => {
   return (
-    <button type="submit" disabled={isSubmitting}>
+    <button type="submit" disabled={isSubmitting} aria-busy={isSubmitting}>
       {isSubmitting ? <div className={styles.spinner} /> : children}
     </button>
   );

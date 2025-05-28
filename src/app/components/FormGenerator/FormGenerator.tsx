@@ -54,6 +54,7 @@ const FormGenerator = () => {
               as="textarea"
               name="input"
               placeholder="Opisz, co chcesz sprzedać lub zaoferować..."
+              aria-label="Pole do wpisania opisu ogłoszenia"
               rows={5}
               maxLength={maxLength}
               className={styles.textarea}

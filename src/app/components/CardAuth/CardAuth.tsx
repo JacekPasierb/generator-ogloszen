@@ -20,7 +20,7 @@ const CardAuth = () => {
         src="/logo.png"
         width={80}
         height={80}
-        alt="logo"
+        alt="Logo aplikacji AI"
         className={styles.logo}
       />
 
