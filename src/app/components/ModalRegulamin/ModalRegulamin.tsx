@@ -32,6 +32,8 @@ export default function RegulaminModal() {
             <button
               className={styles.closeBtn}
               onClick={() => setIsOpen(false)}
+              aria-label="Zamknij modal z regulaminem"
+              title="Zamknij"
             >
               ×
             </button>
