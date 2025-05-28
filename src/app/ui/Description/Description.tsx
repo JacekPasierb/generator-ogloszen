@@ -3,19 +3,19 @@ import styles from "./Description.module.css";
 import Title from "../../components/Title/Title";
 import {useDescription} from "../../context/DescriptionContext";
 import {toast} from "react-toastify";
-import { saveDescription } from "../../services/descriptionServices";
-import { useUser } from "../../hooks/useUser";
+import {saveDescription} from "../../services/descriptionServices";
+import {useUser} from "../../hooks/useUser";
 
 const Description = () => {
   const {description, setDescription} = useDescription();
   const [copied, setCopied] = useState(false);
   const [saved, setSaved] = useState(false);
   const [cooldown, setCooldown] = useState(false);
-  const { mutate } = useUser();
+  const {mutate} = useUser();
 
   useEffect(() => {
     if (description && resultRef.current) {
-      resultRef.current.scrollIntoView({ behavior: "smooth" });
+      resultRef.current.scrollIntoView({behavior: "smooth"});
     }
   }, [description]);
   const handleCopy = () => {
@@ -35,7 +35,7 @@ const Description = () => {
     } catch (err) {
       setCooldown(true);
       setTimeout(() => setCooldown(false), 4000);
-  
+
       if (err instanceof Error) {
         switch (err.message) {
           case "Można zapisać maksymalnie 5 opisów":
@@ -44,7 +44,9 @@ const Description = () => {
             );
             break;
           default:
-            toast.error("Nie udało się zapisać opisu. Spróbuj ponownie później.");
+            toast.error(
+              "Nie udało się zapisać opisu. Spróbuj ponownie później."
+            );
         }
       } else {
         toast.error("Wystąpił nieznany błąd.");
@@ -64,13 +66,20 @@ const Description = () => {
         />
       </div>
       <div className={styles.boxBtn}>
-        <button className={styles.actionButton} onClick={handleCopy}>
+        <button
+          className={styles.actionButton}
+          onClick={handleCopy}
+          aria-label="Skopiuj opis"
+          title="Skopiuj opis"
+        >
           {copied ? "Skopiowano!" : "📋 Kopiuj"}
         </button>
         <button
           className={styles.actionButton}
           onClick={addDescription}
           disabled={saved || cooldown}
+          aria-label="Zapisz opis"
+          title="Zapisz opis"
         >
           {saved ? "Zapisano!" : "📂 Zapisz"}
         </button>

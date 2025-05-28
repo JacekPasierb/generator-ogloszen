@@ -16,9 +16,13 @@ const ExGenerator = () => {
         </SubTitle>
       </div>
       <div className={styles.cardsWrapper}>
-        {examples.map((ex, index) => (
-          <CardGenerator key={index} example={ex} />
-        ))}
+        {examples.length === 0 ? (
+          <p>Brak przykładów do wyświetlenia.</p>
+        ) : (
+          examples.map((ex, index) => (
+            <CardGenerator key={index} example={ex} />
+          ))
+        )}
       </div>
     </section>
   );

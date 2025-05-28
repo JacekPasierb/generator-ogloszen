@@ -11,7 +11,7 @@ const RegisterPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if ( user) {
+    if (!loading && user) {
       router.push("/dashboard");
     }
   }, [loading, user, router]);

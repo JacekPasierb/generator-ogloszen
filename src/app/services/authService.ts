@@ -5,7 +5,6 @@ export const loginUser = async (values: {email: string; password: string}) => {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify(values),
-   
   });
 
   const data = await res.json();
@@ -41,7 +40,6 @@ export const logoutUser = async () => {
   const res = await fetch("/api/logout", {
     method: "POST",
   });
-  
 
   if (!res.ok) {
     throw new Error("Nie udało się wylogować");

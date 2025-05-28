@@ -34,7 +34,7 @@ const DashboardPage = () => {
       <SessionHandler />
       <Header />
       <Generator />
-      {description && description.trim().length > 0 && (
+      {description?.trim() && (
         <Suspense fallback={<Loading />}>
           <Description />
         </Suspense>

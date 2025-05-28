@@ -1,19 +1,24 @@
-"use client"
+"use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, {createContext, useContext, useState, ReactNode} from "react";
 
 interface DescriptionContextProps {
   description: string;
   setDescription: (value: string) => void;
 }
 
-const DescriptionContext = createContext<DescriptionContextProps | undefined>(undefined);
+interface DescriptionProviderProps {
+  children: ReactNode;
+}
+const DescriptionContext = createContext<DescriptionContextProps | undefined>(
+  undefined
+);
 
-export const DescriptionProvider = ({ children }: { children: ReactNode }) => {
+export const DescriptionProvider = ({children}: DescriptionProviderProps) => {
   const [description, setDescription] = useState("");
 
   return (
-    <DescriptionContext.Provider value={{ description, setDescription }}>
+    <DescriptionContext.Provider value={{description, setDescription}}>
       {children}
     </DescriptionContext.Provider>
   );

@@ -1,11 +1,11 @@
-import React, {useMemo} from "react";
+import React from "react";
 import styles from "./Footer.module.css";
 import Link from "next/link";
 
 const Footer = () => {
-  const currentYear = useMemo(() => new Date().getFullYear(), []);
+  const currentYear = new Date().getFullYear();
   return (
-    <section className={`section container ${styles.footer}`} >
+    <section className={`section container ${styles.footer}`}>
       <div>
         <p>&copy; {currentYear} generator-ogloszen.com</p>
         <div className={styles.links}>

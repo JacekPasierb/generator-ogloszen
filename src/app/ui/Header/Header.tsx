@@ -86,7 +86,7 @@ const Header = () => {
           />
         </div>
         <div className={styles.boxIcons}>
-          <span onClick={handleOpenModal} className={styles.icons}>
+          <span title="Zapisane opisy" aria-label="Zapisane opisy" onClick={handleOpenModal} className={styles.icons}>
             📓
           </span>
           <span className={styles.icons} onClick={handleLogout}>
