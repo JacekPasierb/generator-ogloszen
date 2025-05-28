@@ -16,9 +16,14 @@ export default function RegulaminModal() {
 
   return (
     <>
-      <button onClick={() => setIsOpen(true)} className={styles.regulaminLink}>
+      <span
+        onClick={() => setIsOpen(true)}
+        className={styles.regulaminLink}
+        aria-label="Zobacz regulamin"
+        title="Zobacz regulamin"
+      >
         Regulamin
-      </button>
+      </span>
 
       {isOpen && (
         <div className={styles.overlay} onClick={() => setIsOpen(false)}>
