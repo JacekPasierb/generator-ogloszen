@@ -1,10 +1,18 @@
 "use client";
 
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import styles from "./ModalRegulamin.module.css";
 
 export default function RegulaminModal() {
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
+    document.addEventListener("keydown", handleEsc);
+    return () => document.removeEventListener("keydown", handleEsc);
+  }, []);
 
   return (
     <>
