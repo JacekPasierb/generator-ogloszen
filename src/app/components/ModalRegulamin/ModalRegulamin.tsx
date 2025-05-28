@@ -16,9 +16,9 @@ export default function RegulaminModal() {
 
   return (
     <>
-      <span onClick={() => setIsOpen(true)} className={styles.regulaminLink}>
+      <button onClick={() => setIsOpen(true)} className={styles.regulaminLink}>
         Regulamin
-      </span>
+      </button>
 
       {isOpen && (
         <div className={styles.overlay} onClick={() => setIsOpen(false)}>
