@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import {useState} from "react";
 import styles from "./ModalRegulamin.module.css";
 
 export default function RegulaminModal() {
@@ -14,7 +14,13 @@ export default function RegulaminModal() {
 
       {isOpen && (
         <div className={styles.overlay} onClick={() => setIsOpen(false)}>
-          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+          <div
+            className={styles.modal}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="regulamin-title"
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               className={styles.closeBtn}
               onClick={() => setIsOpen(false)}
@@ -46,7 +52,7 @@ export default function RegulaminModal() {
             <p>
               Aktualizacje niniejszego regulaminu będą publikowane na stronie.
             </p>
-            <p style={{ fontSize: "0.9rem", marginTop: "1rem", color: "#888" }}>
+            <p style={{fontSize: "0.9rem", marginTop: "1rem", color: "#888"}}>
               Data ostatniej aktualizacji: 26.05.2025
             </p>
           </div>

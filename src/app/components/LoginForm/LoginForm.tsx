@@ -66,7 +66,7 @@ const LoginForm = () => {
       resetForm();
       router.push("/dashboard");
     } catch (err) {
-      if (err instanceof Error) {
+      if (err instanceof Error && err.message) {
         toast.error(err.message);
       } else {
         toast.error("Wystąpił błąd serwera");

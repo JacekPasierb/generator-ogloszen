@@ -22,15 +22,15 @@ const ModalDescriptions: React.FC<ModalProps> = ({
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleNext = () => {
-    if (currentPage < data.length - 1) {
-      setCurrentPage((prev) => prev + 1);
+  const onPrev = () => {
+    if (currentPage > 0) {
+      setCurrentPage((prev) => prev - 1);
     }
   };
 
-  const handlePrevious = () => {
-    if (currentPage > 0) {
-      setCurrentPage((prev) => prev - 1);
+  const onNext = () => {
+    if (currentPage < data.length - 1) {
+      setCurrentPage((prev) => prev + 1);
     }
   };
 
@@ -78,21 +78,28 @@ const ModalDescriptions: React.FC<ModalProps> = ({
               className={styles.result}
             />
             <div className={styles.actionsBtn}>
-              <button className={styles.actionButton} onClick={handleCopy}>
+              <button
+                className={styles.actionButton}
+                onClick={handleCopy}
+                aria-label="Kopiuj opis"
+                title="Kopiuj opis"
+              >
                 {copied ? "Skopiowano!" : "📋 Kopiuj do schowka"}
               </button>
               <button
                 className={styles.actionButton}
                 onClick={handleDelete}
                 disabled={loading}
+                aria-label="Usuń opis"
+                title="Usuń opis"
               >
                 {loading ? "Usuwanie..." : "🗑️ Usuń "}
               </button>
             </div>
 
             <Pagination
-              handleNext={handleNext}
-              handlePrevious={handlePrevious}
+              handleNext={onNext}
+              handlePrevious={onPrev}
               currentPage={currentPage}
               total={data.length}
             />

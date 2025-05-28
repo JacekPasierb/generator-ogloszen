@@ -45,6 +45,11 @@
   color: var(--color-text-btnSecond);
 }
 
+.errorContainer {
+  margin-bottom: 1rem;
+  min-height: 1em;
+}
+
 .errorMessage {
   font-size: 0.625rem;
   color: #ff0000;
