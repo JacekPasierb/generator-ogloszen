@@ -29,8 +29,7 @@ const FormGenerator = () => {
       setDescription(data.description);
       mutate();
       resetForm();
-    } catch (err) {
-      console.error("Błąd generowania opisu:", err);
+    } catch {
       toast.error("Błąd generowania opisu - spróbuj za chwilę!");
     } finally {
       setSubmitting(false);
