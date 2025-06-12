@@ -35,13 +35,7 @@ const LoginForm = () => {
             name={name}
             placeholder={placeholder}
             className={styles.inputRegister}
-            autoComplete={
-              name === "password"
-                ? "current-password"
-                : name === "email"
-                ? "username"
-                : "off"
-            }
+            autoComplete={name === "password" ? "current-password" : "username"}
           />
         </div>
         <div style={{minHeight: "1em"}}>
