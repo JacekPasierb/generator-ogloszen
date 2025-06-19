@@ -1,36 +1,125 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📢 Generator Ogłoszeń – aplikacja SaaS
 
-## Getting Started
+Aplikacja webowa typu **SaaS (Software as a Service)**, która umożliwia użytkownikowi wygenerowanie profesjonalnych ogłoszeń na podstawie słów kluczowych.  
+Projekt stworzony z myślą o prostocie obsługi, płatnościach online oraz rozwoju pod kątem SEO i monetyzacji.
 
-First, run the development server:
+---
+
+## 🎯 Główne funkcje
+
+- 🔐 Rejestracja i logowanie użytkownika (JWT, httpOnly cookie)
+- 🧠 Generowanie ogłoszeń przy użyciu OpenAI (ChatGPT)
+- 💳 Płatności Stripe (odblokowanie pakietu)
+- 📜 Historia wygenerowanych ogłoszeń
+- 🌐 Aplikacja dwujęzyczna (PL/EN)
+- 📱 W pełni responsywny UI
+- 🧪 Zintegrowane testy (unit + e2e)
+
+---
+
+## 🧰 Stack technologiczny
+
+- **Frontend / Fullstack:** Next.js 14 (App Router)
+- **Backend:** API Routes w Next.js + MongoDB
+- **Baza danych:** MongoDB Atlas
+- **UI:** CSS Modules + własne komponenty
+- **Autoryzacja:** JWT (httpOnly cookie)
+- **AI:** OpenAI API
+- **Płatności:** Stripe Checkout
+- **Stan aplikacji:** SWR + useContext
+- **Testy:** Jest + React Testing Library + Playwright
+
+---
+
+## 🚀 Uruchomienie lokalnie
+
+1. Sklonuj repozytorium:
+   ```bash
+   git clone https://github.com/twoj-login/generator-ogloszen.git
+   cd generator-ogloszen
+   ```
+
+2. Zainstaluj zależności:
+   ```bash
+   npm install
+   ```
+
+3. Utwórz plik `.env.local` i uzupełnij:
+   ```env
+   MONGO_URI=...
+   JWT_SECRET=...
+   OPENAI_API_KEY=...
+   OPENAI_MODEL=...
+   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=...
+   STRIPE_SECRET_KEY=...
+   NEXT_PUBLIC_BASE_URL=...
+   ```
+
+4. Uruchom projekt:
+   ```bash
+   npm run dev
+   ```
+
+5. Aplikacja będzie działać pod `http://localhost:3000`
+
+---
+
+## 🧪 Testy
+
+### Testy jednostkowe i integracyjne (Jest)
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run test
+npm run test:watch
+npm run test:coverage
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Testy e2e (Playwright)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npx playwright test
+npx playwright show-report
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 📸 Zrzuty ekranu
 
-To learn more about Next.js, take a look at the following resources:
+*(dodaj tu linki lub obrazy prezentujące UI)*
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📌 Planowane funkcje
 
-## Deploy on Vercel
+- [ ] Generowanie ogłoszeń branżowych (filtrowanie wg kategorii)
+- [ ] System subskrypcji (pakiety miesięczne)
+- [ ] Panel administratora (zarządzanie użytkownikami i danymi)
+- [ ] Webhooki Stripe + historia płatności
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📁 Struktura projektu (skrótowo)
+
+```
+src/
+├── app/               # Strony i routing
+├── api/               # API Routes
+├── components/        # UI komponenty
+├── context/           # useContext (np. Auth, Cart)
+├── lib/               # Pomocnicze funkcje (np. stripe, auth)
+├── models/            # Schematy MongoDB
+├── data/              # Słowniki i dane stałe
+└── __tests__/         # Testy (unit / integration / e2e)
+```
+
+---
+
+## 👨‍💻 Autor
+
+Projekt stworzony przez Jacek Pasierb, jako portfolio oraz baza pod realną aplikację SaaS.  
+Pomysł, kod, UI i backend wykonane samodzielnie z naciskiem na jakość, skalowalność i automatyzację.
+
+---
+
+## 📓 Notatki przydatne
+
