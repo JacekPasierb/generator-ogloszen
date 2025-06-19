@@ -12,7 +12,7 @@ test.describe("User login to generator-ogloeszen.com", () => {
     await loginPage.toLoginButton.click();
   });
 
-  test.only(
+  test(
     "successful login with correct credentials",
     {tag: "@login"},
     async ({page}) => {
