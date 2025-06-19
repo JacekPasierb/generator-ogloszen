@@ -26,4 +26,20 @@ test.describe("User login to generator-ogloeszen.com", () => {
       await expect(page.getByText("Zalogowano pomyślnie")).toBeVisible();
     }
   );
+
+  test(
+    "unsuccessful login with invalid format email",
+    {tag: "@login"},
+    async ({page}) => {
+      // Arrange
+      const ivalidEmail = "invalidEmail";
+
+      // Art
+      await loginPage.emailInput.fill(ivalidEmail);
+      await loginPage.passwordInput.click();
+
+      // Assert
+      await expect(page.getByText("Nieprawidłowy adres email")).toBeVisible();
+    }
+  );
 });
