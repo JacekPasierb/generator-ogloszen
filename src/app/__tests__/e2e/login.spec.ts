@@ -36,7 +36,7 @@ test.describe("User login to generator-ogloeszen.com", () => {
 
       // Art
       await loginPage.emailInput.fill(ivalidEmail);
-      await loginPage.passwordInput.click();
+      await loginPage.passwordInput.click(); 
 
       // Assert
       await expect(page.getByText("Nieprawidłowy adres email")).toBeVisible();
