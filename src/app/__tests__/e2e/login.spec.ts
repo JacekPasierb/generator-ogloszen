@@ -30,16 +30,34 @@ test.describe("User login to generator-ogloeszen.com", () => {
   test(
     "unsuccessful login with invalid format email",
     {tag: "@login"},
-    async ({page}) => {
+    async () => {
       // Arrange
       const ivalidEmail = "invalidEmail";
+      const expectedMessage = "Nieprawidłowy adres email";
 
       // Art
       await loginPage.emailInput.fill(ivalidEmail);
-      await loginPage.passwordInput.click(); 
+      await loginPage.passwordInput.click();
 
       // Assert
-      await expect(page.getByText("Nieprawidłowy adres email")).toBeVisible();
+      await expect(loginPage.emailError).toHaveText(
+        expectedMessage
+      );
+    }
+  );
+
+  test(
+    "should show validation error when email is empty",
+    {tag: "@login"},
+    async () => {
+      // Arrange
+      const expectedMessage = "Email jest wymagany";
+      // Art
+      await loginPage.emailInput.fill("");
+      await loginPage.emailInput.blur();
+
+      // Assert
+      await expect(loginPage.emailError).toHaveText(expectedMessage);
     }
   );
 });
