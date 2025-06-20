@@ -43,6 +43,7 @@ const LoginForm = () => {
             name={name}
             component="div"
             className={styles.errorMessage}
+            data-testid={`error-${name}`}
           />
         </div>
       </div>
