@@ -19,6 +19,21 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
   },
+  openGraph: {
+    title: "Generator Opisów Ogłoszeń",
+    description: "Gotowy opis ogłoszenia w 10 sekund. Sprzedawaj szybciej na OLX, Vinted i Marketplace.",
+    url: "https://generator-ogloszen.com",
+    siteName: "Generator Opisów Ogłoszeń",
+    images: [
+      {
+        url: "https://generator-ogloszen.com/og-image.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: "pl_PL",
+    type: "website",
+  },
 };
 
 interface RootLayoutProps {
