@@ -8,10 +8,10 @@ const Pricing = () => {
   return (
     <section className={`section container ${styles.background} `}>
       <div>
-        <Title> Postaw na Profesjonalizm</Title>
+        <Title> Postaw na Skuteczność</Title>
         <SubTitle>
-          Aktywuj Pakiet AI i zyskaj dostęp do 50 opisów generowanych przez
-          sztuczną inteligencję – gotowych w kilka sekund.
+          Odblokuj Pakiet AI i generuj profesjonalne opisy, które pomogą Ci
+          szybciej sprzedawać na OLX, Vinted, Marketplace i w sklepach online.
         </SubTitle>
       </div>
       <CardProduct />

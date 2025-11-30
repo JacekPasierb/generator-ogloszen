@@ -1,5 +1,5 @@
 export const benefits = [
-    "✅ 50 opisów AI",
-    "✅ Styl marketingowy",
-    "✅ Gotowe od ręki",
+    "✅ 50 opisów produktów",
+    "✅ Styl marketingowy, gotowy do wstawienia",
+    "✅ Szybsza sprzedaż i lepsze ogłoszenia",
   ];

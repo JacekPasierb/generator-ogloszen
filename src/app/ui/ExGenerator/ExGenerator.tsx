@@ -9,10 +9,9 @@ const ExGenerator = () => {
   return (
     <section className={`section container`}>
       <div>
-        <Title> Jak może wyglądać Twój opis ogłoszenia?</Title>
+        <Title> Jak może wyglądać Twój opis ?</Title>
         <SubTitle>
-          Poniżej kilka przykładów wygenerowanych przez AI – szybko, konkretnie
-          i skutecznie.
+        Zobacz, jak wyglądają przykładowe opisy tworzone przez AI — krótkie, konkretne i skuteczne.
         </SubTitle>
       </div>
       <div className={styles.cardsWrapper}>

@@ -17,11 +17,14 @@ const Hero = () => {
         />
 
         <h1 className={styles.titleHero}>Zamiast pisać – wygeneruj! </h1>
-        <h2 className={styles.subtitleHero}>Opis ogłoszenia gotowy od ręki.</h2>
+        <h2 className={styles.subtitleHero}>
+          Gotowy opis ogłoszenia w 10 sekund.
+        </h2>
         <p className={styles.description}>
-          Zobacz, jak wyglądają przykładowe opisy generowane przez AI i zacznij
-          tworzyć własne.
+          Masz sklep lub dodajesz ogłoszenia ? Wpisz kilka słów o produkcie, a
+          otrzymasz profesjonalny opis, który przyciąga kupujących.
         </p>
+        <p>➡ Pokażemy Ci przykładowe opisy, a potem stworzysz własne.</p>
       </article>
       <Link href="/login" aria-label="Zaloguj się" className={styles.ctaBox}>
         Logowanie
