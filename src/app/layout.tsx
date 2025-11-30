@@ -6,6 +6,7 @@ import Footer from "./ui/Footer/Footer";
 import {Bounce, ToastContainer} from "react-toastify";
 import {DescriptionProvider} from "./context/DescriptionContext";
 import Script from "next/script";
+import AnalyticsTracker from "./AnalyticsTracker";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -58,6 +59,9 @@ const RootLayout: React.FC<RootLayoutProps> = ({children}) => {
           `}
         </Script>
         {/* /Google Analytics */}
+
+         {/* Śledzenie zmian strony */}
+         <AnalyticsTracker />
         <main>
           <DescriptionProvider>{children} </DescriptionProvider>
           <ToastContainer
