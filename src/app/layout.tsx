@@ -5,6 +5,7 @@ import {ReactNode} from "react";
 import Footer from "./ui/Footer/Footer";
 import {Bounce, ToastContainer} from "react-toastify";
 import {DescriptionProvider} from "./context/DescriptionContext";
+import Script from "next/script";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,6 +29,20 @@ const RootLayout: React.FC<RootLayoutProps> = ({children}) => {
   return (
     <html lang="pl" className={inter.className}>
       <body>
+         {/* Google Analytics */}
+         <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-EBP2HDV362"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-EBP2HDV362');
+          `}
+        </Script>
+        {/* /Google Analytics */}
         <main>
           <DescriptionProvider>{children} </DescriptionProvider>
           <ToastContainer
