@@ -7,6 +7,12 @@ import {fetchDescription} from "../../services/descriptionServices";
 import {logoutUser} from "../../services/authService";
 import {useRouter} from "next/navigation";
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
 export interface SavedDescription {
   text: string;
   date: string;
@@ -58,14 +64,14 @@ const Header = () => {
 
   const handleBuyClick = async () => {
       // 🔹 Zdarzenie GA4 – użytkownik kliknął przycisk zakupu
-  if (typeof window !== "undefined" && (window as any).gtag) {
-    (window as any).gtag("event", "purchase_click", {
-      event_category: "Zakup",
-      event_label: "Odblokuj Pakiet AI 5 zł",
-      value: 5,
-      currency: "PLN",
-    });
-  }
+      if (typeof window !== "undefined" && window.gtag) {
+        window.gtag("event", "purchase_click", {
+          event_category: "Zakup",
+          event_label: "Odblokuj Pakiet AI 5 zł",
+          value: 5,
+          currency: "PLN",
+        });
+      }
     setLoading(true);
     try {
       const res = await fetch("/api/checkout-sessions", {method: "POST"});
