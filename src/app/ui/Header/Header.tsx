@@ -63,15 +63,15 @@ const Header = () => {
   };
 
   const handleBuyClick = async () => {
-      // 🔹 Zdarzenie GA4 – użytkownik kliknął przycisk zakupu
-      if (typeof window !== "undefined" && window.gtag) {
-        window.gtag("event", "purchase_click", {
-          event_category: "Zakup",
-          event_label: "Odblokuj Pakiet AI 5 zł",
-          value: 5,
-          currency: "PLN",
-        });
-      }
+    // 🔹 Zdarzenie GA4 – użytkownik kliknął przycisk zakupu
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", "purchase_click", {
+        event_category: "Zakup",
+        event_label: "Odblokuj Pakiet AI 5 zł",
+        value: 5,
+        currency: "PLN",
+      });
+    }
     setLoading(true);
     try {
       const res = await fetch("/api/checkout-sessions", {method: "POST"});
@@ -101,7 +101,12 @@ const Header = () => {
           />
         </div>
         <div className={styles.boxIcons}>
-          <span title="Zapisane opisy" aria-label="Zapisane opisy" onClick={handleOpenModal} className={styles.icons}>
+          <span
+            title="Zapisane opisy"
+            aria-label="Zapisane opisy"
+            onClick={handleOpenModal}
+            className={styles.icons}
+          >
             📓
           </span>
           <span className={styles.icons} onClick={handleLogout}>

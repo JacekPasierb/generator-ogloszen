@@ -21,14 +21,17 @@
   font-size: 45px;
 
   cursor: pointer;
+  transition: all 0.15s ease, transform 0.1s ease;
 }
-
+.icons:hover {
+  transform: translateY(-1px);
+}
 .boxActions {
 }
 
 .levelAccount {
   margin-bottom: 2rem;
-
+text-transform: uppercase;
   font-size: var(--font-size-m);
 }
 
@@ -60,7 +63,7 @@
 }
 .boxBtn:hover {
   background-color: #c8f5fa;
- }
+}
 
 .linkAsBtn {
   font-size: var(--font-size-base);
@@ -68,8 +71,8 @@
   color: var(--color-text-btn);
   text-decoration: none;
   border: none;
- 
 }
+
 
 
 @media screen and (min-width: 768px) {
