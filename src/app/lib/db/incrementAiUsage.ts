@@ -7,7 +7,7 @@ export const incrementAiUsage = async (userId: string) => {
     if (updatedUser && updatedUser.aiUsed >= updatedUser.aiLimit) {
       await User.findByIdAndUpdate(userId, {
         isPro: false,
-        aiUsed: 50, // reset do limitu darmowego
+        aiUsed: 10, // reset do limitu darmowego
       });
     }
   };
