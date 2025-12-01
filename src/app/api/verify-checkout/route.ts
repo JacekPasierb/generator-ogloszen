@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     const userId = getUserIdFromToken(token);
     await connectMongo();
 
-    await User.findByIdAndUpdate(userId, {isPro: true, aiUsed: 0}, {new: true});
+    await User.findByIdAndUpdate(userId, {isPro: true, aiUsed: 0,  aiLimit: 10,}, {new: true});
 
     return NextResponse.json({paid: true});
   } catch (err) {
