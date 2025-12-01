@@ -1,0 +1,40 @@
+.wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+    line-height: 1.6;
+    font-size: 16px;
+  }
+  
+  .meta {
+    margin-bottom: 24px;
+    color: #777;
+    font-size: 14px;
+  }
+  
+  /* Wszystko niżej jest "pod" klasą wrapper – to już jest OK dla CSS Modules */
+  
+  .wrapper h1 {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+  
+  .wrapper h2 {
+    font-size: 20px;
+    margin-top: 32px;
+    margin-bottom: 8px;
+  }
+  
+  .wrapper ul {
+    padding-left: 20px;
+    margin-bottom: 12px;
+  }
+  
+  .wrapper p {
+    margin-bottom: 12px;
+  }
+  
+  .wrapper a {
+    text-decoration: underline;
+  }
+  
