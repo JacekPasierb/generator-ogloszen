@@ -24,7 +24,7 @@ const Generator = () => {
           </p>
 
           <ul className={styles.lockedList}>
-            <li>✨ 50 profesjonalnych opisów produktów</li>
+            <li>✨ 10 profesjonalnych opisów produktów</li>
             <li>🚀 Styl marketingowy, gotowy do wstawienia</li>
             <li>🧾 Biblioteka wygenerowanych opisów w panelu</li>
           </ul>
