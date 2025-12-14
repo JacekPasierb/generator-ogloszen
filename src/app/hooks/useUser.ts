@@ -11,17 +11,24 @@ export interface UserResponse {
   aiLimit: number;
 }
 
-export type MeResponse = UserResponse | { error: string };
+export type MeResponse = UserResponse | {error: string};
 
 const isPaidPlan = (plan: Plan) => plan !== "free";
 
 const fetcher = async (url: string): Promise<MeResponse> => {
-  const res = await fetch(url, { credentials: "include" });
+  const res = await fetch(url, {credentials: "include"});
   return res.json();
 };
 
+function getErrorMessage(err: unknown): string | null {
+  if (!err) return null;
+  if (err instanceof Error) return err.message;
+  if (typeof err === "string") return err;
+  return null;
+}
+
 export function useUser() {
-  const { data, error, mutate, isValidating } = useSWR<MeResponse>(
+  const {data, error, mutate, isValidating} = useSWR<MeResponse>(
     "/api/me",
     fetcher,
     {
@@ -62,7 +69,12 @@ export function useUser() {
     user,
     loading: false,
     validating: isValidating,
-    error: isAuthed ? null : ((data as { error: string }).error ?? (error as any)?.message ?? "Unauthorized"),
+    error: isAuthed
+      ? null
+      : (data as {error: string}).error ??
+        getErrorMessage(error) ??
+        "Unauthorized",
+
     mutate,
 
     // ✅ single source for UI

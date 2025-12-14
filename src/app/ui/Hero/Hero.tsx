@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./Hero.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import RegisterLink from "../../components/RegisterLink/RegisterLink";
 
 const Hero = () => {
   return (
