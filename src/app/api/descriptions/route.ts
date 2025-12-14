@@ -35,26 +35,31 @@ export const POST = async (req: NextRequest) => {
     const userId = getUserIdFromToken(token);
     await connectMongo();
 
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).select("plan savedDescriptions");
     if (!user) throw handleError(404, "Użytkownik nie znaleziony");
-    if (!user.isPro)
+
+    const plan = user.plan ?? "free";
+    if (plan === "free") {
       throw handleError(403, "Brak dostępu do zapisywania opisów");
-    if (user.savedDescriptions.length >= 5) {
+    }
+
+    if ((user.savedDescriptions?.length ?? 0) >= 5) {
       throw handleError(400, "Można zapisać maksymalnie 5 opisów");
     }
 
-    const {description} = await req.json();
+    const { description } = await req.json();
     if (!description) throw handleError(400, "Brak opisu do zapisania");
 
-    user.savedDescriptions.push({text: description, date: new Date()});
+    user.savedDescriptions.push({ text: description, date: new Date() });
     await user.save();
 
-    return NextResponse.json({message: "Opis zapisany pomyślnie"});
+    return NextResponse.json({ message: "Opis zapisany pomyślnie" });
   } catch (err) {
-    const error = err as {status?: number; message?: string};
+    const error = err as { status?: number; message?: string };
     return NextResponse.json(
-      {error: error.message || "Błąd serwera"},
-      {status: error.status || 500}
+      { error: error.message || "Błąd serwera" },
+      { status: error.status || 500 }
     );
   }
 };
+
