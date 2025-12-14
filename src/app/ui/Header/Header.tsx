@@ -99,7 +99,9 @@ const Header = () => {
           <div className={styles.accountRow}>
             <div className={styles.accountChip}>
               <span className={styles.accountDot} aria-hidden />
-              <span className={styles.accountEmail}>Witaj {user?.email ?? "—"}</span>
+              <span className={styles.accountEmail}>
+                Witaj {user?.email ?? "—"}
+              </span>
             </div>
 
             <div
@@ -108,7 +110,9 @@ const Header = () => {
               }`}
             >
               {isPaid
-                ? `Pakiet: ${plan.toUpperCase()} 💎`
+                ? aiLeft > 0
+                  ? `Pakiet: ${plan.toUpperCase()} 💎`
+                  : `Pakiet: Wykorzystany`
                 : "Pakiet: nieaktywny"}
             </div>
           </div>
