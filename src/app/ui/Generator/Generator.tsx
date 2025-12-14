@@ -3,37 +3,44 @@ import styles from "./Generator.module.css";
 import Title from "../../components/Title/Title";
 import FormGenerator from "../../components/FormGenerator/FormGenerator";
 import { useUser } from "../../hooks/useUser";
+import CardProduct from "../../components/CardProduct/CardProduct";
 
 const Generator = () => {
-  const { isPro } = useUser();
+  const {  isPaid } = useUser();
 
   return (
-    <section className={`section container ${styles.generatorWrapper}`}>
-      <Title>Stwórz opis AI</Title>
+    <section
+      className={`section container ${styles.generatorWrapper} ${
+        isPaid ? styles.pro : styles.free
+      }`}
+    >
+      <div className={styles.heading}>
+        <Title>Stwórz opis AI</Title>
+        <p className={styles.subTitle}>
+          Wpisz kilka informacji — dostaniesz gotowy opis sprzedażowy.
+        </p>
+      </div>
 
-      {isPro ? (
-        <FormGenerator />
-      ) : (
-        <div className={styles.lockedBox}>
-          <div className={styles.lockedIcon}>🔒</div>
-          <h2 className={styles.lockedTitle}>Dostęp z Pakietem AI</h2>
-
-          <p className={styles.lockedText}>
-            Generator opisów AI jest dostępny po odblokowaniu Pakietu AI. To
-            tylko kilka kliknięć.
-          </p>
-
-          <ul className={styles.lockedList}>
-            <li>✨ 10 profesjonalnych opisów produktów</li>
-            <li>🚀 Styl marketingowy, gotowy do wstawienia</li>
-            <li>🧾 Biblioteka wygenerowanych opisów w panelu</li>
-          </ul>
-
-          <p className={styles.lockedHint}>
-            Po zakupie Pakietu AI w tym miejscu pojawi się formularz, w którym
-            wpiszesz kilka słów o produkcie, a resztę zrobi AI.
-          </p>
+      {isPaid ? (
+        <div className={styles.proCard} data-plan="pro">
+          <FormGenerator />
         </div>
+      ) : (
+        <>
+          <div className={styles.lockedBox}>
+            <div className={styles.lockedIcon}>🔒</div>
+            <h2 className={styles.lockedTitle}>Odblokuj Generator Opisów</h2>
+
+            <p className={styles.lockedText}>
+              Generator opisów AI jest dostępny po aktywacji pakietu. Płatność
+              jest jednorazowa – bez subskrypcji.
+            </p>
+          </div>
+
+          <div className={styles.pricingWrap}>
+            <CardProduct mode="dashboard" />
+          </div>
+        </>
       )}
     </section>
   );

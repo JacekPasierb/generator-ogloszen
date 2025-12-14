@@ -1,109 +1,183 @@
-.header {
-  align-items: unset;
-}
-
-.nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.logoHeader {
-  width: 66px;
-  height: 66px;
-}
-
-.boxIcons {
-  display: flex;
-  gap: 20px;
-}
-
-.icons {
-  font-size: 45px;
-
-  cursor: pointer;
-  transition: all 0.15s ease, transform 0.1s ease;
-}
-.icons:hover {
-  transform: translateY(-1px);
-}
-.boxActions {
-}
-
-.levelAccount {
-  margin-bottom: 2rem;
-text-transform: uppercase;
-  font-size: var(--font-size-m);
-}
-
-.boxUsage {
-  margin: 1rem auto;
-  padding: 12px 22px;
-  width: fit-content;
-  background-color: var(--color-bg-second);
-  border-radius: 8px;
-}
-
-.boxUsage .text {
-  font-size: var(--font-size-base);
-  color: var(--color-text-main);
-}
-
-.boxBtn {
-  margin: 1rem auto;
-  padding: 1rem;
-  width: fit-content;
-
-  background: var(--color-bg-btn);
-  border: 1px solid var(--color-border-btn);
-  border-radius: 8px;
-
-  cursor: pointer;
-
-  transition: all 0.3 ease-in-out;
-}
-.boxBtn:hover {
-  background-color: #c8f5fa;
-}
-
-.linkAsBtn {
-  font-size: var(--font-size-base);
-  font-weight: 700;
-  color: var(--color-text-btn);
-  text-decoration: none;
-  border: none;
-}
-
-
-
-@media screen and (min-width: 768px) {
+/* =========================
+   HEADER WRAPPER
+   ========================= */
+   .header {
+    width: 100%;
+  }
+  
+  /* =========================
+     NAV – jedna linia
+     ========================= */
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  /* =========================
+     LOGO
+     ========================= */
+  .logoWrap {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  
   .logoHeader {
-    width: 76px;
-    height: 76px;
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
   }
-
+  
+  /* =========================
+     ICONS (right side)
+     ========================= */
+  .boxIcons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  
+  /* Base (mobile) */
   .icons {
-    font-size: 55px;
+    width: 44px;
+    height: 44px;
+  
+    display: grid;
+    place-items: center;
+  
+    border-radius: 12px;
+    background: transparent;
+  
+    font-size: 26px;
+    line-height: 1;
+  
+    cursor: pointer;
+    user-select: none;
+  
+    transition:
+      background-color 0.12s ease,
+      box-shadow 0.12s ease,
+      transform 0.12s ease;
   }
-
+  
+  .icons:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+  }
+  
+  .icons:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+  
+  .icons:focus-visible {
+    outline: 2px solid rgba(1, 157, 137, 0.6);
+    outline-offset: 2px;
+  }
+  
+  /* Disabled state (np. wylogowywanie) */
+  .icons[aria-disabled="true"] {
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  
+  /* =========================
+     ACTIONS BELOW NAV
+     ========================= */
+  .boxActions {
+    margin-top: 1.25rem;
+    text-align: center;
+  }
+  
   .levelAccount {
-    font-size: var(--font-size-xl);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    font-size: var(--font-size-m);
+    letter-spacing: 0.04em;
   }
-
+  
   .boxUsage {
-    padding: 20px 52px;
+    margin: 0.75rem auto 0;
+    padding: 12px 22px;
+    width: fit-content;
+  
+    background-color: var(--color-bg-second);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
   }
-  .boxUsage .text {
-    font-size: var(--font-size-m);
+  
+  .text {
+    font-size: var(--font-size-base);
+    color: var(--color-text-main);
   }
-
-  .boxBtn {
-    padding: 20px 52px;
+  
+  /* Tekst dla konta darmowego (zamiast przycisku) */
+  .hint {
+    margin: 0.75rem auto 0;
+    max-width: 520px;
+  
+    font-size: var(--font-size-base);
+    color: rgba(0, 0, 0, 0.65);
+    line-height: 1.5;
   }
-
-  .linkAsBtn {
-    font-size: var(--font-size-m);
+  
+  /* =========================
+     RESPONSIVE
+     ========================= */
+  @media (min-width: 768px) {
+    .logoHeader {
+      width: 64px;
+      height: 64px;
+    }
+  
+    .boxIcons {
+      gap: 14px;
+    }
+  
+    .icons {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      font-size: 30px;
+    }
+  
+    .boxActions {
+      margin-top: 1.5rem;
+    }
+  
+    .levelAccount {
+      font-size: var(--font-size-xl);
+    }
+  
+    .boxUsage {
+      padding: 18px 44px;
+    }
+  
+    .text,
+    .hint {
+      font-size: var(--font-size-m);
+    }
   }
-}
-
-@media screen and (min-width: 1200px) {
-}
+  
+  @media (min-width: 1200px) {
+    .logoHeader {
+      width: 72px;
+      height: 72px;
+    }
+  
+    .boxIcons {
+      gap: 16px;
+    }
+  
+    .icons {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      font-size: 32px;
+    }
+  }
+  

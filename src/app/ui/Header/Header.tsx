@@ -1,17 +1,11 @@
 import Image from "next/image";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styles from "./Header.module.css";
-import {useUser} from "../../hooks/useUser";
+import { MeResponse, useUser } from "../../hooks/useUser";
 import ModalDescriptions from "../../components/ModalDescription/ModalDescription";
-import {fetchDescription} from "../../services/descriptionServices";
-import {logoutUser} from "../../services/authService";
-import {useRouter} from "next/navigation";
-
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-  }
-}
+import { fetchDescription } from "../../services/descriptionServices";
+import { logoutUser } from "../../services/authService";
+import { useRouter } from "next/navigation";
 
 export interface SavedDescription {
   text: string;
@@ -20,13 +14,10 @@ export interface SavedDescription {
 }
 
 const Header = () => {
-  const {isPro, aiUsed, aiLimit} = useUser();
+  const { isPro, aiUsed, aiLimit, mutate } = useUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [savedDescriptions, setSavedDescriptions] = useState<
-    SavedDescription[]
-  >([]);
-
-  const [loading, setLoading] = useState(false);
+  const [savedDescriptions, setSavedDescriptions] = useState<SavedDescription[]>([]);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const router = useRouter();
 
@@ -44,62 +35,38 @@ const Header = () => {
     setIsModalOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  const handleCloseModal = () => setIsModalOpen(false);
 
   const handleDeleteDescription = (id: string) => {
     setSavedDescriptions((prev) => prev.filter((desc) => desc._id !== id));
   };
 
-  const handleLogout = async () => {
-    try {
-      await logoutUser();
+  // ✅ senior flow: UI natychmiast, request w tle
+  const handleLogout = () => {
+    if (isLoggingOut) return;
+    setIsLoggingOut(true);
 
-      router.push("/login");
-    } catch (err) {
-      console.error("Błąd wylogowania", err);
-    }
-  };
+    const loggedOut: MeResponse = { error: "Unauthorized" };
+    mutate(loggedOut, { revalidate: false });
 
-  const handleBuyClick = async () => {
-    // 🔹 Zdarzenie GA4 – użytkownik kliknął przycisk zakupu
-    if (typeof window !== "undefined" && window.gtag) {
-      window.gtag("event", "purchase_click", {
-        event_category: "Zakup",
-        event_label: "Odblokuj Pakiet AI 5 zł",
-        value: 5,
-        currency: "PLN",
-      });
-    }
-    setLoading(true);
-    try {
-      const res = await fetch("/api/checkout-sessions", {method: "POST"});
-
-      const data = await res.json();
-
-      if (data.url) {
-        window.location.href = data.url;
-      }
-    } catch (err) {
-      console.error("Błąd płatności", err);
-    } finally {
-      setLoading(false);
-    }
+    router.replace("/login");
+    void logoutUser();
   };
 
   return (
     <section className={`container section ${styles.header}`}>
       <nav className={styles.nav}>
-        <div style={{display: "flex", alignItems: "center"}}>
+        <div className={styles.logoWrap}>
           <Image
             src="/logo.png"
             width={300}
             height={300}
             alt="logo GO"
             className={styles.logoHeader}
+            priority
           />
         </div>
+
         <div className={styles.boxIcons}>
           <span
             title="Zapisane opisy"
@@ -109,15 +76,23 @@ const Header = () => {
           >
             📓
           </span>
-          <span className={styles.icons} onClick={handleLogout}>
-            🙋‍♂️
+
+          <span
+            className={styles.icons}
+            onClick={handleLogout}
+            aria-disabled={isLoggingOut}
+            title={isLoggingOut ? "Wylogowywanie..." : "Wyloguj"}
+          >
+            {isLoggingOut ? "⏳" : "🙋‍♂️"}
           </span>
         </div>
       </nav>
+
       <div className={styles.boxActions}>
         <p className={styles.levelAccount}>
-          <strong> Status Konta:</strong> {isPro ? "Pakiet AI 💎" : "Darmowe"}
+          <strong>Status konta:</strong> {isPro ? "Pakiet AI 💎" : "Darmowe"}
         </p>
+
         {isPro ? (
           <div className={styles.boxUsage}>
             <p className={styles.text}>
@@ -128,17 +103,12 @@ const Header = () => {
             </p>
           </div>
         ) : (
-          <div className={styles.boxBtn}>
-            <button
-              onClick={handleBuyClick}
-              className={styles.linkAsBtn}
-              disabled={loading}
-            >
-              {loading ? "Przekierowywanie..." : "🔓 Odblokuj Pakiet AI 5 zł"}
-            </button>
-          </div>
+          <p className={styles.hint}>
+            Odblokuj pakiet poniżej, aby korzystać z generatora.
+          </p>
         )}
       </div>
+
       {isModalOpen && (
         <ModalDescriptions
           onClose={handleCloseModal}

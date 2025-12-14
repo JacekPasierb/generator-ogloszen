@@ -6,15 +6,17 @@ import CardProduct from "../../components/CardProduct/CardProduct";
 
 const Pricing = () => {
   return (
-    <section className={`section container ${styles.background} `}>
+    <section className={`section container ${styles.background}`}>
       <div>
-        <Title> Postaw na Skuteczność</Title>
+        <Title>Postaw na Skuteczność</Title>
         <SubTitle>
-          Odblokuj Pakiet AI i generuj profesjonalne opisy, które pomogą Ci
-          szybciej sprzedawać na OLX, Vinted, Marketplace i w sklepach online.
+          Zobacz dostępne pakiety. Generowanie opisów jest dostępne po aktywacji
+          pakietu.
         </SubTitle>
       </div>
-      <CardProduct />
+
+      {/* tryb informacyjny */}
+      <CardProduct mode="public" />
     </section>
   );
 };

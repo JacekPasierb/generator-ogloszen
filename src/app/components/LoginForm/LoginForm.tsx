@@ -1,11 +1,12 @@
 import {ErrorMessage, Field, Form, Formik, useField} from "formik";
-import React from "react";
+import React, {useState} from "react";
 import styles from "../CardAuth/CardAuth.module.css";
 import {loginValidationSchema} from "./loginValidation";
 import {toast} from "react-toastify";
 import {useRouter} from "next/navigation";
 import BtnAuth from "../BtnAuth/BtnAuth";
 import {loginUser} from "../../services/authService";
+import {useUser} from "../../hooks/useUser";
 
 interface FormValues {
   email: string;
@@ -14,6 +15,9 @@ interface FormValues {
 
 const LoginForm = () => {
   const router = useRouter();
+  const {mutate} = useUser();
+  const [isRedirecting, setIsRedirecting] = useState(false);
+
   const initialValues: FormValues = {
     email: "",
     password: "",
@@ -50,17 +54,16 @@ const LoginForm = () => {
     );
   };
 
-  const handleSubmit = async (
-    values: FormValues,
-    {resetForm}: {resetForm: () => void}
-  ) => {
+  const handleSubmit = async (values: FormValues) => {
     try {
+      setIsRedirecting(true);
       await loginUser(values);
-
-      toast.success("Zalogowano pomyślnie");
-      resetForm();
-      router.push("/dashboard");
+      await mutate();
+      // toast.success("Zalogowano pomyślnie");
+      // resetForm();
+      router.replace("/dashboard");
     } catch (err) {
+      setIsRedirecting(false);
       if (err instanceof Error && err.message) {
         toast.error(err.message);
       } else {
@@ -78,7 +81,9 @@ const LoginForm = () => {
         <Form className={styles.form} autoComplete="off">
           <InputField name="email" type="email" placeholder="Email" />
           <InputField name="password" type="password" placeholder="Hasło" />
-          <BtnAuth isSubmitting={isSubmitting}>Zaloguj</BtnAuth>
+          <BtnAuth isSubmitting={isSubmitting || isRedirecting}>
+            Zaloguj
+          </BtnAuth>
         </Form>
       )}
     </Formik>

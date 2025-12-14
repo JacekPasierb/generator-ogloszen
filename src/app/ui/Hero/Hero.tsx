@@ -7,7 +7,7 @@ import RegisterLink from "../../components/RegisterLink/RegisterLink";
 const Hero = () => {
   return (
     <section className={`container section ${styles.hero}`}>
-      <article>
+      <article className={styles.content}>
         <Image
           src="/logo.png"
           width={300}
@@ -21,15 +21,24 @@ const Hero = () => {
           Gotowy opis ogłoszenia w 10 sekund.
         </h2>
         <p className={styles.description}>
-          Masz sklep lub dodajesz ogłoszenia ? Wpisz kilka słów o produkcie, a
+          Masz sklep lub dodajesz ogłoszenia? Wpisz kilka słów o produkcie, a
           otrzymasz profesjonalny opis, który przyciąga kupujących.
         </p>
         <p>➡ Pokażemy Ci przykładowe opisy, a potem stworzysz własne.</p>
       </article>
-      <Link href="/login" aria-label="Zaloguj się" className={styles.ctaBox}>
-        Logowanie
-      </Link>
-      <RegisterLink />
+
+      {/* CTA */}
+      <div className={styles.ctaGroup}>
+        <Link href="/register" className={styles.ctaPrimary}>
+        Zarejestruj się
+        </Link>
+
+        <Link href="/login" className={styles.ctaSecondary}>
+          Mam już konto
+        </Link>
+      <p className={styles.trustText}>Zobacz przykłady za darmo. Aktywuj pakiet, aby generować własne opisy.</p>
+      </div>
+
     </section>
   );
 };

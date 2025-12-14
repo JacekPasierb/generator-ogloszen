@@ -1,140 +1,217 @@
-/* === Reset / Normalize === */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-/* Root Variables */
-:root {
-  /* Typography */
-  --font-size-base: 1rem;
-  --font-size-m: 1.25rem;
-
-  --font-size-l: 1.5rem;
-  --font-size-xl: 2rem;
-  --font-size-xxl: 2.4rem;
-
-  /* Text Colors */
-  --color-text-main: #2d3436;
-  --color-text-btn: #00796b;
-  --color-text-btnSecond: #ffffff;
-  --color-text-link: #00bfa6;
-
-  /* Background Colors */
-  --color-bg-body: #f8f9fa;
-  --color-bg-primary: #f4faff;
-  --color-bg-second: #f0f9ff;
-  --color-bg-third: #ffffff;
-  --color-bg-btn: #e0f7fa;
-  --color-bg-btnSecond: #00bfa6;
-
-  /* Border Colors */
-  --color-border-btn: #b2ebf2;
-}
-
-html,
-body {
-  height: 100%;
-
-  display: flex;
-  flex-direction: column;
-
-  background-color: var(--color-bg-body);
-
-  font-family: Inter, sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: var(--color-text-main);
-}
-
-img,
-picture,
-video,
-canvas,
-svg {
-  display: block;
-  max-width: 100%;
-}
-
-input,
-button,
-textarea,
-select {
-  font: inherit;
-  outline: none;
-  border: 1px solid black;
-  background: none;
-}
-
-a {
-  text-decoration: none;
-  color: var(--color-text-link);
-}
-
-ul,
-ol {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.container {
-  margin: 0 auto;
-  padding: 0 20px;
-  width: 100%;
-}
-
-.section {
-  padding-block: 30px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  align-items: center;
-  text-align: center;
-}
-
-.logoError {
-  width: 128px;
-  height: 128px;
-
-  margin: 0 auto;
-  margin-bottom: 10px;
-}
-.centered {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 80vh;
-  text-align: center;
-}
-
-
-@media screen and (min-width: 768px) {
-  .container {
-    padding: 0 40px;
+/* =========================
+   Reset / Normalize
+   ========================= */
+   *,
+   *::before,
+   *::after {
+     box-sizing: border-box;
+   }
+   
+   html,
+   body {
+     padding: 0;
+     margin: 0;
+   }
+   
+   img,
+   picture,
+   video,
+   canvas,
+   svg {
+     display: block;
+     max-width: 100%;
+   }
+   
+   button,
+   input,
+   textarea,
+   select {
+     font: inherit;
+     color: inherit;
+   }
+   
+   a {
+     color: inherit;
+     text-decoration: none;
+   }
+   
+   ul,
+   ol {
+     list-style: none;
+     padding: 0;
+     margin: 0;
+   }
+   
+   /* =========================
+      Root Variables
+      ========================= */
+   :root {
+     /* Fonts (next/font -> layout.tsx) */
+     --font-body: var(--font-inter);
+     --font-heading: var(--font-grotesk);
+   
+     /* Typography */
+     --font-size-base: 1rem;
+     --font-size-m: 1.25rem;
+     --font-size-l: 1.5rem;
+     --font-size-xl: 2rem;
+     --font-size-xxl: 2.4rem;
+   
+     /* Text Colors */
+     --color-text-main: #2d3436;
+     --color-text-btn: #00796b;
+     --color-text-btnSecond: #ffffff;
+     --color-text-link: #00bfa6;
+   
+     /* Background Colors */
+     --color-bg-body: #f8f9fa;
+     --color-bg-primary: #f4faff;
+     --color-bg-second: #f0f9ff;
+     --color-bg-third: #ffffff;
+     --color-bg-btn: #e0f7fa;
+     --color-bg-btnSecond: #00bfa6;
+   
+     /* Border Colors */
+     --color-border-btn: #b2ebf2;
+   }
+   
+   /* =========================
+      Base Document
+      ========================= */
+   html {
+     height: 100%;
+     background-color: var(--color-bg-body);
+     -webkit-text-size-adjust: 100%;
+   }
+   
+   body {
+     min-height: 100vh;
+     display: flex;
+     flex-direction: column;
+   
+     background-color: var(--color-bg-body);
+   
+     font-family: var(--font-body), system-ui, -apple-system, Segoe UI, Roboto,
+       sans-serif;
+     font-size: 16px;
+     line-height: 1.5;
+   
+     -webkit-font-smoothing: antialiased;
+     -moz-osx-font-smoothing: grayscale;
+   
+     color: var(--color-text-main);
+   }
+   
+   /* Headings: premium look */
+   h1,
+   h2,
+   h3,
+   h4 {
+     font-family: var(--font-heading), var(--font-body), system-ui, sans-serif;
+     letter-spacing: -0.02em;
+   }
+   
+   strong {
+     font-weight: 600;
+   }
+   
+   /* =========================
+      Forms / Inputs (clean default)
+      ========================= */
+   input,
+   button,
+   textarea,
+   select {
+     outline: none;
+     border: none;
+     background: none;
+   }
+   
+   main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
-
-  .section {
-    padding-block: 50px;
-
-    gap: 50px;
-  }
-
-  .logoError {
-    width: 256px;
-    height: 256px;
-  }
-}
-
-@media screen and (min-width: 1200px) {
-  .container {
-    max-width: 1200px;
-  }
-}
+  
+   button {
+     cursor: pointer;
+   }
+   
+   button:disabled {
+     cursor: not-allowed;
+     opacity: 0.7;
+   }
+   
+   :focus-visible {
+     outline: 2px solid rgba(1, 157, 137, 0.55);
+     outline-offset: 2px;
+   }
+   
+   /* Links (if you want colored links) */
+   a {
+     color: var(--color-text-link);
+   }
+   
+   /* =========================
+      Layout helpers
+      ========================= */
+   .container {
+     margin: 0 auto;
+     padding: 0 20px;
+     width: 100%;
+   }
+   
+   .section {
+     padding-block: 30px;
+   
+     display: flex;
+     flex-direction: column;
+     gap: 30px;
+   
+     align-items: center;
+     text-align: center;
+   }
+   
+   /* error page helpers */
+   .logoError {
+     width: 128px;
+     height: 128px;
+   
+     margin: 0 auto 10px;
+   }
+   
+   .centered {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+   
+     min-height: 80vh;
+     text-align: center;
+   }
+   
+   /* =========================
+      Responsive
+      ========================= */
+   @media screen and (min-width: 768px) {
+     .container {
+       padding: 0 40px;
+     }
+   
+     .section {
+       padding-block: 50px;
+       gap: 50px;
+     }
+   
+     .logoError {
+       width: 256px;
+       height: 256px;
+     }
+   }
+   
+   @media screen and (min-width: 1200px) {
+     .container {
+       max-width: 1200px;
+     }
+   }
+   

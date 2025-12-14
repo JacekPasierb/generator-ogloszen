@@ -2,11 +2,15 @@
 import React from "react";
 import styles from "./Loading.module.css";
 
-const Loading = () => {
+type LoadingProps = {
+  label?: string;
+};
+
+const Loading = ({ label = "Ładowanie..." }: LoadingProps) => {
   return (
     <div className={styles.wrapper} role="status" aria-live="polite">
       <div className={styles.spinner} aria-hidden="true"></div>
-      <p className={styles.text}>Ładowanie...</p>
+      <p className={styles.text}>{label}</p>
     </div>
   );
 };

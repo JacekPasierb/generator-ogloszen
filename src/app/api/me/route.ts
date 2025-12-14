@@ -21,7 +21,7 @@ export const GET = async () => {
 
     return NextResponse.json({
       email: user.email,
-      isPro: user.isPro,
+      plan: user.plan,
       aiUsed: user.aiUsed,
       aiLimit: user.aiLimit,
     });

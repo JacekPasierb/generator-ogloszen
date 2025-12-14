@@ -1,25 +1,25 @@
 "use client";
 
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import CardAuth from "../components/CardAuth/CardAuth";
-import {useUser} from "../hooks/useUser";
-import {useRouter} from "next/navigation";
+import { useUser } from "../hooks/useUser";
+import { useRouter } from "next/navigation";
 import Loading from "../components/Loading/Loading";
 
 const LoginPage = () => {
-  const {user, loading} = useUser();
+  const { user, loading } = useUser();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && user) {
-      router.push("/dashboard");
-    }
-  }, [loading, user, router]);
+    if (user) router.replace("/dashboard");
+  }, [user, router]);
 
-  if (loading) return <Loading />;
-  if (user) return null;
+  // jeszcze nie wiemy czy jest sesja
+  if (user === undefined || loading ) return <Loading />;
+
+  // user === null -> pokaż formularz
   return (
-    <section className={`section container`}>
+    <section className="section container">
       <CardAuth />
     </section>
   );

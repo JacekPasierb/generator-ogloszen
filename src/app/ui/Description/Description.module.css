@@ -1,69 +1,75 @@
 .boxDescription {
-  margin: 0 auto;
-
   width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
 }
 
 .result {
   width: 100%;
-  padding: 20px;
+  padding: 16px 16px;
 
-  border: none;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.08);
+
+  background: var(--color-bg-third);
   resize: none;
 
   font-size: var(--font-size-base);
+  line-height: 1.6;
+  color: var(--color-text-main);
 }
 
 .boxBtn {
   display: flex;
-  gap: 20px;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
 }
 
 .actionButton {
-  padding: 1rem;
+  padding: 12px 16px;
 
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
 
-  background-color: var(--color-bg-btn);
-  border: 1px solid var(--color-border-btn);
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  background: rgba(0,0,0,0.03);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
 
   font-size: var(--font-size-base);
-  color: var(--color-text-btn);
+  color: rgba(0,0,0,0.78);
 
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: transform .12s ease, background-color .12s ease, box-shadow .12s ease;
 }
 
 .actionButton:hover {
-  background-color: #b2dfdb;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-
-  color: #004d40;
+  background: rgba(0,0,0,0.06);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
 }
 
-@media screen and (min-width: 768px) {
+.actionButton:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.actionButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+@media (min-width: 768px) {
   .result {
     font-size: var(--font-size-m);
-  }
-  .actionButton {
-    padding: 20px 52px;
-
-    font-size: var(--font-size-m);
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .boxBtn {
-    justify-content: center;
-    gap: 30px;
-  }
-
-  .actionButton {
-
-    font-size: var(--font-size-l);
+    padding: 18px 18px;
   }
 }
