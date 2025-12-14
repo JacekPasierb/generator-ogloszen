@@ -15,6 +15,7 @@ const SessionHandler = dynamic(
     ssr: false,
   }
 );
+
 const DashboardPage = () => {
   const {description} = useDescription();
   const {user} = useUser();
@@ -25,12 +26,14 @@ const DashboardPage = () => {
   }, [user, router]);
 
   if (user === undefined) return <Loading label="Sprawdzam sesję..." />;
-  if (user === null) return <Loading label="Przekierowuję..."/>;
-  
+  if (user === null) return <Loading label="Przekierowuję..." />;
+
   return (
     <>
       <SessionHandler />
+
       <Header />
+
       <Generator />
       {description?.trim() && (
         <Suspense fallback={<Loading label="Ładuję podgląd..." />}>

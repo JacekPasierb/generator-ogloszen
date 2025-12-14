@@ -199,8 +199,8 @@
      }
    
      .section {
-       padding-block: 50px;
-       gap: 50px;
+       padding-block: 20px;
+       gap: 20px;
      }
    
      .logoError {

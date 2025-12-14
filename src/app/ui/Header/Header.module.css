@@ -3,7 +3,29 @@
    ========================= */
    .header {
     width: 100%;
+    position: relative;
+    padding-top: 10px;
+  
+    /* cosmic glow */
+    background:
+      radial-gradient(
+        900px 260px at 50% -40px,
+        rgba(1, 157, 137, 0.14),
+        transparent 60%
+      );
   }
+  .sectionDivider {
+    margin: 22px auto 0;
+    width: min(520px, 92%);
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 0, 0, 0.10),
+      transparent
+    );
+  }
+    
   
   /* =========================
      NAV – jedna linia
@@ -57,9 +79,7 @@
     cursor: pointer;
     user-select: none;
   
-    transition:
-      background-color 0.12s ease,
-      box-shadow 0.12s ease,
+    transition: background-color 0.12s ease, box-shadow 0.12s ease,
       transform 0.12s ease;
   }
   
@@ -83,6 +103,76 @@
   .icons[aria-disabled="true"] {
     opacity: 0.55;
     pointer-events: none;
+  }
+  
+  /* =========================
+     ACCOUNT ROW (email + plan chip)
+     ========================= */
+  .accountRow {
+    margin-top: 14px;
+    width: 100%;
+  
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .accountChip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  
+    padding: 10px 12px;
+    border-radius: 999px;
+  
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  
+  .accountDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18);
+  }
+  
+  .accountEmail {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    word-break: break-word;
+  }
+  
+  /* plan chip */
+  .planChip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  
+    padding: 10px 12px;
+    border-radius: 999px;
+  
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  
+  .planFree {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-color: rgba(0, 0, 0, 0.06);
+  }
+  
+  .planPaid {
+    background: rgba(0, 191, 166, 0.12);
+    border-color: rgba(0, 191, 166, 0.22);
+    color: #0f766e;
   }
   
   /* =========================
@@ -161,6 +251,11 @@
     .hint {
       font-size: var(--font-size-m);
     }
+  
+    .accountEmail,
+    .planChip {
+      font-size: 1rem;
+    }
   }
   
   @media (min-width: 1200px) {
@@ -181,3 +276,99 @@
     }
   }
   
+  @media (max-width: 520px) {
+    .accountRow {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .accountChip,
+    .planChip {
+      justify-content: center;
+    }
+  }
+  
+
+  /* =========================
+   CALLOUT (inactive plan)
+   ========================= */
+   .callout {
+    margin: 18px auto 0;
+    max-width: 860px;
+    width: 100%;
+  
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  
+    padding: 16px 16px;
+    border-radius: 16px;
+  
+    background: rgba(255, 255, 255, 0.58);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  }
+  
+
+.calloutText {
+  text-align: left;
+}
+
+.calloutTitle {
+  margin: 0;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  font-size: 1.02rem;
+}
+
+
+.calloutDesc {
+  margin: 4px 0 0;
+  color: rgba(0, 0, 0, 0.65);
+  line-height: 1.45;
+  font-size: var(--font-size-base);
+}
+
+.calloutBtn {
+  flex-shrink: 0;
+  padding: 10px 14px;
+  border-radius: 12px;
+
+  background: #019d89;
+  color: white;
+  text-decoration: none;
+  font-weight: 800;
+
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.calloutBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(1, 157, 137, 0.22);
+}
+
+.calloutBtn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+@media (max-width: 520px) {
+  .callout {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .calloutText {
+    text-align: center;
+  }
+
+  .calloutBtn {
+    width: 100%;
+    text-align: center;
+  }
+}

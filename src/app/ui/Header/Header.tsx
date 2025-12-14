@@ -14,7 +14,8 @@ export interface SavedDescription {
 }
 
 const Header = () => {
-  const {plan, isPaid, aiUsed, aiLimit, mutate} = useUser();
+  const {user, plan, isPaid, aiLimit, aiLeft, mutate} = useUser();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [savedDescriptions, setSavedDescriptions] = useState<
     SavedDescription[]
@@ -55,8 +56,10 @@ const Header = () => {
     void logoutUser();
   };
 
+  const isLoadingUser = user === undefined;
+
   return (
-    <section className={`container section ${styles.header}`}>
+    <header className={`container section ${styles.header}`}>
       <nav className={styles.nav}>
         <div className={styles.logoWrap}>
           <Image
@@ -90,27 +93,42 @@ const Header = () => {
         </div>
       </nav>
 
-      <div className={styles.boxActions}>
-        <p className={styles.levelAccount}>
-          <strong>Status konta:</strong>{" "}
-          {isPaid ? `Pakiet ${plan.toUpperCase()} 💎` : "Darmowe"}
-        </p>
+      {/* Informacje o koncie – pokazuj dopiero gdy user jest znany */}
+      {!isLoadingUser && (
+        <>
+          <div className={styles.accountRow}>
+            <div className={styles.accountChip}>
+              <span className={styles.accountDot} aria-hidden />
+              <span className={styles.accountEmail}>Witaj {user?.email ?? "—"}</span>
+            </div>
 
-        {isPaid ? (
-          <div className={styles.boxUsage}>
-            <p className={styles.text}>
-              Pozostałe zapytania:{" "}
-              <strong>
-                {aiLimit - aiUsed} / {aiLimit}
-              </strong>
-            </p>
+            <div
+              className={`${styles.planChip} ${
+                isPaid ? styles.planPaid : styles.planFree
+              }`}
+            >
+              {isPaid
+                ? `Pakiet: ${plan.toUpperCase()} 💎`
+                : "Pakiet: nieaktywny"}
+            </div>
           </div>
-        ) : (
-          <p className={styles.hint}>
-            Odblokuj pakiet poniżej, aby korzystać z generatora.
-          </p>
-        )}
-      </div>
+
+          <div className={styles.sectionDivider} aria-hidden />
+
+          {isPaid && (
+            <div className={styles.boxActions}>
+              <div className={styles.boxUsage}>
+                <p className={styles.text}>
+                  Pozostałe zapytania:{" "}
+                  <strong>
+                    {aiLeft} / {aiLimit}
+                  </strong>
+                </p>
+              </div>{" "}
+            </div>
+          )}
+        </>
+      )}
 
       {isModalOpen && (
         <ModalDescriptions
@@ -120,7 +138,7 @@ const Header = () => {
           onDelete={handleDeleteDescription}
         />
       )}
-    </section>
+    </header>
   );
 };
 

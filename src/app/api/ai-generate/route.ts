@@ -11,11 +11,19 @@ export const POST = async (req: Request) => {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
     if (!token) throw handleError(401, "Brak tokena");
+    
+    console.log("Sprawdzamy Id uzytkownika");
     const userId = getUserIdFromToken(token);
+    console.log("Mamy Id uzytkownika", userId);
+    console.log("Sprawdza czy uzytkownik ma wykupiony plan ");
+    
     await getProUserOrThrow(userId);
-
+    console.log("Przeszlo czyli ma wykupiony plan");
+    console.log("Przechodzimy do generowania opisu");
     const {input} = await req.json();
     const description = await generateDescription(input);
+console.log("Wygenerowano opis");
+console.log("Przechodzimy do inkrementacji");
 
     await incrementAiUsage(userId);
 
