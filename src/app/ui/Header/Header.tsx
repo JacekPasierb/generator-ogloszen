@@ -1,11 +1,11 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, {useState} from "react";
 import styles from "./Header.module.css";
-import { MeResponse, useUser } from "../../hooks/useUser";
+import {MeResponse, useUser} from "../../hooks/useUser";
 import ModalDescriptions from "../../components/ModalDescription/ModalDescription";
-import { fetchDescription } from "../../services/descriptionServices";
-import { logoutUser } from "../../services/authService";
-import { useRouter } from "next/navigation";
+import {fetchDescription} from "../../services/descriptionServices";
+import {logoutUser} from "../../services/authService";
+import {useRouter} from "next/navigation";
 
 export interface SavedDescription {
   text: string;
@@ -14,9 +14,11 @@ export interface SavedDescription {
 }
 
 const Header = () => {
-  const { isPro, aiUsed, aiLimit, mutate } = useUser();
+  const {plan, isPaid, aiUsed, aiLimit, mutate} = useUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [savedDescriptions, setSavedDescriptions] = useState<SavedDescription[]>([]);
+  const [savedDescriptions, setSavedDescriptions] = useState<
+    SavedDescription[]
+  >([]);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const router = useRouter();
@@ -46,8 +48,8 @@ const Header = () => {
     if (isLoggingOut) return;
     setIsLoggingOut(true);
 
-    const loggedOut: MeResponse = { error: "Unauthorized" };
-    mutate(loggedOut, { revalidate: false });
+    const loggedOut: MeResponse = {error: "Unauthorized"};
+    mutate(loggedOut, {revalidate: false});
 
     router.replace("/login");
     void logoutUser();
@@ -90,10 +92,11 @@ const Header = () => {
 
       <div className={styles.boxActions}>
         <p className={styles.levelAccount}>
-          <strong>Status konta:</strong> {isPro ? "Pakiet AI 💎" : "Darmowe"}
+          <strong>Status konta:</strong>{" "}
+          {isPaid ? `Pakiet ${plan.toUpperCase()} 💎` : "Darmowe"}
         </p>
 
-        {isPro ? (
+        {isPaid ? (
           <div className={styles.boxUsage}>
             <p className={styles.text}>
               Pozostałe zapytania:{" "}
