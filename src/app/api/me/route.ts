@@ -14,17 +14,18 @@ export const GET = async () => {
 
     const userId = getUserIdFromToken(token);
     await connectMongo();
-    const user = await User.findById(userId).select(
-      "email isPro aiUsed aiLimit"
-    );
+
+    const user = await User.findById(userId).select("email plan aiUsed aiLimit");
     if (!user) throw handleError(401, "Użytkownik nie znaleziony");
 
+   
     return NextResponse.json({
       email: user.email,
-      plan: user.plan,
-      aiUsed: user.aiUsed,
-      aiLimit: user.aiLimit,
+      plan: user.plan ?? "free",
+      aiUsed: user.aiUsed ?? 0,
+      aiLimit: user.aiLimit ?? 0,
     });
+
   } catch (err) {
     const error = err as {status?: number; message?: string};
     return NextResponse.json(
