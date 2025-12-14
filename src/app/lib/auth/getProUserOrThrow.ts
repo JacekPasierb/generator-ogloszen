@@ -4,7 +4,7 @@ import { connectMongo } from "../mongoose";
 
 type Plan = "free" | "start" | "standard" | "pro";
 
-export const getPaidUserOrThrow = async (userId: string) => {
+export const getProUserOrThrow = async (userId: string) => {
   await connectMongo();
 
   const user = await User.findById(userId).select("plan aiUsed aiLimit email");
