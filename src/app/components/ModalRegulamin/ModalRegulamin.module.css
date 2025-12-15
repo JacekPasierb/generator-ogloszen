@@ -1,75 +1,241 @@
-/* ModalRegulamin.module.css */
-
 .overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.46);
+  display: grid;
+  place-items: center;
   z-index: 1000;
-  padding: 1rem;
+  padding: 16px;
 }
 
+/* modal = układ kolumnowy: sticky header + scroll content */
 .modal {
   position: relative;
-  background-color: #fff;
-  padding: 2rem;
-  max-width: 600px;
-  width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  overflow-y: auto;
-  max-height: 90vh;
+  width: min(760px, 100%);
+  max-height: min(86vh, 820px);
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.18);
+
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-.modal .closeBtn  {
-  padding: 2px;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 2.5rem;
-  background: transparent;
-  border: none;
-  color: #333;
-  cursor: pointer;
-  transition: color 0.2s;
+/* header sticky – nie rozjeżdża się przy scrollu */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  padding: 22px 20px 14px;
+  padding-right: 72px;
+
+  background: #ffffff; /* ❗ zamiast rgba + blur */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-.modal .closeBtn:hover {
- color: #007b7f;
- background-color: transparent;
+
+.title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
-.modal h2 {
-  margin-bottom: 1rem;
-  font-size: 1.4rem;
-  font-weight: 600;
-}
-
-.modal p {
-  margin-bottom: 0.75rem;
-  line-height: 1.5;
-  font-size: 1rem;
-  color: #333;
-}
-
-.modal p:last-child {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  color: #888;
-}
-
-.regulaminLink {
-  cursor: pointer;
-  color: #007b7f;
-  text-decoration: underline;
+.subtitle {
+  margin: 10px 0 0;
   font-size: 0.95rem;
+  color: rgba(0, 0, 0, 0.6);
+  line-height: 1.35;
+}
+
+/* ✅ X zawsze w prawym górnym rogu i nie łapie globalnych stylów button */
+.closeBtn {
+  all: unset;
+  
+
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+
+  width: 44px;
+  height: 44px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 12px;
+  cursor: pointer;
+
+  background: #f1f5f9; /* jasny solid */
+  border: 1px solid rgba(0, 0, 0, 0.08);
+
+  font-size: 30px;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.7);
+
+  transition: background-color 0.12s ease, transform 0.12s ease, 
+    box-shadow 0.12s ease; 
+}
+
+.closeBtn:hover {
+  background: #e5e7eb;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.closeBtn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+
+.closeBtn:focus-visible {
+  outline: 2px solid rgba(1, 157, 137, 0.6);
+  outline-offset: 2px;
+}
+
+/* scroll tylko w treści */
+.content {
+  padding: 16px 20px 20px;
+  overflow: auto;
+}
+
+.content p {
+  margin: 0 0 12px;
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.78);
+}
+
+.m0 {
+  margin: 0;
+}
+
+.card {
+  margin: 14px 0;
+  padding: 14px;
+  border-radius: 16px;
+
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.05);
+}
+
+.cardTitle {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+.list {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 8px;
+}
+
+.note {
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 16px;
+
+  background: rgba(0, 191, 166, 0.1);
+  border: 1px solid rgba(0, 191, 166, 0.18);
+}
+
+.noteTitle {
+  display: block;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.footer {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.meta {
+  font-size: 0.92rem;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.link {
+  font-weight: 900;
+  color: #0f766e;
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 191, 166, 0.18);
+  background: rgba(0, 191, 166, 0.08);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+}
+
+.link:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* link obok checkboxa */
+.regulaminLink {
+  all: unset;              /* ✅ resetuje global button reset + nie łapie stylu CTA */
+  display: inline;         /* ✅ nie robi się kafel */
+  cursor: pointer;
+
+  color: #0f766e;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  font-weight: 800;
+  font-size: 0.95rem;
+  line-height: 1.2;
 }
 
 .regulaminLink:hover {
-  color: #005f63;
+  color: #0b5f59;
+}
+
+.regulaminLink:focus-visible {
+  outline: 2px solid rgba(1, 157, 137, 0.55);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+@media (max-width: 520px) {
+  .overlay {
+    padding: 10px;
+  }
+
+  .header {
+    padding: 18px 16px 12px;
+    padding-right: 68px; /* miejsce na X */
+  }
+
+  .content {
+    padding: 14px 16px 16px;
+  }
+
+  .closeBtn {
+    top: 10px;
+    right: 10px;
+  }
 }

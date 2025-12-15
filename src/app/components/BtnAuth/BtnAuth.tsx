@@ -7,7 +7,7 @@ interface BtnAuthProps {
 
 const BtnAuth = ({isSubmitting = false, children}: BtnAuthProps) => {
   return (
-    <button type="submit" disabled={isSubmitting} aria-busy={isSubmitting}>
+    <button type="submit" disabled={isSubmitting} aria-busy={isSubmitting} className={styles.btnLogin}>
       {isSubmitting ? <div className={styles.spinner} /> : children}
     </button>
   );

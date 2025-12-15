@@ -96,29 +96,7 @@
 }
 
 /* button */
-.form button {
-  padding: 1rem;
 
-  background-color: #00bfa6;
-  border-radius: 8px;
-  border: none;
-
-  color: white;
-  font-weight: 600;
-
-  cursor: pointer;
-  transition: background 0.3s ease, opacity 0.2s ease;
-}
-
-.form button:hover {
-  background-color: #019d89;
-}
-
-/* kiedy disabled (Formik isSubmitting) */
-.form button:disabled {
-  cursor: not-allowed;
-  opacity: 0.85;
-}
 
 .errorMessage {
   font-size: 0.625rem;
@@ -136,6 +114,12 @@
 
   font-size: 10px;
 }
+
+.termsText {
+  display: inline;
+  line-height: 1.35;
+}
+
 
 /* spinner (użyjemy też w overlay) */
 .spinner {
@@ -163,9 +147,7 @@
     font-size: 12px;
   }
 
-  .form button {
-    padding: 22px 52px;
-  }
+
 
   .overlayText {
     font-size: 15px;

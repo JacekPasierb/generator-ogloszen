@@ -94,16 +94,12 @@ const RegisterForm = () => {
               id="acceptedTerms"
               className={styles.checkbox}
             />
-            <span>
-              Akceptuję <RegulaminModal /> i{" "}
-              <Link
-                href="/polityka-prywatnosci"
+            
+            <span className={styles.termsText}>
+              Akceptuję <RegulaminModal /> i <Link href="/polityka-prywatnosci"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={styles.link}
-              >
-                politykę prywatności
-              </Link>
+                className={styles.link}>politykę prywatności</Link>
             </span>
           </label>
           <div style={{minHeight: "1em"}}>

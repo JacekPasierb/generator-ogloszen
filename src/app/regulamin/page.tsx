@@ -29,17 +29,24 @@ export default function Regulamin() {
         </li>
         <li>
           <strong>Użytkownik</strong> – osoba fizyczna korzystająca z Serwisu,
-          która założyła konto lub korzysta z funkcji dostępnych bez
-          rejestracji.
+          która założyła konto i zalogowała się w Serwisie.
         </li>
         <li>
           <strong>Administrator</strong> – właściciel Serwisu, osoba fizyczna
           prowadząca działalność nierejestrowaną.
         </li>
         <li>
-          <strong>Pakiet AI</strong> – płatna funkcjonalność Serwisu
-          umożliwiająca generowanie określonej liczby opisów ogłoszeń zgodnie z
-          aktualną ofertą.
+          <strong>Pakiet</strong> – jednorazowo płatna usługa umożliwiająca
+          generowanie opisów ogłoszeń przy użyciu AI w ramach limitu zapytań.
+        </li>
+        <li>
+          <strong>Plany/Pakiety</strong> – warianty Pakietu dostępne w Serwisie:
+          <strong> START</strong>, <strong>STANDARD</strong>,{" "}
+          <strong>PRO</strong>, różniące się ceną oraz limitem zapytań.
+        </li>
+        <li>
+          <strong>Limit zapytań</strong> – maksymalna liczba opisów, które
+          Użytkownik może wygenerować w ramach wykupionego Pakietu.
         </li>
       </ul>
 
@@ -68,27 +75,44 @@ export default function Regulamin() {
       <h2>4. Usługi płatne</h2>
       <ul>
         <li>
-          Użytkownik może wykupić <strong>Pakiet AI</strong>, który umożliwia
-          generowanie określonej liczby opisów ogłoszeń zgodnie z informacjami
-          podanymi w Serwisie w momencie zakupu.
+          Użytkownik może wykupić Pakiet w jednym z planów:{" "}
+          <strong>START</strong>, <strong>STANDARD</strong>,{" "}
+          <strong>PRO</strong>. Każdy plan zawiera określony{" "}
+          <strong>Limit zapytań</strong>.
         </li>
+        <li>
+          Aktualna cena, limity oraz zakres planów są prezentowane w Serwisie w
+          momencie zakupu i mogą ulegać zmianom w czasie. Zmiana oferty nie
+          wpływa na Pakiety już zakupione.
+        </li>
+        <li>
+          <strong>Limit zapytań</strong> – maksymalna liczba opisów, które
+          Użytkownik może wygenerować w ramach wykupionego Pakietu.
+        </li>
+
         <li>
           Płatności realizowane są za pośrednictwem zewnętrznego operatora
           płatności <strong>Stripe</strong>, zgodnie z jego regulaminem i
           standardami bezpieczeństwa.
         </li>
         <li>
-          Zakup Pakietu AI ma charakter jednorazowy, o ile na stronie nie
-          wskazano inaczej (brak domyślnej subskrypcji cyklicznej).
+          Zakup Pakietu ma charakter <strong>jednorazowy</strong> (brak
+          subskrypcji), o ile Serwis nie wskazuje inaczej.
         </li>
         <li>
-          Po skutecznym dokonaniu płatności Użytkownik otrzymuje natychmiastowy
-          dostęp do usługi.
+          Po skutecznym dokonaniu płatności Użytkownik uzyskuje dostęp do
+          generowania opisów w ramach limitu zapytań.
+        </li>
+        <li>
+          Po wyczerpaniu limitu zapytań w danym Pakiecie Użytkownik traci
+          możliwość dalszego generowania opisów w ramach tego Pakietu, do czasu
+          wykupienia kolejnego Pakietu.
         </li>
         <li>
           Zgodnie z art. 38 ust. 1 pkt 13 ustawy o prawach konsumenta, po
-          zakupie Pakietu AI Użytkownik traci prawo do odstąpienia od umowy,
-          ponieważ usługa jest w pełni realizowana z chwilą zakupu.
+          zakupie Pakietu Użytkownik traci prawo do odstąpienia od umowy, jeżeli
+          wyraził zgodę na rozpoczęcie świadczenia usługi przed upływem terminu
+          do odstąpienia oraz został poinformowany o utracie tego prawa.
         </li>
       </ul>
 
@@ -103,6 +127,11 @@ export default function Regulamin() {
           Administrator nie ponosi odpowiedzialności za treści generowane przez
           Użytkownika ani za sposób wykorzystania wygenerowanych opisów w
           serwisach zewnętrznych (np. OLX, Vinted, Marketplace itp.).
+        </li>
+        <li>
+          Administrator nie gwarantuje, że wygenerowane opisy będą wolne od
+          błędów lub w pełni dopasowane do oczekiwań Użytkownika; Użytkownik
+          powinien zweryfikować treść przed publikacją.
         </li>
         <li>
           Administrator nie ponosi odpowiedzialności za przerwy w działaniu
