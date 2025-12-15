@@ -17,12 +17,13 @@ const Header = () => {
   const {user, plan, isPaid, aiLimit, aiLeft, mutate} = useUser();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [savedDescriptions, setSavedDescriptions] = useState<
-    SavedDescription[]
-  >([]);
+  const [savedDescriptions, setSavedDescriptions] = useState<SavedDescription[]>(
+    []
+  );
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const router = useRouter();
+  const isLoadingUser = user === undefined;
 
   const fetchSavedDescriptions = async () => {
     try {
@@ -44,7 +45,6 @@ const Header = () => {
     setSavedDescriptions((prev) => prev.filter((desc) => desc._id !== id));
   };
 
-  // ✅ senior flow: UI natychmiast, request w tle
   const handleLogout = () => {
     if (isLoggingOut) return;
     setIsLoggingOut(true);
@@ -56,7 +56,17 @@ const Header = () => {
     void logoutUser();
   };
 
-  const isLoadingUser = user === undefined;
+  const safeLimit = Math.max(aiLimit ?? 0, 0);
+  const safeLeft = Math.max(aiLeft ?? 0, 0);
+
+  const progressPct =
+    safeLimit > 0 ? Math.max(0, Math.min(100, (safeLeft / safeLimit) * 100)) : 0;
+
+  const planLabel = isPaid
+    ? safeLeft > 0
+      ? plan.toUpperCase()
+      : `${plan.toUpperCase()} (wyczerpany)`
+    : "NIEAKTYWNY";
 
   return (
     <header className={`container section ${styles.header}`}>
@@ -73,27 +83,37 @@ const Header = () => {
         </div>
 
         <div className={styles.boxIcons}>
-          <span
-            title="Zapisane opisy"
-            aria-label="Zapisane opisy"
-            onClick={handleOpenModal}
-            className={styles.icons}
-          >
-            📓
-          </span>
+  <button
+    type="button"
+    onClick={handleOpenModal}
+    className={styles.actionBtn}
+    aria-label="Zapisane opisy"
+    title="Zapisane opisy"
+  >
+    <span className={styles.actionIcon} aria-hidden>
+      📓
+    </span>
+    <span className={styles.actionText}>Zapisane</span>
+  </button>
 
-          <span
-            className={styles.icons}
-            onClick={handleLogout}
-            aria-disabled={isLoggingOut}
-            title={isLoggingOut ? "Wylogowywanie..." : "Wyloguj"}
-          >
-            {isLoggingOut ? "⏳" : "🙋‍♂️"}
-          </span>
-        </div>
+  <button
+    type="button"
+    onClick={handleLogout}
+    className={styles.actionBtn}
+    disabled={isLoggingOut}
+    aria-label="Wyloguj"
+    title={isLoggingOut ? "Wylogowywanie..." : "Wyloguj"}
+    aria-busy={isLoggingOut}
+  >
+    <span className={styles.actionIcon} aria-hidden>
+      {isLoggingOut ? "⏳" : "🙋‍♂️"}
+    </span>
+    <span className={styles.actionText}>Wyloguj</span>
+  </button>
+</div>
+
       </nav>
 
-      {/* Informacje o koncie – pokazuj dopiero gdy user jest znany */}
       {!isLoadingUser && (
         <>
           <div className={styles.accountRow}>
@@ -104,33 +124,47 @@ const Header = () => {
               </span>
             </div>
 
+            {/* ✅ Jeden spójny blok statusu */}
             <div
-              className={`${styles.planChip} ${
-                isPaid ? styles.planPaid : styles.planFree
+              className={`${styles.statusCard} ${
+                isPaid ? styles.statusPaid : styles.statusFree
               }`}
             >
-              {isPaid
-                ? aiLeft > 0
-                  ? `Pakiet: ${plan.toUpperCase()} 💎`
-                  : `Pakiet: Wykorzystany`
-                : "Pakiet: nieaktywny"}
+              <div className={styles.statusTop}>
+                <span className={styles.statusTitle}>Pakiet</span>
+
+                <span className={styles.statusBadge}>
+                  {isPaid ? "💎" : "🔒"} {planLabel}
+                </span>
+              </div>
+
+              {isPaid ? (
+                <>
+                  <div className={styles.statusMid}>
+                    <span className={styles.statusSub}>Pozostałe zapytania</span>
+                    <span className={styles.statusValue}>
+                      {safeLeft}/{safeLimit}
+                    </span>
+                  </div>
+
+                  <div className={styles.statusBar} aria-hidden>
+                    <div
+                      className={`${styles.statusProgress} ${
+                        safeLeft === 0 ? styles.statusEmpty : ""
+                      }`}
+                      style={{width: `${progressPct}%`}}
+                    />
+                  </div>
+                </>
+              ) : (
+                <div className={styles.statusHint}>
+                  Odblokuj pakiet, aby generować opisy AI.
+                </div>
+              )}
             </div>
           </div>
 
           <div className={styles.sectionDivider} aria-hidden />
-
-          {isPaid && (
-            <div className={styles.boxActions}>
-              <div className={styles.boxUsage}>
-                <p className={styles.text}>
-                  Pozostałe zapytania:{" "}
-                  <strong>
-                    {aiLeft} / {aiLimit}
-                  </strong>
-                </p>
-              </div>{" "}
-            </div>
-          )}
         </>
       )}
 

@@ -18,7 +18,7 @@ const SessionHandler = dynamic(
 
 const DashboardPage = () => {
   const {description} = useDescription();
-  const {user} = useUser();
+  const {user, isPaid} = useUser();
   const router = useRouter();
 
   useEffect(() => {
@@ -31,11 +31,9 @@ const DashboardPage = () => {
   return (
     <>
       <SessionHandler />
-
       <Header />
-
       <Generator />
-      {description?.trim() && (
+      {isPaid && description?.trim() && (
         <Suspense fallback={<Loading label="Ładuję podgląd..." />}>
           <Description />
         </Suspense>

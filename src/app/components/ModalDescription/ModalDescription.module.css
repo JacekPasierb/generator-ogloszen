@@ -1,95 +1,267 @@
+/* ========= Overlay ========= */
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .modal {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
-    width: 90%;
-    position: relative;
-    animation: fadeIn 0.3s ease;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-  
-  .closeButton {
-    background: transparent;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    color: #555;
-    transition: color 0.2s ease;
-  }
-  
-  .closeButton:hover {
-    color: #333;
-  }
-  
-  .content {
-    max-height: 300px;
-    overflow-y: auto;
-  }
-  
-  .content p {
-    margin: 0.5rem 0;
-  }
-  
-  @media (max-width: 600px) {
-    .modal {
-      width: 95%;
-    }
-  }
-  
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 12, 16, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 
-  .result {
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+
+  padding: 18px;
+}
+
+/* ========= Modal ========= */
+.modal {
+  width: min(520px, 100%);
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+
+  box-shadow:
+    0 22px 60px rgba(0, 0, 0, 0.18),
+    0 2px 10px rgba(0, 0, 0, 0.06);
+
+  overflow: hidden;
+
+  transform: translateY(6px);
+  animation: modalIn 0.18s ease forwards;
+}
+
+@keyframes modalIn {
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* ========= Header ========= */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 16px 16px 12px;
+
+  background: radial-gradient(
+    800px 220px at 50% -90px,
+    rgba(1, 157, 137, 0.14),
+    transparent 60%
+  );
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.headerLeft {
+  display: grid;
+  gap: 4px;
+}
+
+.title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.meta {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.62);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metaDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18);
+}
+
+.closeButton {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.75);
+
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.closeButton:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.10);
+}
+
+.closeButton:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid rgba(1, 157, 137, 0.6);
+  outline-offset: 2px;
+}
+
+/* ========= Content ========= */
+.content {
+  padding: 14px 16px 16px;
+  display: grid;
+  gap: 12px;
+}
+
+/* card dla textarea */
+.textCard {
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.75);
+  overflow: hidden;
+}
+
+.result {
+  width: 100%;
+  min-height: 160px;
+  padding: 14px 14px;
+
+  border: 0;
+  outline: none;
+
+  resize: none;
+  background: transparent;
+
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+/* ========= Actions ========= */
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.btn {
+  height: 42px;
+  border-radius: 14px;
+  padding: 0 14px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border: 1px solid transparent;
+  font-weight: 800;
+  cursor: pointer;
+
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.btn:focus-visible {
+  outline: 2px solid rgba(1, 157, 137, 0.6);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Primary (do empty state) */
+.btnPrimary {
+  background: #019d89;
+  color: #fff;
+  box-shadow: 0 10px 26px rgba(1, 157, 137, 0.20);
+}
+
+.btnPrimary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px rgba(1, 157, 137, 0.26);
+}
+
+/* Ghost (copy) */
+.btnGhost {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.btnGhost:hover {
+  transform: translateY(-1px);
+  background: rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.10);
+}
+
+/* Danger (delete) */
+.btnDanger {
+  flex: 1;
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.22);
+  color: #b91c1c;
+}
+
+.btnDanger:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(239, 68, 68, 0.16);
+}
+
+/* ========= Pagination ========= */
+.paginationWrap {
+  padding-top: 6px;
+}
+
+/* ========= Empty state ========= */
+.empty {
+  padding: 18px 16px 18px;
+  display: grid;
+  gap: 10px;
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 44px;
+}
+
+.emptyTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.emptyDesc {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.62);
+  line-height: 1.5;
+}
+
+/* ========= Responsive ========= */
+@media (max-width: 520px) {
+  .actions {
+    flex-direction: column;
+  }
+
+  .btnGhost,
+  .btnDanger {
     width: 100%;
-    min-height: 120px;
-    padding: 12px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    resize: none;
-    background-color: #fefefe;
   }
-  
-  .actionsBtn {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  
-  .actionButton {
-    padding: 2px;
-    border: 1px solid #b2ebf2;
-    background-color: #e0f7fa;
-    color: #00796b;
-  }
-  
+}

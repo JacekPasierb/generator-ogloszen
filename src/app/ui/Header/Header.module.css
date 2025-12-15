@@ -6,14 +6,13 @@
     position: relative;
     padding-top: 10px;
   
-    /* cosmic glow */
-    background:
-      radial-gradient(
-        900px 260px at 50% -40px,
-        rgba(1, 157, 137, 0.14),
-        transparent 60%
-      );
+    background: radial-gradient(
+      900px 260px at 50% -40px,
+      rgba(1, 157, 137, 0.14),
+      transparent 60%
+    );
   }
+  
   .sectionDivider {
     margin: 22px auto 0;
     width: min(520px, 92%);
@@ -21,14 +20,13 @@
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(0, 0, 0, 0.10),
+      rgba(0, 0, 0, 0.1),
       transparent
     );
   }
-    
   
   /* =========================
-     NAV – jedna linia
+     NAV
      ========================= */
   .nav {
     display: flex;
@@ -53,69 +51,94 @@
   }
   
   /* =========================
-     ICONS (right side)
+     ACTIONS (right side)
      ========================= */
   .boxIcons {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     flex-shrink: 0;
   }
   
-  /* Base (mobile) */
-  .icons {
-    width: 44px;
+  /* ✅ icon + label button */
+  .actionBtn {
     height: 44px;
+    padding: 0 12px;
   
-    display: grid;
-    place-items: center;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
   
-    border-radius: 12px;
-    background: transparent;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
   
-    font-size: 26px;
-    line-height: 1;
+    background: rgba(255, 255, 255, 0.62);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   
     cursor: pointer;
     user-select: none;
   
-    transition: background-color 0.12s ease, box-shadow 0.12s ease,
-      transform 0.12s ease;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
   }
   
-  .icons:hover {
-    background-color: rgba(0, 0, 0, 0.06);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  .actionBtn:hover {
     transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.1);
   }
   
-  .icons:active {
+  .actionBtn:active {
     transform: translateY(0);
     box-shadow: none;
   }
   
-  .icons:focus-visible {
+  .actionBtn:focus-visible {
     outline: 2px solid rgba(1, 157, 137, 0.6);
     outline-offset: 2px;
   }
   
-  /* Disabled state (np. wylogowywanie) */
-  .icons[aria-disabled="true"] {
-    opacity: 0.55;
-    pointer-events: none;
+  .actionBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .actionIcon {
+    width: 32px;
+    height: 32px;
+    border-radius: 12px;
+  
+    display: grid;
+    place-items: center;
+  
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+  
+    font-size: 20px;
+    line-height: 1;
+  }
+  
+  .actionText {
+    font-size: 0.92rem;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    color: rgba(0, 0, 0, 0.78);
+    white-space: nowrap;
   }
   
   /* =========================
-     ACCOUNT ROW (email + plan chip)
+     ACCOUNT ROW
      ========================= */
   .accountRow {
     margin-top: 14px;
     width: 100%;
   
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    gap: 10px;
+    gap: 12px;
   }
   
   .accountChip {
@@ -145,154 +168,123 @@
     word-break: break-word;
   }
   
-  /* plan chip */
-  .planChip {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+  /* =========================
+     ✅ STATUS CARD (plan + usage w jednym)
+     ========================= */
+  .statusCard {
+    width: min(340px, 100%);
+    padding: 12px 14px;
+    border-radius: 16px;
   
-    padding: 10px 12px;
-    border-radius: 999px;
-  
-    font-size: 0.95rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  
-    border: 1px solid transparent;
-    white-space: nowrap;
-  }
-  
-  .planFree {
-    background: rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+  
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.06);
+  }
+  
+  .statusPaid {
+    border-color: rgba(0, 191, 166, 0.2);
+  }
+  
+  .statusFree {
     border-color: rgba(0, 0, 0, 0.06);
   }
   
-  .planPaid {
+  /* top row */
+  .statusTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .statusTitle {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: rgba(0, 0, 0, 0.55);
+    letter-spacing: -0.01em;
+  }
+  
+  /* badge */
+  .statusBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  
+    padding: 6px 10px;
+    border-radius: 999px;
+  
+    font-size: 0.9rem;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+  
     background: rgba(0, 191, 166, 0.12);
-    border-color: rgba(0, 191, 166, 0.22);
+    border: 1px solid rgba(0, 191, 166, 0.18);
     color: #0f766e;
+    white-space: nowrap;
+  }
+  
+  .statusFree .statusBadge {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.06);
+    color: rgba(0, 0, 0, 0.72);
+  }
+  
+  /* middle row */
+  .statusMid {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .statusSub {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .statusValue {
+    font-size: 0.95rem;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+  }
+  
+  /* progress */
+  .statusBar {
+    height: 8px;
+    width: 100%;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
+  
+  .statusProgress {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #34d399, #10b981);
+    transition: width 0.25s ease;
+  }
+  
+  .statusEmpty {
+    background: linear-gradient(90deg, #f87171, #ef4444);
+  }
+  
+  /* hint when free */
+  .statusHint {
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.62);
+    line-height: 1.35;
   }
   
   /* =========================
-     ACTIONS BELOW NAV
+     CALLOUT (inactive plan)
      ========================= */
-  .boxActions {
-    margin-top: 1.25rem;
-    text-align: center;
-  }
-  
-  .levelAccount {
-    margin-bottom: 1rem;
-    text-transform: uppercase;
-    font-size: var(--font-size-m);
-    letter-spacing: 0.04em;
-  }
-  
-  .boxUsage {
-    margin: 0.75rem auto 0;
-    padding: 12px 22px;
-    width: fit-content;
-  
-    background-color: var(--color-bg-second);
-    border-radius: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-  }
-  
-  .text {
-    font-size: var(--font-size-base);
-    color: var(--color-text-main);
-  }
-  
-  /* Tekst dla konta darmowego (zamiast przycisku) */
-  .hint {
-    margin: 0.75rem auto 0;
-    max-width: 520px;
-  
-    font-size: var(--font-size-base);
-    color: rgba(0, 0, 0, 0.65);
-    line-height: 1.5;
-  }
-  
-  /* =========================
-     RESPONSIVE
-     ========================= */
-  @media (min-width: 768px) {
-    .logoHeader {
-      width: 64px;
-      height: 64px;
-    }
-  
-    .boxIcons {
-      gap: 14px;
-    }
-  
-    .icons {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
-      font-size: 30px;
-    }
-  
-    .boxActions {
-      margin-top: 1.5rem;
-    }
-  
-    .levelAccount {
-      font-size: var(--font-size-xl);
-    }
-  
-    .boxUsage {
-      padding: 18px 44px;
-    }
-  
-    .text,
-    .hint {
-      font-size: var(--font-size-m);
-    }
-  
-    .accountEmail,
-    .planChip {
-      font-size: 1rem;
-    }
-  }
-  
-  @media (min-width: 1200px) {
-    .logoHeader {
-      width: 72px;
-      height: 72px;
-    }
-  
-    .boxIcons {
-      gap: 16px;
-    }
-  
-    .icons {
-      width: 56px;
-      height: 56px;
-      border-radius: 16px;
-      font-size: 32px;
-    }
-  }
-  
-  @media (max-width: 520px) {
-    .accountRow {
-      flex-direction: column;
-      align-items: stretch;
-    }
-  
-    .accountChip,
-    .planChip {
-      justify-content: center;
-    }
-  }
-  
-
-  /* =========================
-   CALLOUT (inactive plan)
-   ========================= */
-   .callout {
+  .callout {
     margin: 18px auto 0;
     max-width: 860px;
     width: 100%;
@@ -313,62 +305,153 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
   }
   
-
-.calloutText {
-  text-align: left;
-}
-
-.calloutTitle {
-  margin: 0;
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  font-size: 1.02rem;
-}
-
-
-.calloutDesc {
-  margin: 4px 0 0;
-  color: rgba(0, 0, 0, 0.65);
-  line-height: 1.45;
-  font-size: var(--font-size-base);
-}
-
-.calloutBtn {
-  flex-shrink: 0;
-  padding: 10px 14px;
-  border-radius: 12px;
-
-  background: #019d89;
-  color: white;
-  text-decoration: none;
-  font-weight: 800;
-
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-}
-
-.calloutBtn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(1, 157, 137, 0.22);
-}
-
-.calloutBtn:active {
-  transform: translateY(0);
-  box-shadow: none;
-}
-
-@media (max-width: 520px) {
-  .callout {
-    flex-direction: column;
-    align-items: stretch;
-    text-align: center;
-  }
-
   .calloutText {
-    text-align: center;
+    text-align: left;
   }
-
+  
+  .calloutTitle {
+    margin: 0;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    font-size: 1.02rem;
+  }
+  
+  .calloutDesc {
+    margin: 4px 0 0;
+    color: rgba(0, 0, 0, 0.65);
+    line-height: 1.45;
+    font-size: var(--font-size-base);
+  }
+  
   .calloutBtn {
-    width: 100%;
-    text-align: center;
+    flex-shrink: 0;
+    padding: 10px 14px;
+    border-radius: 12px;
+  
+    background: #019d89;
+    color: white;
+    text-decoration: none;
+    font-weight: 800;
+  
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
   }
-}
+  
+  .calloutBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(1, 157, 137, 0.22);
+  }
+  
+  .calloutBtn:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+  
+  /* =========================
+     RESPONSIVE
+     ========================= */
+  @media (min-width: 768px) {
+    .logoHeader {
+      width: 64px;
+      height: 64px;
+    }
+  
+    .boxIcons {
+      gap: 12px;
+    }
+  
+    .actionBtn {
+      height: 52px;
+      padding: 0 14px;
+      border-radius: 16px;
+    }
+  
+    .actionIcon {
+      width: 36px;
+      height: 36px;
+      border-radius: 14px;
+      font-size: 22px;
+    }
+  
+    .actionText {
+      font-size: 0.95rem;
+    }
+  
+    .accountEmail {
+      font-size: 1rem;
+    }
+  
+    .statusCard {
+      padding: 14px 16px;
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    .logoHeader {
+      width: 72px;
+      height: 72px;
+    }
+  
+    .actionBtn {
+      height: 56px;
+      padding: 0 16px;
+      border-radius: 18px;
+    }
+  
+    .actionIcon {
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      font-size: 22px;
+    }
+  }
+  
+  /* Mobile: chowamy tekst i zostają „pigułki” z ikonami */
+  @media (max-width: 520px) {
+    .accountRow {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .accountChip {
+      justify-content: center;
+    }
+  
+    .statusCard {
+      width: 100%;
+    }
+  
+    .statusTop {
+      justify-content: center;
+    }
+  
+    .statusMid {
+      justify-content: space-between;
+    }
+  
+    .actionBtn {
+      width: 44px;
+      padding: 0;
+      justify-content: center;
+      border-radius: 14px;
+    }
+  
+    .actionText {
+      display: none;
+    }
+  
+    .callout {
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
+    }
+  
+    .calloutText {
+      text-align: center;
+    }
+  
+    .calloutBtn {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  
