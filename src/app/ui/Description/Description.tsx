@@ -1,37 +1,57 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./Description.module.css";
 import Title from "../../components/Title/Title";
-import {useDescription} from "../../context/DescriptionContext";
-import {toast} from "react-toastify";
-import {saveDescription} from "../../services/descriptionServices";
-import {useUser} from "../../hooks/useUser";
+import { useDescription } from "../../context/DescriptionContext";
+import { toast } from "react-toastify";
+import { saveDescription } from "../../services/descriptionServices";
+import { useUser } from "../../hooks/useUser";
 
 const Description = () => {
-  const {description, setDescription} = useDescription();
+  const { description, setDescription } = useDescription();
+
   const [copied, setCopied] = useState(false);
   const [saved, setSaved] = useState(false);
   const [cooldown, setCooldown] = useState(false);
-  const {mutate} = useUser();
+  const [isSaving, setIsSaving] = useState(false);
 
+  const isSavingRef = useRef(false); 
+  const resultRef = useRef<HTMLDivElement | null>(null);
+
+  const { mutate } = useUser();
+
+  // ✅ jak pojawi się NOWY opis (po generowaniu), resetuj flagi
   useEffect(() => {
-    if (description && resultRef.current) {
-      resultRef.current.scrollIntoView({behavior: "smooth"});
+    setSaved(false);
+    setCooldown(false);
+    setCopied(false);
+
+    if (description?.trim() && resultRef.current) {
+      resultRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [description]);
+
   const handleCopy = () => {
+    if (!description?.trim()) return;
     navigator.clipboard.writeText(description);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-  const resultRef = useRef<HTMLDivElement | null>(null);
 
   const addDescription = async () => {
+    // ✅ jeśli nie ma opisu lub już trwa zapis, to nic nie rób
+    if (!description?.trim()) return;
+    if (isSavingRef.current) return;
+
+    isSavingRef.current = true;
+    setIsSaving(true);
+
     try {
       await saveDescription(description);
+
       setSaved(true);
-      setDescription("");
+      setDescription(""); 
       mutate();
-      toast("Opis zapisany!");
+      toast.success("Opis zapisany!");
     } catch (err) {
       setCooldown(true);
       setTimeout(() => setCooldown(false), 4000);
@@ -39,49 +59,55 @@ const Description = () => {
       if (err instanceof Error) {
         switch (err.message) {
           case "Można zapisać maksymalnie 5 opisów":
-            toast(
-              "Osiągnięto limit zapisanych opisów. Usuń jeden z zapisanych opisów, aby dodać nowy."
+            toast.info(
+              "Osiągnięto limit 5 opisów. Usuń jeden z zapisanych opisów, aby dodać nowy."
             );
             break;
           default:
-            toast.error(
-              "Nie udało się zapisać opisu. Spróbuj ponownie później."
-            );
+            toast.error("Nie udało się zapisać opisu. Spróbuj ponownie później.");
         }
       } else {
         toast.error("Wystąpił nieznany błąd.");
       }
+
+      // ✅ przy błędzie pozwól kliknąć ponownie
+      isSavingRef.current = false;
+    } finally {
+      setIsSaving(false);
+      // ⚠️ przy sukcesie component znika (bo setDescription("")),
+      // więc ref i tak „umiera”. Ale zostawiamy to bezpiecznie:
     }
   };
+
+  const saveDisabled = saved || cooldown || isSaving;
 
   return (
     <section className={`section container`} ref={resultRef}>
       <Title>Wygenerowany opis:</Title>
+
       <div className={styles.boxDescription}>
-        <textarea
-          readOnly
-          value={description}
-          rows={5}
-          className={styles.result}
-        />
+        <textarea readOnly value={description} rows={5} className={styles.result} />
       </div>
+
       <div className={styles.boxBtn}>
         <button
           className={styles.actionButton}
           onClick={handleCopy}
           aria-label="Skopiuj opis"
           title="Skopiuj opis"
+          disabled={!description?.trim()}
         >
           {copied ? "Skopiowano!" : "📋 Kopiuj"}
         </button>
+
         <button
           className={styles.actionButton}
           onClick={addDescription}
-          disabled={saved || cooldown}
+          disabled={saveDisabled}
           aria-label="Zapisz opis"
           title="Zapisz opis"
         >
-          {saved ? "Zapisano!" : "📂 Zapisz"}
+          {isSaving ? "Zapisywanie..." : saved ? "Zapisano!" : "📂 Zapisz"}
         </button>
       </div>
     </section>
