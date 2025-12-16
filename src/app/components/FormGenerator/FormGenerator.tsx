@@ -25,8 +25,6 @@ const FormGenerator = () => {
     }: {setSubmitting: (v: boolean) => void; resetForm: () => void}
   ) => {
     try {
-      console.log("Kliknięto generuj - teraz sprawdz konsole backend");
-      
       const data = await generateDescription(values);
       setDescription(data.description);
       mutate();
