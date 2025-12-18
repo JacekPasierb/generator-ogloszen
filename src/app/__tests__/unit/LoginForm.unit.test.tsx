@@ -1,6 +1,5 @@
-import {render, screen} from "@testing-library/react";
+import {fireEvent, render, screen, waitFor} from "@testing-library/react";
 import LoginForm from "../../components/LoginForm/LoginForm";
-import userEvent from "@testing-library/user-event";
 
 const pushMock = jest.fn();
 
@@ -16,6 +15,15 @@ jest.mock("next/navigation", () => ({
 jest.mock("../../services/authService", () => ({
   loginUser: jest.fn(),
 }));
+
+jest.mock("../../hooks/useUser", () => ({
+  useUser: () => ({
+    user: null,
+    loading: false,
+    mutate: jest.fn().mockResolvedValue(undefined),
+  }),
+}));
+
 
 describe("LoginForm component", () => {
   describe("rendering", () => {
@@ -35,24 +43,21 @@ describe("LoginForm component", () => {
       render(<LoginForm />);
       const emailInput = screen.getByPlaceholderText(/email/i);
 
-      await userEvent.click(emailInput);
-      await userEvent.tab();
+      fireEvent.blur(emailInput);
 
-      expect(
-        await screen.findByText("Email jest wymagany")
-      ).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByText(/email jest wymagany/i)).toBeInTheDocument();
+      });
     });
 
     it('should show "Hasło jest wymagane" when password input is blurred without value', async () => {
       render(<LoginForm />);
       const passwordInput = screen.getByPlaceholderText(/hasło/i);
 
-      await userEvent.click(passwordInput);
-      await userEvent.tab();
-
-      expect(
-        await screen.findByText("Hasło jest wymagane")
-      ).toBeInTheDocument();
+      fireEvent.blur(passwordInput);
+      await waitFor(() => {
+        expect(screen.getByText(/hasło jest wymagan/i)).toBeInTheDocument();
+      });
     });
   });
 });

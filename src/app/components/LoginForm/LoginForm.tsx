@@ -59,8 +59,7 @@ const LoginForm = () => {
       setIsRedirecting(true);
       await loginUser(values);
       await mutate();
-      // toast.success("Zalogowano pomyślnie");
-      // resetForm();
+    
       router.replace("/dashboard");
     } catch (err) {
       setIsRedirecting(false);
