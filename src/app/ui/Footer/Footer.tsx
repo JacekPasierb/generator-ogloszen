@@ -23,6 +23,15 @@ const Footer = () => {
           <Link href="/updates" className={styles.link}>
             Co nowego
           </Link>
+          {/* 🔵 Facebook fanpage */}
+          <a
+            href="https://www.facebook.com/generatorogloszenpl/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.link}
+          >
+            Facebook
+          </a>
         </div>
 
         <p className={styles.version}>v{APP_VERSION}</p>

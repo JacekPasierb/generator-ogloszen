@@ -27,6 +27,14 @@
   color: #019d89;
 }
 
+.link[href*="facebook"] {
+  color: #1877f2;
+}
+
+.link[href*="facebook"]:hover {
+  color: #0f50a6;
+}
+
 .version {
   margin-top: 6px;
   font-size: 12px;
