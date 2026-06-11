@@ -17,7 +17,11 @@ export const generateDescription = async (input: string): Promise<string> => {
       throw handleError(500, "Brak odpowiedzi z OpenAI");
     }
     return description;
-  } catch {
-    throw handleError(500, "Błąd podczas generowania opisu");
+    // } catch {
+    //   throw handleError(500, "Błąd podczas generowania opisu");
+    // }
+  } catch (error) {
+    console.error("OPENAI ERROR:", error);
+    throw error;
   }
 };
