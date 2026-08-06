@@ -28,6 +28,7 @@ const DashboardPage = () => {
   if (user === undefined) return <Loading label="Sprawdzam sesję..." />;
   if (user === null) return <Loading label="Przekierowuję..." />;
 
+  
   return (
     <>
       <SessionHandler />
