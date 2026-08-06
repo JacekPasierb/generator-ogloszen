@@ -1,6 +1,7 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Description.module.css";
-import Title from "../../components/Title/Title";
 import { useDescription } from "../../context/DescriptionContext";
 import { toast } from "react-toastify";
 import { saveDescription } from "../../services/descriptionServices";
@@ -14,20 +15,27 @@ const Description = () => {
   const [cooldown, setCooldown] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  const isSavingRef = useRef(false); 
+  const isSavingRef = useRef(false);
   const resultRef = useRef<HTMLDivElement | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const { mutate } = useUser();
 
-  // ✅ jak pojawi się NOWY opis (po generowaniu), resetuj flagi
   useEffect(() => {
     setSaved(false);
     setCooldown(false);
     setCopied(false);
 
     if (description?.trim() && resultRef.current) {
-      resultRef.current.scrollIntoView({ behavior: "smooth" });
+      resultRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
+  }, [description]);
+
+  useEffect(() => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${Math.max(el.scrollHeight, 120)}px`;
   }, [description]);
 
   const handleCopy = () => {
@@ -38,7 +46,6 @@ const Description = () => {
   };
 
   const addDescription = async () => {
-    // ✅ jeśli nie ma opisu lub już trwa zapis, to nic nie rób
     if (!description?.trim()) return;
     if (isSavingRef.current) return;
 
@@ -49,7 +56,7 @@ const Description = () => {
       await saveDescription(description);
 
       setSaved(true);
-      setDescription(""); 
+      setDescription("");
       mutate();
       toast.success("Opis zapisany!");
     } catch (err) {
@@ -64,64 +71,75 @@ const Description = () => {
             );
             break;
           default:
-            toast.error("Nie udało się zapisać opisu. Spróbuj ponownie później.");
+            toast.error(
+              "Nie udało się zapisać opisu. Spróbuj ponownie później."
+            );
         }
       } else {
         toast.error("Wystąpił nieznany błąd.");
       }
 
-      // ✅ przy błędzie pozwól kliknąć ponownie
       isSavingRef.current = false;
     } finally {
       setIsSaving(false);
-      // ⚠️ przy sukcesie component znika (bo setDescription("")),
-      // więc ref i tak „umiera”. Ale zostawiamy to bezpiecznie:
     }
   };
 
   const saveDisabled = saved || cooldown || isSaving;
 
   return (
-    <section className={`section container`} ref={resultRef}>
-      <Title>Wygenerowany opis:</Title>
-
-      {title && (
-        <div className={styles.boxMeta}>
-          <span className={styles.metaLabel}>Tytuł:</span>
-          <p className={styles.metaValue}>{title}</p>
+    <section className={`container ${styles.section}`} ref={resultRef}>
+      <div className={styles.panel}>
+        <div className={styles.panelTop}>
+          <span className={styles.eyebrow}>Wynik</span>
+          <h2 className={styles.title}>Wygenerowany opis</h2>
         </div>
-      )}
-      {short && (
-        <div className={styles.boxMeta}>
-          <span className={styles.metaLabel}>Krótko (do 160 znaków):</span>
-          <p className={styles.metaValue}>{short}</p>
+
+        {title && (
+          <div className={styles.boxMeta}>
+            <span className={styles.metaLabel}>Tytuł</span>
+            <p className={styles.metaValue}>{title}</p>
+          </div>
+        )}
+        {short && (
+          <div className={styles.boxMeta}>
+            <span className={styles.metaLabel}>Krótko (do 160 znaków)</span>
+            <p className={styles.metaValue}>{short}</p>
+          </div>
+        )}
+
+        <div className={styles.boxDescription}>
+          <textarea
+            ref={textareaRef}
+            readOnly
+            value={description}
+            rows={3}
+            className={styles.result}
+            aria-label="Wygenerowany opis"
+          />
         </div>
-      )}
 
-      <div className={styles.boxDescription}>
-        <textarea readOnly value={description} rows={6} className={styles.result} />
-      </div>
+        <div className={styles.boxBtn}>
+          <button
+            type="button"
+            className={`${styles.actionButton} ${styles.btnPrimary}`}
+            onClick={handleCopy}
+            aria-label="Skopiuj opis"
+            disabled={!description?.trim()}
+          >
+            {copied ? "Skopiowano" : "Kopiuj"}
+          </button>
 
-      <div className={styles.boxBtn}>
-        <button
-          className={styles.actionButton}
-          onClick={handleCopy}
-          aria-label="Skopiuj opis"
-          title="Skopiuj opis"
-          disabled={!description?.trim()}
-        >
-          {copied ? "Skopiowano!" : "📋 Kopiuj"}
-        </button>
-
-        <button
-          className={styles.actionButton}
-          onClick={addDescription}
-          disabled={saveDisabled}
-          aria-label="Zapisz opis"
-          title="Zapisz opis"
-        >
-          {isSaving ? "Zapisywanie..." : saved ? "Zapisano!" : "📂 Zapisz"}
-        </button>
+          <button
+            type="button"
+            className={styles.actionButton}
+            onClick={addDescription}
+            disabled={saveDisabled}
+            aria-label="Zapisz opis"
+          >
+            {isSaving ? "Zapisywanie…" : saved ? "Zapisano" : "Zapisz"}
+          </button>
+        </div>
       </div>
     </section>
   );
