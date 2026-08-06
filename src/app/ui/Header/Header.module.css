@@ -158,6 +158,12 @@
   background: rgba(0, 0, 0, 0.04);
 }
 
+.navBtnActive {
+  color: var(--neutral-900);
+  background: rgba(0, 0, 0, 0.06);
+  font-weight: 600;
+}
+
 .emailChip {
   display: none;
   align-items: center;

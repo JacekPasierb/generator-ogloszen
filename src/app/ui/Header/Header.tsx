@@ -8,7 +8,7 @@ import { MeResponse, useUser } from "../../hooks/useUser";
 import ModalDescriptions from "../../components/ModalDescription/ModalDescription";
 import { fetchDescription } from "../../services/descriptionServices";
 import { logoutUser } from "../../services/authService";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export interface SavedDescription {
   text: string;
@@ -36,7 +36,10 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const router = useRouter();
+  const pathname = usePathname();
   const isLoadingUser = user === undefined;
+  const isGenerator = pathname === "/dashboard";
+  const isBilling = pathname?.startsWith("/dashboard/billing");
 
   const fetchSavedDescriptions = async () => {
     try {
@@ -144,6 +147,15 @@ const Header = () => {
             </div>
           )}
 
+          <Link
+            href="/dashboard"
+            className={`${styles.navBtn} ${isGenerator ? styles.navBtnActive : ""}`}
+            onClick={() => setMenuOpen(false)}
+            aria-current={isGenerator ? "page" : undefined}
+          >
+            Generator
+          </Link>
+
           <button
             type="button"
             onClick={handleOpenModal}
@@ -154,8 +166,9 @@ const Header = () => {
 
           <Link
             href="/dashboard/billing"
-            className={styles.navBtn}
+            className={`${styles.navBtn} ${isBilling ? styles.navBtnActive : ""}`}
             onClick={() => setMenuOpen(false)}
+            aria-current={isBilling ? "page" : undefined}
           >
             Konto
           </Link>
