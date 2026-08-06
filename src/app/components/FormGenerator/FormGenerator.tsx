@@ -1,3 +1,5 @@
+"use client";
+
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React from "react";
 import styles from "./FormGenerator.module.css";
@@ -7,7 +9,7 @@ import { toast } from "react-toastify";
 import { useDescription } from "../../context/DescriptionContext";
 import { useUser } from "../../hooks/useUser";
 import { generateDescription } from "../../services/aiService";
-import { templates } from "../../data/templates";
+import { getTemplateById, templates } from "../../data/templates";
 
 const MAX_INPUT = 500;
 const OLX_HINT_CHARS = 750;
@@ -80,56 +82,112 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
       validationSchema={generateDescriptionSchema}
       onSubmit={handleSubmit}
     >
-      {({ values, isSubmitting }) => (
-        <Form className={styles.form}>
-          <div className={styles.fieldGroup}>
-            <label className={styles.label} htmlFor="template">
-              Szablon
+      {({ values, isSubmitting, setFieldValue }) => {
+        const activeTemplate = getTemplateById(values.templateId);
+
+        return (
+          <Form className={styles.form}>
+            <div className={styles.section}>
+              <div className={styles.sectionHead}>
+                <label className={styles.label} id="template-label">
+                  Szablon branży
+                </label>
+                {activeTemplate.hint && (
+                  <p className={styles.hint}>{activeTemplate.hint}</p>
+                )}
+              </div>
+
+              <div
+                className={styles.chipRow}
+                role="radiogroup"
+                aria-labelledby="template-label"
+              >
+                {templates.map((t) => {
+                  const selected = values.templateId === t.id;
+                  return (
+                    <button
+                      key={t.id}
+                      type="button"
+                      role="radio"
+                      aria-checked={selected}
+                      className={`${styles.chip} ${
+                        selected ? styles.chipActive : ""
+                      }`}
+                      onClick={() => setFieldValue("templateId", t.id)}
+                    >
+                      {t.name}
+                    </button>
+                  );
+                })}
+              </div>
+              <Field type="hidden" name="templateId" />
+            </div>
+
+            <div className={styles.section}>
+              <label className={styles.label} htmlFor="generator-input">
+                Słowa kluczowe i cechy oferty
+              </label>
+
+              <div className={styles.composer}>
+                <Field
+                  as="textarea"
+                  id="generator-input"
+                  name="input"
+                  placeholder="np. iPhone 13, 128 GB, bateria 89%, pudełko, faktura VAT, Warszawa…"
+                  aria-label="Pole do wpisania słów kluczowych ogłoszenia"
+                  rows={6}
+                  maxLength={MAX_INPUT}
+                  className={styles.textarea}
+                />
+
+                <div className={styles.composerFooter}>
+                  <p className={styles.olxHint}>
+                    Idealny opis pod OLX / Marketplace · do ~{OLX_HINT_CHARS}{" "}
+                    znaków
+                  </p>
+                  <p
+                    className={styles.charCounter}
+                    data-near={
+                      values.input.length > MAX_INPUT * 0.9 ? "true" : "false"
+                    }
+                  >
+                    {values.input.length}/{MAX_INPUT}
+                  </p>
+                </div>
+              </div>
+
+              <div className={styles.errorContainer}>
+                <ErrorMessage
+                  name="input"
+                  component="div"
+                  className={styles.errorMessage}
+                />
+              </div>
+            </div>
+
+            <label className={styles.optionRow}>
+              <span className={styles.optionText}>
+                <span className={styles.optionTitle}>Pełny pakiet treści</span>
+                <span className={styles.optionDesc}>
+                  Tytuł + wersja krótka i długa · 1 kredyt
+                </span>
+              </span>
+              <span className={styles.switch}>
+                <Field
+                  type="checkbox"
+                  name="fullVersion"
+                  className={styles.switchInput}
+                />
+                <span className={styles.switchTrack} aria-hidden />
+              </span>
             </label>
-            <Field as="select" name="templateId" id="template" className={styles.select}>
-              {templates.map((t) => (
-                <option key={t.id} value={t.id}>
-                  {t.name}
-                </option>
-              ))}
-            </Field>
-          </div>
 
-          <div className={styles.boxInput}>
-            <Field
-              as="textarea"
-              name="input"
-              placeholder="Opisz, co chcesz sprzedać lub zaoferować..."
-              aria-label="Pole do wpisania opisu ogłoszenia"
-              rows={5}
-              maxLength={MAX_INPUT}
-              className={styles.textarea}
-            />
-            <p className={styles.charCounter}>
-              {values.input.length}/{MAX_INPUT}
-            </p>
-            <p className={styles.olxHint}>
-              Po wygenerowaniu: opis do ~{OLX_HINT_CHARS} znaków idealny pod OLX / Facebook.
-            </p>
-          </div>
-          <div className={styles.errorContainer}>
-            <ErrorMessage
-              name="input"
-              component="div"
-              className={styles.errorMessage}
-            />
-          </div>
-
-          <div className={styles.fieldGroup}>
-            <label className={styles.checkboxLabel}>
-              <Field type="checkbox" name="fullVersion" />
-              <span>Tytuł + wersja krótka i długa (1 kredyt)</span>
-            </label>
-          </div>
-
-          <BtnAuth isSubmitting={isSubmitting}>Generuj opis AI</BtnAuth>
-        </Form>
-      )}
+            <div className={styles.submitRow}>
+              <BtnAuth isSubmitting={isSubmitting}>Generuj opis</BtnAuth>
+            </div>
+          </Form>
+        );
+      }}
     </Formik>
   );
 };
