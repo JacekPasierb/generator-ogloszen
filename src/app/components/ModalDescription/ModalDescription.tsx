@@ -1,15 +1,28 @@
-import React, {useEffect, useState} from "react";
+"use client";
+
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./ModalDescription.module.css";
-import {SavedDescription} from "../../ui/Header/Header";
-import {deleteDescription} from "../../services/descriptionServices";
-import {toast} from "react-toastify";
-import Pagination from "../Pagination/Pagination";
+import { SavedDescription } from "../../ui/Header/Header";
+import { deleteDescription } from "../../services/descriptionServices";
+import { toast } from "react-toastify";
 
 interface ModalProps {
   title: string;
   data: SavedDescription[];
   onClose: () => void;
   onDelete: (id: string) => void;
+}
+
+function formatSavedDate(raw: string): string {
+  const d = new Date(raw);
+  if (Number.isNaN(d.getTime())) return raw;
+  return d.toLocaleString("pl-PL", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }
 
 const ModalDescriptions: React.FC<ModalProps> = ({
@@ -21,13 +34,38 @@ const ModalDescriptions: React.FC<ModalProps> = ({
   const [currentPage, setCurrentPage] = useState(0);
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   const currentDescription = data[currentPage];
+  const hasItems = data.length > 0;
+
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (!hasItems) return;
+      if (e.key === "ArrowLeft" && currentPage > 0) {
+        setCurrentPage((p) => p - 1);
+      }
+      if (e.key === "ArrowRight" && currentPage < data.length - 1) {
+        setCurrentPage((p) => p + 1);
+      }
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+  }, [onClose, hasItems, currentPage, data.length]);
+
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeRef.current?.focus();
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, []);
+
+  useEffect(() => {
+    setCopied(false);
+  }, [currentPage]);
 
   const onPrev = () => {
     if (currentPage > 0) setCurrentPage((prev) => prev - 1);
@@ -37,11 +75,15 @@ const ModalDescriptions: React.FC<ModalProps> = ({
     if (currentPage < data.length - 1) setCurrentPage((prev) => prev + 1);
   };
 
-  const handleCopy = () => {
+  const handleCopy = async () => {
     if (!currentDescription?.text) return;
-    navigator.clipboard.writeText(currentDescription.text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(currentDescription.text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast.error("Nie udało się skopiować.");
+    }
   };
 
   const handleDelete = async () => {
@@ -50,10 +92,8 @@ const ModalDescriptions: React.FC<ModalProps> = ({
     setLoading(true);
     try {
       await deleteDescription(currentDescription._id);
-      toast("Opis został usunięty!");
+      toast.success("Opis został usunięty");
       onDelete(currentDescription._id);
-
-      // cofamy stronę gdy usunięto ostatni element
       setCurrentPage((prev) => Math.max(0, Math.min(prev, data.length - 2)));
     } catch (err) {
       console.error("Błąd:", err);
@@ -68,18 +108,27 @@ const ModalDescriptions: React.FC<ModalProps> = ({
       className={styles.overlay}
       role="dialog"
       aria-modal="true"
-      aria-label={title}
+      aria-labelledby="saved-modal-title"
       onClick={onClose}
     >
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <div className={styles.header}>
+        <header className={styles.header}>
           <div className={styles.headerLeft}>
-            <h2 className={styles.title}>{title}</h2>
+            <p className={styles.eyebrow}>Biblioteka</p>
+            <h2 id="saved-modal-title" className={styles.title}>
+              {title}
+            </h2>
             <p className={styles.meta}>
-              {data.length > 0 ? (
+              {hasItems ? (
                 <>
-                  <span className={styles.metaDot} aria-hidden />{" "}
-                  {currentPage + 1} / {data.length}
+                  <span className={styles.countPill}>
+                    {currentPage + 1} / {data.length}
+                  </span>
+                  {currentDescription?.date && (
+                    <span className={styles.date}>
+                      {formatSavedDate(currentDescription.date)}
+                    </span>
+                  )}
                 </>
               ) : (
                 "Brak zapisanych opisów"
@@ -88,71 +137,84 @@ const ModalDescriptions: React.FC<ModalProps> = ({
           </div>
 
           <button
+            ref={closeRef}
             type="button"
             onClick={onClose}
             className={styles.closeButton}
             aria-label="Zamknij"
-            title="Zamknij"
           >
-            ✕
+            <span aria-hidden className={styles.closeIcon} />
           </button>
-        </div>
+        </header>
 
-        {data.length > 0 ? (
-          <div className={styles.content}>
-            <div className={styles.textCard}>
+        {hasItems ? (
+          <div className={styles.body}>
+            <div className={styles.preview}>
               <textarea
                 readOnly
                 value={currentDescription.text}
                 className={styles.result}
+                aria-label="Zapisany opis"
               />
             </div>
 
-            <div className={styles.actions}>
-              <button
-                type="button"
-                className={`${styles.btn} ${styles.btnGhost}`}
-                onClick={handleCopy}
-                aria-label="Kopiuj opis"
-                title="Kopiuj opis"
-              >
-                {copied ? "✅ Skopiowano" : "📋 Kopiuj"}
-              </button>
+            <div className={styles.toolbar}>
+              <div className={styles.nav}>
+                <button
+                  type="button"
+                  className={styles.navBtn}
+                  onClick={onPrev}
+                  disabled={currentPage === 0}
+                  aria-label="Poprzedni opis"
+                >
+                  Poprzedni
+                </button>
+                <button
+                  type="button"
+                  className={styles.navBtn}
+                  onClick={onNext}
+                  disabled={currentPage === data.length - 1}
+                  aria-label="Następny opis"
+                >
+                  Następny
+                </button>
+              </div>
 
-              <button
-                type="button"
-                className={`${styles.btn} ${styles.btnDanger}`}
-                onClick={handleDelete}
-                disabled={loading}
-                aria-label="Usuń opis"
-                title="Usuń opis"
-              >
-                {loading ? "Usuwanie..." : "🗑️ Usuń"}
-              </button>
-            </div>
-
-            <div className={styles.paginationWrap}>
-              <Pagination
-                handleNext={onNext}
-                handlePrevious={onPrev}
-                currentPage={currentPage}
-                total={data.length}
-              />
+              <div className={styles.actions}>
+                <button
+                  type="button"
+                  className={`${styles.btn} ${styles.btnCopy} ${
+                    copied ? styles.btnCopied : ""
+                  }`}
+                  onClick={handleCopy}
+                >
+                  {copied ? "Skopiowano" : "Kopiuj"}
+                </button>
+                <button
+                  type="button"
+                  className={`${styles.btn} ${styles.btnDanger}`}
+                  onClick={handleDelete}
+                  disabled={loading}
+                >
+                  {loading ? "Usuwanie…" : "Usuń"}
+                </button>
+              </div>
             </div>
           </div>
         ) : (
           <div className={styles.empty}>
-            <div className={styles.emptyIcon}>📓</div>
-            <p className={styles.emptyTitle}>Brak zapisanych opisów</p>
+            <span className={styles.emptyMark} aria-hidden />
+            <p className={styles.emptyTitle}>Jeszcze nic tu nie ma</p>
             <p className={styles.emptyDesc}>
-              Wygeneruj opis i kliknij „Zapisz”, a potem wróć tutaj.
+              Wygeneruj opis ze słów kluczowych i kliknij „Zapisz” — wrócisz do
+              niego w każdej chwili.
             </p>
             <button
               type="button"
               className={`${styles.btn} ${styles.btnPrimary}`}
               onClick={onClose}
             >
-              OK
+              Wróć do generatora
             </button>
           </div>
         )}
