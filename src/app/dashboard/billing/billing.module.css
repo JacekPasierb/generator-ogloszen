@@ -1,0 +1,118 @@
+.main {
+  padding-top: 24px;
+  padding-bottom: 48px;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--neutral-900);
+  margin-bottom: 24px;
+}
+
+.card {
+  max-width: 520px;
+  padding: 24px;
+  margin-bottom: 20px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-bg-elevated);
+  box-shadow: var(--shadow-sm);
+}
+
+.cardTitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+}
+
+.planName {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--neutral-900);
+  margin: 0 0 8px;
+}
+
+.planHint,
+.usage {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  transition: background var(--duration-normal) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+  box-shadow: 0 4px 14px rgba(20, 184, 166, 0.35);
+}
+
+.cta:hover {
+  background: var(--color-accent-hover);
+  transform: translateY(-1px);
+}
+
+.muted {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.eventList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.eventItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border-subtle);
+  font-size: 0.875rem;
+}
+
+.eventItem:last-child {
+  border-bottom: none;
+}
+
+.eventType {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.eventTime {
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+}
+
+.back {
+  margin-top: 32px;
+}
+
+.back a {
+  color: var(--color-accent);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.back a:hover {
+  color: var(--color-accent-hover);
+}

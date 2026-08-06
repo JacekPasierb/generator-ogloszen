@@ -1,27 +1,99 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
+import Link from "next/link";
 import styles from "./ExGenerator.module.css";
-import Title from "../../components/Title/Title";
-import SubTitle from "../../components/SubTitle/SubTitle";
-import {examples} from "../../data/exGenerators";
-import CardGenerator from "../../components/CardGenerator/CardGenerator";
+import { examples } from "../../data/exGenerators";
 
 const ExGenerator = () => {
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+
+  const handleCopy = async (text: string, index: number) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 1800);
+    } catch {
+      // ignore
+    }
+  };
+
   return (
-    <section className={`section container`}>
-      <div>
-        <Title> Jak może wyglądać Twój opis ?</Title>
-        <SubTitle>
-        Zobacz, jak wyglądają przykładowe opisy tworzone przez AI — krótkie, konkretne i skuteczne.
-        </SubTitle>
-      </div>
-      <div className={styles.cardsWrapper}>
-        {examples.length === 0 ? (
-          <p>Brak przykładów do wyświetlenia.</p>
-        ) : (
-          examples.map((ex, index) => (
-            <CardGenerator key={index} example={ex} />
-          ))
-        )}
+    <section
+      id="examples"
+      className={styles.section}
+      aria-labelledby="examples-heading"
+    >
+      <div className={styles.inner}>
+        <header className={styles.header}>
+          <p className={styles.eyebrow}>Przykłady</p>
+          <h2 id="examples-heading" className={styles.headline}>
+            Z kilku słów.
+            <br />
+            <span className={styles.headlineAccent}>Pełny opis sprzedaży.</span>
+          </h2>
+          <p className={styles.support}>
+            Tak działa Generator Ogłoszeń: wpisujesz fakty o ofercie, a AI
+            składa tekst gotowy do OLX, Vinted czy Marketplace.
+          </p>
+        </header>
+
+        <div className={styles.list}>
+          {examples.map((ex, index) => (
+            <article key={ex.title} className={styles.item}>
+              <div className={styles.itemMeta}>
+                <span className={styles.category}>{ex.category}</span>
+                <span className={styles.index}>
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+              </div>
+
+              <div className={styles.planes}>
+                <div className={styles.planeIn}>
+                  <p className={styles.planeLabel}>Słowa kluczowe</p>
+                  <p className={styles.keywords}>{ex.keywords}</p>
+                </div>
+
+                <div className={styles.arrow} aria-hidden>
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path
+                      d="M4 10h12M12 6l4 4-4 4"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+
+                <div className={styles.planeOut}>
+                  <div className={styles.planeOutHead}>
+                    <p className={styles.planeLabel}>Opis sprzedażowy</p>
+                    <button
+                      type="button"
+                      className={styles.copyBtn}
+                      onClick={() => handleCopy(ex.desc, index)}
+                      aria-label={`Kopiuj opis: ${ex.title}`}
+                    >
+                      {copiedIndex === index ? "Skopiowano" : "Kopiuj"}
+                    </button>
+                  </div>
+                  <h3 className={styles.itemTitle}>{ex.title}</h3>
+                  <p className={styles.desc}>{ex.desc}</p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className={styles.footer}>
+          <p className={styles.footerText}>
+            Twój produkt. Twoje słowa. Gotowy opis w kilka sekund.
+          </p>
+          <Link href="/register" className={styles.cta}>
+            Wygeneruj swój opis
+          </Link>
+        </div>
       </div>
     </section>
   );

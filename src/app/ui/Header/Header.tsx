@@ -1,11 +1,12 @@
 import Image from "next/image";
-import React, {useState} from "react";
+import Link from "next/link";
+import React, { useState } from "react";
 import styles from "./Header.module.css";
-import {MeResponse, useUser} from "../../hooks/useUser";
+import { MeResponse, useUser } from "../../hooks/useUser";
 import ModalDescriptions from "../../components/ModalDescription/ModalDescription";
-import {fetchDescription} from "../../services/descriptionServices";
-import {logoutUser} from "../../services/authService";
-import {useRouter} from "next/navigation";
+import { fetchDescription } from "../../services/descriptionServices";
+import { logoutUser } from "../../services/authService";
+import { useRouter } from "next/navigation";
 
 export interface SavedDescription {
   text: string;
@@ -95,6 +96,11 @@ const Header = () => {
     </span>
     <span className={styles.actionText}>Zapisane</span>
   </button>
+
+  <Link href="/dashboard/billing" className={styles.actionBtn} title="Konto i płatności">
+    <span className={styles.actionIcon} aria-hidden>💳</span>
+    <span className={styles.actionText}>Konto</span>
+  </Link>
 
   <button
     type="button"

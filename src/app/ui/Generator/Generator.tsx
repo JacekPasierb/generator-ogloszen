@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Generator.module.css";
 import Title from "../../components/Title/Title";
 import FormGenerator from "../../components/FormGenerator/FormGenerator";
 import { useUser } from "../../hooks/useUser";
 import CardProduct from "../../components/CardProduct/CardProduct";
+import PaywallModal from "../../components/PaywallModal/PaywallModal";
 import { resetPlan } from "../../services/planService";
 
 
 const Generator = () => {
-  const { isPaid, aiLeft, mutate } = useUser();
+  const { isPaid, aiLeft, trialCredits, totalCredits, mutate } = useUser();
   const [isRenewing, setIsRenewing] = useState(false);
+  const [showPaywall, setShowPaywall] = useState(false);
+
+  // Pokaż paywall jeśli użytkownik próbuje wygenerować bez kredytów
+  useEffect(() => {
+    if (totalCredits === 0 && !isPaid) {
+      // Paywall pokaże się automatycznie przy próbie generowania
+    }
+  }, [totalCredits, isPaid]);
 
   const handleRenew = async () => {
     if (isRenewing) return;
@@ -26,7 +35,30 @@ const Generator = () => {
     }
   };
 
+  const handleSelectPlan = async (planId: string) => {
+    try {
+      const res = await fetch("/api/checkout-sessions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ planId }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.url) {
+        throw new Error(data.error || "Nie udało się rozpocząć płatności");
+      }
+
+      window.location.href = data.url;
+    } catch (err) {
+      console.error(err);
+      alert("Błąd płatności. Spróbuj ponownie.");
+    }
+  };
+
   const isExhausted = isPaid && aiLeft <= 0;
+  const hasAnyCredits = totalCredits > 0;
+  const canGenerate = hasAnyCredits || isPaid;
 
   return (
     <section
@@ -37,10 +69,10 @@ const Generator = () => {
       {/* HEADING */}
       <div className={styles.heading}>
         <Title>
-          {!isPaid ? "Generator opisów AI" : "Stwórz opis AI"}
+          {!canGenerate ? "Generator opisów AI" : "Stwórz opis AI"}
         </Title>
 
-        {isPaid && !isExhausted && (
+        {canGenerate && !isExhausted && (
           <p className={styles.subTitle}>
             Wpisz kilka informacji — dostaniesz gotowy opis sprzedażowy.
           </p>
@@ -51,10 +83,26 @@ const Generator = () => {
             Twój pakiet został wykorzystany. Możesz odnowić dostęp i wybrać kolejny pakiet.
           </p>
         )}
+
+        {/* Liczniki kredytów */}
+        {hasAnyCredits && (
+          <div className={styles.creditsInfo}>
+            {trialCredits > 0 && (
+              <span className={styles.creditBadge} data-type="trial">
+                🎁 {trialCredits} {trialCredits === 1 ? "kredyt testowy" : "kredyty testowe"}
+              </span>
+            )}
+            {aiLeft > 0 && (
+              <span className={styles.creditBadge} data-type="paid">
+                💎 {aiLeft} {aiLeft === 1 ? "kredyt" : "kredytów"} płatnych
+              </span>
+            )}
+          </div>
+        )}
       </div>
 
       {/* STANY */}
-      {isPaid ? (
+      {canGenerate ? (
         isExhausted ? (
           <div className={styles.exhaustedBox}>
             <div className={styles.exhaustedIcon}>⚡</div>
@@ -73,8 +121,10 @@ const Generator = () => {
             </button>
           </div>
         ) : (
-          <div className={styles.proCard} data-plan="pro">
-            <FormGenerator />
+          <div className={styles.proCard} data-plan={isPaid ? "pro" : "free"}>
+            <FormGenerator 
+              onNoCredits={() => setShowPaywall(true)}
+            />
           </div>
         )
       ) : (
@@ -99,6 +149,14 @@ const Generator = () => {
             <CardProduct mode="dashboard" />
           </div>
         </>
+      )}
+
+      {/* Paywall Modal */}
+      {showPaywall && (
+        <PaywallModal
+          onClose={() => setShowPaywall(false)}
+          onSelectPlan={handleSelectPlan}
+        />
       )}
     </section>
   );

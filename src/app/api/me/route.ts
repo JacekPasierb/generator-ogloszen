@@ -15,7 +15,7 @@ export const GET = async () => {
     const userId = getUserIdFromToken(token);
     await connectMongo();
 
-    const user = await User.findById(userId).select("email plan aiUsed aiLimit");
+    const user = await User.findById(userId).select("email plan aiUsed aiLimit trialCredits");
     if (!user) throw handleError(401, "Użytkownik nie znaleziony");
 
    
@@ -24,6 +24,7 @@ export const GET = async () => {
       plan: user.plan ?? "free",
       aiUsed: user.aiUsed ?? 0,
       aiLimit: user.aiLimit ?? 0,
+      trialCredits: user.trialCredits ?? 0,
     });
 
   } catch (err) {

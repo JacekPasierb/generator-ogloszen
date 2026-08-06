@@ -1,13 +1,13 @@
-import {ErrorMessage, Field, Form, Formik, useField} from "formik";
+import { ErrorMessage, Field, Form, Formik, useField } from "formik";
 import React from "react";
 import styles from "../CardAuth/CardAuth.module.css";
-import {registerValidationSchema} from "./registerValidation";
+import { registerValidationSchema } from "./registerValidation";
 import Link from "next/link";
 import RegulaminModal from "../ModalRegulamin/ModalRegulamin";
-import {useRouter} from "next/navigation";
-import {toast} from "react-toastify";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import BtnAuth from "../BtnAuth/BtnAuth";
-import {registerUser} from "../../services/authService";
+import { registerUser } from "../../services/authService";
 
 interface FormValues {
   email: string;
@@ -26,29 +26,31 @@ const RegisterForm = () => {
   const InputField: React.FC<{
     name: keyof FormValues;
     type: string;
+    label: string;
     placeholder: string;
-  }> = ({name, type, placeholder}) => {
+    autoComplete: string;
+  }> = ({ name, type, label, placeholder, autoComplete }) => {
     const [field, meta] = useField(name);
     const hasError = meta.touched && meta.error;
+    const id = `register-${name}`;
+
     return (
       <div className={styles.inputBox}>
+        <label htmlFor={id} className={styles.fieldLabel}>
+          {label}
+        </label>
         <div className={`${styles.input} ${hasError ? styles.errorInput : ""}`}>
           <Field
             {...field}
+            id={id}
             type={type}
             name={name}
             placeholder={placeholder}
             className={styles.inputRegister}
-            autoComplete={
-              name === "password"
-                ? "current-password"
-                : name === "email"
-                ? "username"
-                : "off"
-            }
+            autoComplete={autoComplete}
           />
         </div>
-        <div style={{minHeight: "1em"}}>
+        <div className={styles.errorSlot}>
           <ErrorMessage
             name={name}
             component="div"
@@ -61,7 +63,7 @@ const RegisterForm = () => {
 
   const handleSubmit = async (
     values: FormValues,
-    {resetForm}: {resetForm: () => void}
+    { resetForm }: { resetForm: () => void }
   ) => {
     try {
       await registerUser(values);
@@ -76,16 +78,29 @@ const RegisterForm = () => {
       }
     }
   };
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={registerValidationSchema}
       onSubmit={handleSubmit}
     >
-      {({isSubmitting}) => (
+      {({ isSubmitting }) => (
         <Form className={styles.form} autoComplete="off">
-          <InputField name="email" type="email" placeholder="Email" />
-          <InputField name="password" type="password" placeholder="Hasło" />
+          <InputField
+            name="email"
+            type="email"
+            label="Email"
+            placeholder="jan@firma.pl"
+            autoComplete="email"
+          />
+          <InputField
+            name="password"
+            type="password"
+            label="Hasło"
+            placeholder="Min. 6 znaków"
+            autoComplete="new-password"
+          />
 
           <label htmlFor="acceptedTerms" className={styles.checkboxLabel}>
             <Field
@@ -94,22 +109,27 @@ const RegisterForm = () => {
               id="acceptedTerms"
               className={styles.checkbox}
             />
-            
             <span className={styles.termsText}>
-              Akceptuję <RegulaminModal /> i <Link href="/polityka-prywatnosci"
+              Akceptuję <RegulaminModal /> i{" "}
+              <Link
+                href="/polityka-prywatnosci"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={styles.link}>politykę prywatności</Link>
+                className={styles.link}
+              >
+                politykę prywatności
+              </Link>
             </span>
           </label>
-          <div style={{minHeight: "1em"}}>
+          <div className={styles.errorSlot}>
             <ErrorMessage
               name="acceptedTerms"
               component="div"
               className={styles.errorMessage}
             />
           </div>
-          <BtnAuth isSubmitting={isSubmitting}>Zarejestruj</BtnAuth>
+
+          <BtnAuth isSubmitting={isSubmitting}>Utwórz konto</BtnAuth>
         </Form>
       )}
     </Formik>

@@ -9,6 +9,7 @@ export interface UserResponse {
   plan: Plan;
   aiUsed: number;
   aiLimit: number;
+  trialCredits: number;
 }
 
 export type MeResponse = UserResponse | {error: string};
@@ -54,6 +55,8 @@ export function useUser() {
       aiUsed: 0,
       aiLimit: 0,
       aiLeft: 0,
+      trialCredits: 0,
+      totalCredits: 0,
     };
   }
 
@@ -63,7 +66,9 @@ export function useUser() {
   const plan: Plan = user?.plan ?? "free";
   const aiUsed = user?.aiUsed ?? 0;
   const aiLimit = user?.aiLimit ?? 0;
+  const trialCredits = user?.trialCredits ?? 0;
   const aiLeft = Math.max(0, aiLimit - aiUsed);
+  const totalCredits = trialCredits + aiLeft;
 
   return {
     user,
@@ -83,5 +88,7 @@ export function useUser() {
     aiUsed,
     aiLimit,
     aiLeft,
+    trialCredits,
+    totalCredits,
   };
 }

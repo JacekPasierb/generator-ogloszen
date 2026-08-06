@@ -1,132 +1,172 @@
 .cardAuth {
-  padding: 2rem;
-  max-width: 400px;
-
-  background-color: var(--color-bg-third);
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  padding: 32px 28px;
+  max-width: 420px;
+  width: 100%;
+  background: #fff;
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
   text-align: center;
 }
 
 .logo {
-  width: 80px;
-  height: 80px;
-
-  margin: 0 auto;
-  margin-bottom: 10px;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 20px;
+  border-radius: 10px;
+  object-fit: contain;
 }
 
 .title {
-  font-size: var(--font-size-m);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--neutral-900);
 }
 
-/* Style Form */
 .form {
-  margin-top: 1rem;
-
+  margin-top: 8px;
   display: flex;
   flex-direction: column;
-
-  /* WAŻNE: żeby overlay działał */
   position: relative;
+  width: 100%;
+  text-align: left;
 }
 
-/* Fieldset do blokowania formularza */
 .fieldset {
   border: 0;
   padding: 0;
   margin: 0;
 }
 
-/* Gdy disabled, delikatnie przygaś */
 .fieldset:disabled {
   opacity: 0.85;
 }
 
-/* OVERLAY podczas logowania */
 .overlay {
   position: absolute;
   inset: 0;
   z-index: 10;
-
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   justify-content: center;
   align-items: center;
-
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(3px);
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
+  border-radius: var(--radius-xl);
 }
 
 .overlayText {
-  font-weight: 700;
-  opacity: 0.8;
-  font-size: 14px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--neutral-500);
 }
 
-/* inputs */
+.fieldLabel {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--neutral-700);
+}
+
 .inputBox {
-  margin-bottom: 1rem;
+  margin-bottom: 4px;
 }
 
 .input {
-  padding: 0.75rem 1rem;
-
-  border: 1px solid #ccc;
-  border-radius: 8px;
-
-  font-size: 1rem;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
   background: #fff;
+  color: var(--neutral-900);
+  transition: border-color 0.15s var(--ease-out),
+    box-shadow 0.15s var(--ease-out);
+}
+
+.input:focus-within {
+  border-color: var(--neutral-900);
+  box-shadow: 0 0 0 3px rgba(24, 24, 27, 0.08);
+}
+
+.input::placeholder {
+  color: var(--neutral-400);
 }
 
 .errorInput {
-  border: 1px solid red;
-  fill: red;
+  border-color: var(--color-error);
+}
+
+.errorInput:focus-within {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
 }
 
 .inputRegister {
   width: 100%;
-  font-size: 14px;
-  color: black;
-  background-color: transparent;
+  font-size: 0.9375rem;
+  color: var(--neutral-900);
+  background: transparent;
   outline: none;
   border: 0;
 }
 
-/* button */
-
+.errorSlot {
+  min-height: 1.25rem;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
 
 .errorMessage {
-  font-size: 0.625rem;
-  color: #ff0000;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-error);
   text-align: left;
 }
 
 .checkboxLabel {
   display: flex;
-  gap: 8px;
-
-  align-items: center;
-  justify-content: center;
+  gap: 10px;
+  align-items: flex-start;
   text-align: left;
+  font-size: 0.8125rem;
+  color: var(--neutral-600);
+  cursor: pointer;
+  margin-bottom: 4px;
+}
 
-  font-size: 10px;
+.checkbox {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: var(--neutral-900);
+  cursor: pointer;
 }
 
 .termsText {
   display: inline;
-  line-height: 1.35;
+  line-height: 1.5;
 }
 
+.link {
+  color: var(--neutral-900);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(24, 24, 27, 0.25);
+}
 
-/* spinner (użyjemy też w overlay) */
+.link:hover {
+  border-bottom-color: var(--neutral-900);
+}
+
 .spinner {
-  width: 18px;
-  height: 18px;
-  border: 2px solid rgba(0, 0, 0, 0.08);
-  border-top: 2px solid #00bfa6;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--neutral-200);
+  border-top-color: var(--neutral-900);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
   margin: 0 auto;
@@ -138,24 +178,16 @@
   }
 }
 
-@media screen and (min-width: 768px) {
+@media (min-width: 768px) {
+  .cardAuth {
+    padding: 40px 36px;
+  }
+
   .title {
-    font-size: var(--font-size-xl);
+    font-size: 1.75rem;
   }
 
   .checkboxLabel {
-    font-size: 12px;
-  }
-
-
-
-  .overlayText {
-    font-size: 15px;
-  }
-}
-
-@media screen and (min-width: 1200px) {
-  .title {
-    font-size: var(--font-size-xl);
+    font-size: 0.875rem;
   }
 }

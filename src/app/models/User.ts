@@ -13,6 +13,7 @@ export interface IUser extends Document {
   plan: Plan; 
   aiLimit: number;
   aiUsed: number;
+  trialCredits: number;
 
   // Stripe billing
   stripeCustomerId?: string;
@@ -40,6 +41,7 @@ const userSchema = new mongoose.Schema<IUser>({
 
   aiLimit: {type: Number, default: 0},
   aiUsed: {type: Number, default: 0},
+  trialCredits: {type: Number, default: 0},
 
   stripeCustomerId: { type: String, default: null },
     stripeLastCheckoutSessionId: { type: String, default: null },

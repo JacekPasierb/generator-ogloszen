@@ -1,15 +1,16 @@
-import {NextRequest, NextResponse} from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import handleError from "../../lib/errors/userErrors";
-import {plans} from "../../data/plans";
-import {cookies} from "next/headers";
-import {getUserIdFromToken} from "../../lib/auth/getUserIdFromToken";
-import {stripe} from "../../lib/stripe";
+import { plans } from "../../data/plans";
+import { cookies } from "next/headers";
+import { getUserIdFromToken } from "../../lib/auth/getUserIdFromToken";
+import { stripe } from "../../lib/stripe";
+import { trackEvent } from "../../lib/analytics/trackEvent";
 
 export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
   try {
-    const {planId} = await req.json();
+    const { planId } = await req.json();
     if (!planId) throw handleError(400, "Brak planId");
 
     const plan = plans.find((p) => p.id === planId);
@@ -19,6 +20,11 @@ export async function POST(req: NextRequest) {
     if (!token) throw handleError(401, "Brak tokena");
 
     const userId = getUserIdFromToken(token);
+
+    await trackEvent("checkout_start", {
+      userId: String(userId),
+      payload: { planId },
+    });
 
     const appUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 

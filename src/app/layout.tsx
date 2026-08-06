@@ -7,6 +7,7 @@ import { Bounce, ToastContainer } from "react-toastify";
 import { DescriptionProvider } from "./context/DescriptionContext";
 import Script from "next/script";
 import AnalyticsTracker from "./AnalyticsTracker";
+import BackToTop from "./components/BackToTop/BackToTop";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -80,6 +81,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           </main>
 
           <Footer />
+          <BackToTop />
         </DescriptionProvider>
       </body>
     </html>

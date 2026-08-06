@@ -1,457 +1,299 @@
-/* =========================
-   HEADER WRAPPER
-   ========================= */
-   .header {
-    width: 100%;
-    position: relative;
-    padding-top: 10px;
-  
-    background: radial-gradient(
-      900px 260px at 50% -40px,
-      rgba(1, 157, 137, 0.14),
-      transparent 60%
-    );
+/* ===== Header ===== */
+.header {
+  width: 100%;
+  position: relative;
+  padding: 16px 0 20px;
+  background: linear-gradient(180deg, rgba(20, 184, 166, 0.06) 0%, transparent 100%);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.sectionDivider {
+  display: none;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 16px;
+}
+
+.logoWrap {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logoHeader {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+}
+
+/* ===== Actions ===== */
+.boxIcons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.actionBtn {
+  height: 40px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-bg-elevated);
+  color: var(--color-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
+  box-shadow: var(--shadow-sm);
+}
+
+.actionBtn:hover {
+  background: var(--neutral-50);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-md);
+}
+
+.actionBtn:active {
+  box-shadow: var(--shadow-sm);
+}
+
+.actionBtn:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.actionBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.actionIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  display: grid;
+  place-items: center;
+  background: var(--neutral-100);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.actionText {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+/* ===== Account row ===== */
+.accountRow {
+  margin-top: 16px;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.accountChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-subtle);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.accountDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-success);
+  flex-shrink: 0;
+}
+
+.accountEmail {
+  font-weight: 500;
+  color: var(--color-text);
+  word-break: break-word;
+}
+
+/* ===== Status card ===== */
+.statusCard {
+  width: min(320px, 100%);
+  padding: 14px 16px;
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-sm);
+}
+
+.statusPaid {
+  border-color: rgba(20, 184, 166, 0.25);
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.04) 0%, var(--color-bg-elevated) 100%);
+}
+
+.statusTrial {
+  border-color: rgba(245, 158, 11, 0.25);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.04) 0%, var(--color-bg-elevated) 100%);
+}
+
+.statusFree {
+  border-color: var(--color-border-subtle);
+}
+
+.statusTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.statusTitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  background: rgba(20, 184, 166, 0.12);
+  border: 1px solid rgba(20, 184, 166, 0.2);
+  color: var(--primary-700);
+  white-space: nowrap;
+}
+
+.statusTrial .statusBadge {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.25);
+  color: #b45309;
+}
+
+.statusFree .statusBadge {
+  background: var(--neutral-100);
+  border-color: var(--color-border-subtle);
+  color: var(--color-text-muted);
+}
+
+.statusMid {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.statusSub {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.statusValue {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.statusBar {
+  height: 6px;
+  width: 100%;
+  border-radius: var(--radius-full);
+  background: var(--neutral-100);
+  overflow: hidden;
+}
+
+.statusProgress {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, var(--primary-500), var(--primary-600));
+  transition: width 0.3s var(--ease-out);
+}
+
+.statusEmpty {
+  background: linear-gradient(90deg, #f87171, #ef4444);
+}
+
+.statusHint {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+/* ===== Responsive ===== */
+@media (min-width: 768px) {
+  .header {
+    padding: 20px 0 24px;
   }
-  
-  .sectionDivider {
-    margin: 22px auto 0;
-    width: min(520px, 92%);
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(0, 0, 0, 0.1),
-      transparent
-    );
-  }
-  
-  /* =========================
-     NAV
-     ========================= */
-  .nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-  }
-  
-  /* =========================
-     LOGO
-     ========================= */
-  .logoWrap {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-  }
-  
   .logoHeader {
-    width: 56px;
-    height: 56px;
-    object-fit: contain;
+    width: 52px;
+    height: 52px;
   }
-  
-  /* =========================
-     ACTIONS (right side)
-     ========================= */
   .boxIcons {
-    display: flex;
-    align-items: center;
     gap: 10px;
-    flex-shrink: 0;
   }
-  
-  /* ✅ icon + label button */
   .actionBtn {
     height: 44px;
-    padding: 0 12px;
-  
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-  
-    border-radius: 14px;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-  
-    background: rgba(255, 255, 255, 0.62);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  
-    cursor: pointer;
-    user-select: none;
-  
-    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    padding: 0 16px;
   }
-  
-  .actionBtn:hover {
-    transform: translateY(-1px);
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.1);
-  }
-  
-  .actionBtn:active {
-    transform: translateY(0);
-    box-shadow: none;
-  }
-  
-  .actionBtn:focus-visible {
-    outline: 2px solid rgba(1, 157, 137, 0.6);
-    outline-offset: 2px;
-  }
-  
-  .actionBtn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-  }
-  
   .actionIcon {
     width: 32px;
     height: 32px;
-    border-radius: 12px;
-  
-    display: grid;
-    place-items: center;
-  
-    background: rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-  
-    font-size: 20px;
-    line-height: 1;
+    font-size: 1.125rem;
   }
-  
   .actionText {
-    font-size: 0.92rem;
-    font-weight: 900;
-    letter-spacing: -0.01em;
-    color: rgba(0, 0, 0, 0.78);
-    white-space: nowrap;
+    font-size: 0.9375rem;
   }
-  
-  /* =========================
-     ACCOUNT ROW
-     ========================= */
-  .accountRow {
-    margin-top: 14px;
-    width: 100%;
-  
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
-  }
-  
-  .accountChip {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-  
-    padding: 10px 12px;
-    border-radius: 999px;
-  
-    background: rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-  }
-  
-  .accountDot {
-    width: 10px;
-    height: 10px;
-    border-radius: 999px;
-    background: #10b981;
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18);
-  }
-  
-  .accountEmail {
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    word-break: break-word;
-  }
-  
-  /* =========================
-     ✅ STATUS CARD (plan + usage w jednym)
-     ========================= */
   .statusCard {
-    width: min(340px, 100%);
-    padding: 12px 14px;
-    border-radius: 16px;
-  
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.06);
+    padding: 16px 18px;
   }
-  
-  .statusPaid {
-    border-color: rgba(0, 191, 166, 0.2);
+}
+
+@media (max-width: 560px) {
+  .accountRow {
+    flex-direction: column;
+    align-items: stretch;
   }
-  
-  .statusFree {
-    border-color: rgba(0, 0, 0, 0.06);
+  .accountChip {
+    justify-content: center;
   }
-  
-  /* top row */
-  .statusTop {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .statusTitle {
-    font-size: 0.85rem;
-    font-weight: 800;
-    color: rgba(0, 0, 0, 0.55);
-    letter-spacing: -0.01em;
-  }
-  
-  /* badge */
-  .statusBadge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  
-    padding: 6px 10px;
-    border-radius: 999px;
-  
-    font-size: 0.9rem;
-    font-weight: 900;
-    letter-spacing: -0.01em;
-  
-    background: rgba(0, 191, 166, 0.12);
-    border: 1px solid rgba(0, 191, 166, 0.18);
-    color: #0f766e;
-    white-space: nowrap;
-  }
-  
-  .statusFree .statusBadge {
-    background: rgba(0, 0, 0, 0.04);
-    border-color: rgba(0, 0, 0, 0.06);
-    color: rgba(0, 0, 0, 0.72);
-  }
-  
-  /* middle row */
-  .statusMid {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .statusSub {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: rgba(0, 0, 0, 0.6);
-  }
-  
-  .statusValue {
-    font-size: 0.95rem;
-    font-weight: 900;
-    letter-spacing: -0.01em;
-  }
-  
-  /* progress */
-  .statusBar {
-    height: 8px;
+  .statusCard {
     width: 100%;
-    border-radius: 999px;
-    background: rgba(0, 0, 0, 0.08);
-    overflow: hidden;
   }
-  
-  .statusProgress {
-    height: 100%;
-    border-radius: 999px;
-    background: linear-gradient(90deg, #34d399, #10b981);
-    transition: width 0.25s ease;
+  .actionBtn {
+    width: 44px;
+    padding: 0;
+    justify-content: center;
   }
-  
-  .statusEmpty {
-    background: linear-gradient(90deg, #f87171, #ef4444);
+  .actionText {
+    display: none;
   }
-  
-  /* hint when free */
-  .statusHint {
-    font-size: 0.9rem;
-    color: rgba(0, 0, 0, 0.62);
-    line-height: 1.35;
-  }
-  
-  /* =========================
-     CALLOUT (inactive plan)
-     ========================= */
-  .callout {
-    margin: 18px auto 0;
-    max-width: 860px;
-    width: 100%;
-  
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-  
-    padding: 16px 16px;
-    border-radius: 16px;
-  
-    background: rgba(255, 255, 255, 0.58);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-  }
-  
-  .calloutText {
-    text-align: left;
-  }
-  
-  .calloutTitle {
-    margin: 0;
-    font-weight: 900;
-    letter-spacing: -0.02em;
-    font-size: 1.02rem;
-  }
-  
-  .calloutDesc {
-    margin: 4px 0 0;
-    color: rgba(0, 0, 0, 0.65);
-    line-height: 1.45;
-    font-size: var(--font-size-base);
-  }
-  
-  .calloutBtn {
-    flex-shrink: 0;
-    padding: 10px 14px;
-    border-radius: 12px;
-  
-    background: #019d89;
-    color: white;
-    text-decoration: none;
-    font-weight: 800;
-  
-    transition: transform 0.12s ease, box-shadow 0.12s ease;
-  }
-  
-  .calloutBtn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(1, 157, 137, 0.22);
-  }
-  
-  .calloutBtn:active {
-    transform: translateY(0);
-    box-shadow: none;
-  }
-  
-  /* =========================
-     RESPONSIVE
-     ========================= */
-  @media (min-width: 768px) {
-    .logoHeader {
-      width: 64px;
-      height: 64px;
-    }
-  
-    .boxIcons {
-      gap: 12px;
-    }
-  
-    .actionBtn {
-      height: 52px;
-      padding: 0 14px;
-      border-radius: 16px;
-    }
-  
-    .actionIcon {
-      width: 36px;
-      height: 36px;
-      border-radius: 14px;
-      font-size: 22px;
-    }
-  
-    .actionText {
-      font-size: 0.95rem;
-    }
-  
-    .accountEmail {
-      font-size: 1rem;
-    }
-  
-    .statusCard {
-      padding: 14px 16px;
-    }
-  }
-  
-  @media (min-width: 1200px) {
-    .logoHeader {
-      width: 72px;
-      height: 72px;
-    }
-  
-    .actionBtn {
-      height: 56px;
-      padding: 0 16px;
-      border-radius: 18px;
-    }
-  
-    .actionIcon {
-      width: 38px;
-      height: 38px;
-      border-radius: 14px;
-      font-size: 22px;
-    }
-  }
-  
-  /* Mobile: chowamy tekst i zostają „pigułki” z ikonami */
-  @media (max-width: 520px) {
-    .accountRow {
-      flex-direction: column;
-      align-items: stretch;
-    }
-  
-    .accountChip {
-      justify-content: center;
-    }
-  
-    .statusCard {
-      width: 100%;
-    }
-  
-    .statusTop {
-      justify-content: center;
-    }
-  
-    .statusMid {
-      justify-content: space-between;
-    }
-  
-    .actionBtn {
-      width: 44px;
-      padding: 0;
-      justify-content: center;
-      border-radius: 14px;
-    }
-  
-    .actionText {
-      display: none;
-    }
-  
-    .callout {
-      flex-direction: column;
-      align-items: stretch;
-      text-align: center;
-    }
-  
-    .calloutText {
-      text-align: center;
-    }
-  
-    .calloutBtn {
-      width: 100%;
-      text-align: center;
-    }
-  }
-  
+}

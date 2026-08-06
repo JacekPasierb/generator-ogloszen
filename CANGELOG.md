@@ -35,4 +35,4 @@
 ### 🛠 Techniczne
 - Aktualizacja Next.js (security fix)
 - Poprawki TypeScript / ESLint
-- Stabilny build na Netlify
+- Stabilny build na Netlify..

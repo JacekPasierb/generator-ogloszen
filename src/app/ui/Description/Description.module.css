@@ -1,22 +1,46 @@
+.boxMeta {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 16px;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  background: var(--neutral-50);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.metaLabel {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+}
+
+.metaValue {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
 .boxDescription {
   width: 100%;
-  max-width: 760px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
 .result {
   width: 100%;
-  padding: 16px 16px;
-
-  border-radius: 14px;
-  border: 1px solid rgba(0,0,0,0.08);
-
-  background: var(--color-bg-third);
+  padding: 18px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
   resize: none;
-
-  font-size: var(--font-size-base);
-  line-height: 1.6;
-  color: var(--color-text-main);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--color-text);
 }
 
 .boxBtn {
@@ -24,52 +48,48 @@
   gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
-
   width: 100%;
-  max-width: 760px;
-  margin: 0 auto;
+  max-width: 600px;
+  margin: 16px auto 0;
 }
 
 .actionButton {
-  padding: 12px 16px;
-
+  padding: 12px 20px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-
-  background: rgba(0,0,0,0.03);
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 12px;
-
-  font-size: var(--font-size-base);
-  color: rgba(0,0,0,0.78);
-
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
   cursor: pointer;
-  transition: transform .12s ease, background-color .12s ease, box-shadow .12s ease;
+  transition: background var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
 }
 
-.actionButton:hover {
-  background: rgba(0,0,0,0.06);
-  box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+.actionButton:hover:not(:disabled) {
+  background: var(--neutral-50);
+  border-color: var(--neutral-300);
   transform: translateY(-1px);
 }
 
-.actionButton:active {
+.actionButton:active:not(:disabled) {
   transform: translateY(0);
-  box-shadow: none;
 }
 
 .actionButton:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
-  box-shadow: none;
 }
 
 @media (min-width: 768px) {
   .result {
-    font-size: var(--font-size-m);
-    padding: 18px 18px;
+    font-size: 1rem;
+    padding: 20px 24px;
   }
 }

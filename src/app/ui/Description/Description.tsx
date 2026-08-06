@@ -7,7 +7,7 @@ import { saveDescription } from "../../services/descriptionServices";
 import { useUser } from "../../hooks/useUser";
 
 const Description = () => {
-  const { description, setDescription } = useDescription();
+  const { description, title, short, setDescription } = useDescription();
 
   const [copied, setCopied] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -85,8 +85,21 @@ const Description = () => {
     <section className={`section container`} ref={resultRef}>
       <Title>Wygenerowany opis:</Title>
 
+      {title && (
+        <div className={styles.boxMeta}>
+          <span className={styles.metaLabel}>Tytuł:</span>
+          <p className={styles.metaValue}>{title}</p>
+        </div>
+      )}
+      {short && (
+        <div className={styles.boxMeta}>
+          <span className={styles.metaLabel}>Krótko (do 160 znaków):</span>
+          <p className={styles.metaValue}>{short}</p>
+        </div>
+      )}
+
       <div className={styles.boxDescription}>
-        <textarea readOnly value={description} rows={5} className={styles.result} />
+        <textarea readOnly value={description} rows={6} className={styles.result} />
       </div>
 
       <div className={styles.boxBtn}>

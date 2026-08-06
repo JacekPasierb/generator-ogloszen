@@ -33,7 +33,7 @@ const DashboardPage = () => {
       <SessionHandler />
       <Header />
       <Generator />
-      {isPaid && description?.trim() && (
+      {description?.trim() && (
         <Suspense fallback={<Loading label="Ładuję podgląd..." />}>
           <Description />
         </Suspense>

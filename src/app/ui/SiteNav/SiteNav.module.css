@@ -1,0 +1,192 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  background: rgba(250, 250, 250, 0.78);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.navInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  color: var(--neutral-900);
+  text-decoration: none;
+  z-index: 2;
+}
+
+.brand:hover {
+  color: var(--neutral-900);
+}
+
+.brandMark {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.brandName {
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+
+.navLinks {
+  display: none;
+  align-items: center;
+  gap: 4px;
+}
+
+.navLink {
+  padding: 8px 14px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--neutral-600);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: color 0.15s var(--ease-out), background 0.15s var(--ease-out);
+}
+
+.navLink:hover {
+  color: var(--neutral-900);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.navCta {
+  margin-left: 8px;
+  padding: 9px 16px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--neutral-900);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: background 0.2s var(--ease-out), transform 0.15s var(--ease-out);
+}
+
+.navCta:hover {
+  background: var(--neutral-800);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.menuToggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 44px;
+  height: 44px;
+  padding: 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.menuBar {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--neutral-800);
+  border-radius: 1px;
+  transition: transform 0.25s var(--ease-out), opacity 0.2s ease;
+  transform-origin: center;
+}
+
+.menuBar[data-open="true"]:first-child {
+  transform: translateY(4px) rotate(45deg);
+}
+
+.menuBar[data-open="true"]:last-child {
+  transform: translateY(-4px) rotate(-45deg);
+}
+
+@media (min-width: 768px) {
+  .navInner {
+    padding: 0 40px;
+    height: 72px;
+  }
+
+  .brandMark {
+    width: 40px;
+    height: 40px;
+  }
+
+  .brandName {
+    font-size: 1rem;
+  }
+
+  .navLinks {
+    display: flex;
+  }
+
+  .menuToggle {
+    display: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  .navInner {
+    padding: 0 48px;
+  }
+}
+
+@media (max-width: 767px) {
+  .navLinks {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    padding: 88px 24px 32px;
+    background: rgba(250, 250, 250, 0.97);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.25s var(--ease-out), visibility 0.25s;
+  }
+
+  .navLinksOpen {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .navLink {
+    padding: 16px 12px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--color-border-subtle);
+    border-radius: 0;
+  }
+
+  .navCta {
+    margin: 20px 0 0;
+    padding: 16px;
+    text-align: center;
+    font-size: 1rem;
+  }
+}

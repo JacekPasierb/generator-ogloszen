@@ -33,54 +33,53 @@ const CardProduct = ({ mode = "public" }: CardProductProps) => {
     <>
       <div className={styles.grid}>
         {plans.map((plan) => {
-          const hasBadge = Boolean(plan.badge);
+          const featured = plan.id === "standard";
+          const perCredit = (plan.price / plan.credits).toFixed(2);
 
           return (
             <div
               key={plan.id}
-              className={[
-                styles.card,
-                hasBadge ? styles.featured : "",
-                hasBadge ? styles.hasBadge : "",
-              ]
-                .filter(Boolean)
-                .join(" ")}
+              className={`${styles.card} ${featured ? styles.featured : ""}`}
             >
-              {hasBadge && (
-                <div
-                  className={`${styles.badge} ${
-                    plan.id === "start" ? styles.badgeStart : ""
-                  }`}
-                >
-                  {plan.badge}
-                </div>
+              {featured && plan.badge && (
+                <div className={styles.badge}>{plan.badge}</div>
               )}
 
-              <div>
+              <div className={styles.cardTop}>
                 <h3 className={styles.title}>{plan.name}</h3>
-
                 <p className={styles.price}>
-                  {plan.price} zł
-                  <span className={styles.priceHint}> (jednorazowo)</span>
+                  {plan.price}
+                  <span className={styles.priceHint}> zł</span>
                 </p>
-
-                <p className={styles.credits}>{plan.credits} opisów</p>
+                <p className={styles.credits}>
+                  {plan.credits} opisów · {perCredit} zł / opis
+                </p>
               </div>
 
               <ul className={styles.benefitsList}>
-                {plan.benefits.map((benefit, index) => (
-                  <li key={index} className={styles.benefitItem}>
-                    <span className={styles.check}>✅</span>
+                {plan.benefits.map((benefit) => (
+                  <li key={benefit} className={styles.benefitItem}>
+                    <span className={styles.check} aria-hidden>
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path
+                          d="M2.5 7.5L5.5 10.5L11.5 3.5"
+                          stroke="currentColor"
+                          strokeWidth="1.75"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
                     <p className={styles.benefit}>{benefit}</p>
                   </li>
                 ))}
               </ul>
 
-              {/* CTA tylko w dashboard */}
               {isDashboard && (
                 <button
+                  type="button"
                   onClick={() => handleBuy(plan.id)}
-                  className={styles.cta}
+                  className={featured ? styles.ctaFeatured : styles.cta}
                   aria-label={`Aktywuj pakiet ${plan.name}`}
                 >
                   Aktywuj {plan.name}

@@ -1,12 +1,12 @@
-import {ErrorMessage, Field, Form, Formik, useField} from "formik";
-import React, {useState} from "react";
+import { ErrorMessage, Field, Form, Formik, useField } from "formik";
+import React, { useState } from "react";
 import styles from "../CardAuth/CardAuth.module.css";
-import {loginValidationSchema} from "./loginValidation";
-import {toast} from "react-toastify";
-import {useRouter} from "next/navigation";
+import { loginValidationSchema } from "./loginValidation";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 import BtnAuth from "../BtnAuth/BtnAuth";
-import {loginUser} from "../../services/authService";
-import {useUser} from "../../hooks/useUser";
+import { loginUser } from "../../services/authService";
+import { useUser } from "../../hooks/useUser";
 
 interface FormValues {
   email: string;
@@ -15,7 +15,7 @@ interface FormValues {
 
 const LoginForm = () => {
   const router = useRouter();
-  const {mutate} = useUser();
+  const { mutate } = useUser();
   const [isRedirecting, setIsRedirecting] = useState(false);
 
   const initialValues: FormValues = {
@@ -26,23 +26,31 @@ const LoginForm = () => {
   const InputField: React.FC<{
     name: keyof FormValues;
     type: string;
+    label: string;
     placeholder: string;
-  }> = ({name, type, placeholder}) => {
+    autoComplete: string;
+  }> = ({ name, type, label, placeholder, autoComplete }) => {
     const [field, meta] = useField(name);
     const hasError = meta.touched && meta.error;
+    const id = `login-${name}`;
+
     return (
       <div className={styles.inputBox}>
+        <label htmlFor={id} className={styles.fieldLabel}>
+          {label}
+        </label>
         <div className={`${styles.input} ${hasError ? styles.errorInput : ""}`}>
           <Field
             {...field}
+            id={id}
             type={type}
             name={name}
             placeholder={placeholder}
             className={styles.inputRegister}
-            autoComplete={name === "password" ? "current-password" : "username"}
+            autoComplete={autoComplete}
           />
         </div>
-        <div style={{minHeight: "1em"}}>
+        <div className={styles.errorSlot}>
           <ErrorMessage
             name={name}
             component="div"
@@ -59,7 +67,6 @@ const LoginForm = () => {
       setIsRedirecting(true);
       await loginUser(values);
       await mutate();
-    
       router.replace("/dashboard");
     } catch (err) {
       setIsRedirecting(false);
@@ -70,16 +77,29 @@ const LoginForm = () => {
       }
     }
   };
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={loginValidationSchema}
       onSubmit={handleSubmit}
     >
-      {({isSubmitting}) => (
+      {({ isSubmitting }) => (
         <Form className={styles.form} autoComplete="off">
-          <InputField name="email" type="email" placeholder="Email" />
-          <InputField name="password" type="password" placeholder="Hasło" />
+          <InputField
+            name="email"
+            type="email"
+            label="Email"
+            placeholder="Email"
+            autoComplete="username"
+          />
+          <InputField
+            name="password"
+            type="password"
+            label="Hasło"
+            placeholder="Hasło"
+            autoComplete="current-password"
+          />
           <BtnAuth isSubmitting={isSubmitting || isRedirecting}>
             Zaloguj
           </BtnAuth>

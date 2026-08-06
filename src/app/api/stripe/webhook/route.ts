@@ -60,9 +60,16 @@ export async function POST(req: NextRequest) {
           plan: plan.id,
           aiLimit: plan.aiLimit,
           aiUsed: 0,
+          planActivatedAt: new Date(),
         },
         { new: true }
       );
+
+      const { trackEvent } = await import("@/app/lib/analytics/trackEvent");
+      await trackEvent("purchase", {
+        userId: String(userId),
+        payload: { planId: plan.id },
+      });
     }
 
     return NextResponse.json({ received: true });

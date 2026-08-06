@@ -1,0 +1,193 @@
+/* =========================================================
+   Login — Linear / Stripe auth split
+   ========================================================= */
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--neutral-50);
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.split {
+  flex: 1;
+  display: grid;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+  gap: 28px;
+  align-items: stretch;
+}
+
+.panel {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px 40px;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(
+    155deg,
+    rgba(24, 24, 27, 0.98) 0%,
+    rgba(39, 39, 42, 0.96) 55%,
+    rgba(15, 118, 110, 0.35) 100%
+  );
+  color: #fafafa;
+}
+
+.eyebrow {
+  margin: 0 0 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.panelTitle {
+  margin: 0 0 16px;
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+  color: #fff;
+}
+
+.panelAccent {
+  color: var(--primary-200);
+}
+
+.panelText {
+  margin: 0 0 32px;
+  max-width: 380px;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.benefits {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.benefits li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.check {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--primary-200);
+}
+
+.formSide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  padding: 32px 28px;
+  background: #fff;
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  text-align: left;
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.formTitle {
+  margin: 0 0 8px;
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--neutral-900);
+}
+
+.formSupport {
+  margin: 0 0 24px;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--neutral-500);
+}
+
+.switch {
+  margin: 24px 0 0;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--neutral-500);
+}
+
+.switchLink {
+  margin-left: 4px;
+  font-weight: 600;
+  color: var(--neutral-900);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(24, 24, 27, 0.25);
+  transition: border-color 0.15s var(--ease-out);
+}
+
+.switchLink:hover {
+  border-bottom-color: var(--neutral-900);
+  color: var(--neutral-900);
+}
+
+@media (min-width: 900px) {
+  .split {
+    grid-template-columns: 1.05fr 0.95fr;
+    padding: 40px 40px 64px;
+    gap: 40px;
+    min-height: calc(100vh - 72px);
+  }
+
+  .panel {
+    display: flex;
+  }
+
+  .card {
+    padding: 40px 36px;
+    max-width: 440px;
+  }
+
+  .formTitle {
+    font-size: 1.75rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .split {
+    padding: 48px 48px 72px;
+    gap: 56px;
+  }
+}
