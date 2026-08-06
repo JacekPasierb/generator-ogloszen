@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -15,13 +17,23 @@ export interface SavedDescription {
 }
 
 const Header = () => {
-  const {user, plan, isPaid, aiLimit, aiLeft, mutate} = useUser();
+  const {
+    user,
+    plan,
+    isPaid,
+    aiLimit,
+    aiLeft,
+    trialCredits,
+    totalCredits,
+    mutate,
+  } = useUser();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [savedDescriptions, setSavedDescriptions] = useState<SavedDescription[]>(
-    []
-  );
+  const [savedDescriptions, setSavedDescriptions] = useState<
+    SavedDescription[]
+  >([]);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const router = useRouter();
   const isLoadingUser = user === undefined;
@@ -36,6 +48,7 @@ const Header = () => {
   };
 
   const handleOpenModal = async () => {
+    setMenuOpen(false);
     await fetchSavedDescriptions();
     setIsModalOpen(true);
   };
@@ -49,9 +62,10 @@ const Header = () => {
   const handleLogout = () => {
     if (isLoggingOut) return;
     setIsLoggingOut(true);
+    setMenuOpen(false);
 
-    const loggedOut: MeResponse = {error: "Unauthorized"};
-    mutate(loggedOut, {revalidate: false});
+    const loggedOut: MeResponse = { error: "Unauthorized" };
+    mutate(loggedOut, { revalidate: false });
 
     router.replace("/login");
     void logoutUser();
@@ -59,120 +73,122 @@ const Header = () => {
 
   const safeLimit = Math.max(aiLimit ?? 0, 0);
   const safeLeft = Math.max(aiLeft ?? 0, 0);
-
   const progressPct =
     safeLimit > 0 ? Math.max(0, Math.min(100, (safeLeft / safeLimit) * 100)) : 0;
 
-  const planLabel = isPaid
-    ? safeLeft > 0
-      ? plan.toUpperCase()
-      : `${plan.toUpperCase()} (wyczerpany)`
-    : "NIEAKTYWNY";
+  const planName =
+    plan === "free"
+      ? trialCredits > 0
+        ? "Trial"
+        : "Free"
+      : plan.charAt(0).toUpperCase() + plan.slice(1);
+
+  const creditsLabel = isPaid
+    ? `${safeLeft}/${safeLimit}`
+    : `${totalCredits} kredyt${totalCredits === 1 ? "" : "ów"}`;
+
+  const emailShort = user?.email
+    ? user.email.length > 22
+      ? `${user.email.slice(0, 18)}…`
+      : user.email
+    : "—";
 
   return (
-    <header className={`container section ${styles.header}`}>
-      <nav className={styles.nav}>
-        <div className={styles.logoWrap}>
+    <header className={styles.header}>
+      <div className={styles.navInner}>
+        <Link href="/dashboard" className={styles.brand}>
           <Image
             src="/logo.png"
-            width={300}
-            height={300}
-            alt="logo GO"
-            className={styles.logoHeader}
+            width={40}
+            height={40}
+            alt=""
+            className={styles.brandMark}
             priority
           />
-        </div>
+          <span className={styles.brandName}>Generator Ogłoszeń</span>
+        </Link>
 
-        <div className={styles.boxIcons}>
-  <button
-    type="button"
-    onClick={handleOpenModal}
-    className={styles.actionBtn}
-    aria-label="Zapisane opisy"
-    title="Zapisane opisy"
-  >
-    <span className={styles.actionIcon} aria-hidden>
-      📓
-    </span>
-    <span className={styles.actionText}>Zapisane</span>
-  </button>
-
-  <Link href="/dashboard/billing" className={styles.actionBtn} title="Konto i płatności">
-    <span className={styles.actionIcon} aria-hidden>💳</span>
-    <span className={styles.actionText}>Konto</span>
-  </Link>
-
-  <button
-    type="button"
-    onClick={handleLogout}
-    className={styles.actionBtn}
-    disabled={isLoggingOut}
-    aria-label="Wyloguj"
-    title={isLoggingOut ? "Wylogowywanie..." : "Wyloguj"}
-    aria-busy={isLoggingOut}
-  >
-    <span className={styles.actionIcon} aria-hidden>
-      {isLoggingOut ? "⏳" : "🙋‍♂️"}
-    </span>
-    <span className={styles.actionText}>Wyloguj</span>
-  </button>
-</div>
-
-      </nav>
-
-      {!isLoadingUser && (
-        <>
-          <div className={styles.accountRow}>
-            <div className={styles.accountChip}>
-              <span className={styles.accountDot} aria-hidden />
-              <span className={styles.accountEmail}>
-                Witaj {user?.email ?? "—"}
-              </span>
-            </div>
-
-            {/* ✅ Jeden spójny blok statusu */}
+        <div
+          className={`${styles.actions} ${menuOpen ? styles.actionsOpen : ""}`}
+        >
+          {!isLoadingUser && (
             <div
-              className={`${styles.statusCard} ${
-                isPaid ? styles.statusPaid : styles.statusFree
+              className={`${styles.creditsPill} ${
+                isPaid
+                  ? styles.creditsPaid
+                  : trialCredits > 0
+                    ? styles.creditsTrial
+                    : styles.creditsFree
               }`}
+              title={
+                isPaid
+                  ? `Pozostało ${safeLeft} z ${safeLimit} opisów`
+                  : trialCredits > 0
+                    ? `${trialCredits} kredytów testowych`
+                    : "Brak kredytów — wybierz pakiet"
+              }
             >
-              <div className={styles.statusTop}>
-                <span className={styles.statusTitle}>Pakiet</span>
-
-                <span className={styles.statusBadge}>
-                  {isPaid ? "💎" : "🔒"} {planLabel}
+              <span className={styles.creditsPlan}>{planName}</span>
+              <span className={styles.creditsSep} aria-hidden />
+              <span className={styles.creditsValue}>{creditsLabel}</span>
+              {isPaid && (
+                <span className={styles.miniBar} aria-hidden>
+                  <span
+                    className={`${styles.miniProgress} ${
+                      safeLeft === 0 ? styles.miniEmpty : ""
+                    }`}
+                    style={{ width: `${progressPct}%` }}
+                  />
                 </span>
-              </div>
-
-              {isPaid ? (
-                <>
-                  <div className={styles.statusMid}>
-                    <span className={styles.statusSub}>Pozostałe zapytania</span>
-                    <span className={styles.statusValue}>
-                      {safeLeft}/{safeLimit}
-                    </span>
-                  </div>
-
-                  <div className={styles.statusBar} aria-hidden>
-                    <div
-                      className={`${styles.statusProgress} ${
-                        safeLeft === 0 ? styles.statusEmpty : ""
-                      }`}
-                      style={{width: `${progressPct}%`}}
-                    />
-                  </div>
-                </>
-              ) : (
-                <div className={styles.statusHint}>
-                  Odblokuj pakiet, aby generować opisy AI.
-                </div>
               )}
             </div>
-          </div>
+          )}
 
-          <div className={styles.sectionDivider} aria-hidden />
-        </>
-      )}
+          <button
+            type="button"
+            onClick={handleOpenModal}
+            className={styles.navBtn}
+          >
+            Zapisane
+          </button>
+
+          <Link
+            href="/dashboard/billing"
+            className={styles.navBtn}
+            onClick={() => setMenuOpen(false)}
+          >
+            Konto
+          </Link>
+
+          {!isLoadingUser && (
+            <span className={styles.emailChip} title={user?.email ?? undefined}>
+              <span className={styles.emailDot} aria-hidden />
+              {emailShort}
+            </span>
+          )}
+
+          <button
+            type="button"
+            onClick={handleLogout}
+            className={styles.logoutBtn}
+            disabled={isLoggingOut}
+            aria-busy={isLoggingOut}
+          >
+            {isLoggingOut ? "Wylogowywanie…" : "Wyloguj"}
+          </button>
+        </div>
+
+        <button
+          type="button"
+          className={styles.menuToggle}
+          aria-label={menuOpen ? "Zamknij menu" : "Otwórz menu"}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((v) => !v)}
+        >
+          <span className={styles.menuBar} data-open={menuOpen} />
+          <span className={styles.menuBar} data-open={menuOpen} />
+        </button>
+      </div>
 
       {isModalOpen && (
         <ModalDescriptions
