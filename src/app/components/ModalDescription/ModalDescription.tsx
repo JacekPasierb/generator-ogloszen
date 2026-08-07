@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import styles from "./ModalDescription.module.css";
 import { SavedDescription } from "../../ui/Header/Header";
 import { deleteDescription } from "../../services/descriptionServices";
@@ -34,10 +35,15 @@ const ModalDescriptions: React.FC<ModalProps> = ({
   const [currentPage, setCurrentPage] = useState(0);
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
 
   const currentDescription = data[currentPage];
   const hasItems = data.length > 0;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -55,13 +61,14 @@ const ModalDescriptions: React.FC<ModalProps> = ({
   }, [onClose, hasItems, currentPage, data.length]);
 
   useEffect(() => {
+    if (!mounted) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     closeRef.current?.focus();
     return () => {
       document.body.style.overflow = prev;
     };
-  }, []);
+  }, [mounted]);
 
   useEffect(() => {
     setCopied(false);
@@ -103,7 +110,9 @@ const ModalDescriptions: React.FC<ModalProps> = ({
     }
   };
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <div
       className={styles.overlay}
       role="dialog"
@@ -219,7 +228,8 @@ const ModalDescriptions: React.FC<ModalProps> = ({
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
