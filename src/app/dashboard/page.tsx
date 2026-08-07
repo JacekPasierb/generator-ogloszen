@@ -18,15 +18,15 @@ const SessionHandler = dynamic(
 
 const DashboardPage = () => {
   const {description} = useDescription();
-  const {user, isPaid} = useUser();
+  const {user} = useUser();
   const router = useRouter();
 
   useEffect(() => {
     if (user === null) router.replace("/login");
   }, [user, router]);
 
-  if (user === undefined) return <Loading label="Sprawdzam sesję..." />;
-  if (user === null) return <Loading label="Przekierowuję..." />;
+  if (user === undefined) return <Loading label="Sprawdzam sesję…" />;
+  if (user === null) return <Loading label="Przekierowuję…" />;
 
   
   return (
@@ -35,7 +35,7 @@ const DashboardPage = () => {
       <Header />
       <Generator />
       {description?.trim() && (
-        <Suspense fallback={<Loading label="Ładuję podgląd..." />}>
+        <Suspense fallback={<Loading label="Ładuję podgląd…" compact />}>
           <Description />
         </Suspense>
       )}

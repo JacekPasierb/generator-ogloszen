@@ -66,8 +66,8 @@ export default function BillingPage() {
       .finally(() => setLoadingEvents(false));
   }, [user]);
 
-  if (user === undefined) return <Loading label="Sprawdzam sesję..." />;
-  if (user === null) return <Loading label="Przekierowuję..." />;
+  if (user === undefined) return <Loading label="Sprawdzam sesję…" />;
+  if (user === null) return <Loading label="Przekierowuję…" />;
 
   const currentPlan = plans.find((p) => p.id === plan);
   const planName =
