@@ -1,12 +1,18 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./SiteNav.module.css";
 
 const SiteNav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -68,71 +74,78 @@ const SiteNav = () => {
         </button>
       </div>
 
-      <div
-        className={`${styles.backdrop} ${menuOpen ? styles.backdropOpen : ""}`}
-        onClick={closeMenu}
-        aria-hidden={!menuOpen}
-      />
+      {mounted &&
+        createPortal(
+          <>
+            <div
+              className={`${styles.backdrop} ${menuOpen ? styles.backdropOpen : ""}`}
+              onClick={closeMenu}
+              aria-hidden={!menuOpen}
+            />
 
-      <nav
-        id="site-mobile-menu"
-        className={`${styles.drawer} ${menuOpen ? styles.drawerOpen : ""}`}
-        aria-label="Menu mobilne"
-        aria-hidden={!menuOpen}
-      >
-        <div className={styles.drawerInner}>
-          <div className={styles.drawerHead}>
-            <p className={styles.drawerEyebrow}>Nawigacja</p>
-            <p className={styles.drawerTitle}>Generator Ogłoszeń</p>
-            <p className={styles.drawerLead}>
-              Opisy marketingowe ze słów kluczowych — gotowe pod OLX i Marketplace.
-            </p>
-          </div>
+            <nav
+              id="site-mobile-menu"
+              className={`${styles.drawer} ${menuOpen ? styles.drawerOpen : ""}`}
+              aria-label="Menu mobilne"
+              aria-hidden={!menuOpen}
+            >
+              <div className={styles.drawerInner}>
+                <div className={styles.drawerHead}>
+                  <p className={styles.drawerEyebrow}>Nawigacja</p>
+                  <p className={styles.drawerTitle}>Generator Ogłoszeń</p>
+                  <p className={styles.drawerLead}>
+                    Opisy marketingowe ze słów kluczowych — gotowe pod OLX i
+                    Marketplace.
+                  </p>
+                </div>
 
-          <div className={styles.drawerNav}>
-            <Link
-              href="/#pricing"
-              className={styles.drawerLink}
-              onClick={closeMenu}
-            >
-              <span className={styles.drawerLinkMain}>Cennik</span>
-              <span className={styles.drawerLinkSub}>
-                Jednorazowe pakiety, bez subskrypcji
-              </span>
-            </Link>
-            <Link
-              href="/#examples"
-              className={styles.drawerLink}
-              onClick={closeMenu}
-            >
-              <span className={styles.drawerLinkMain}>Przykłady</span>
-              <span className={styles.drawerLinkSub}>
-                Zobacz, jak wyglądają gotowe opisy
-              </span>
-            </Link>
-            <Link
-              href="/login"
-              className={styles.drawerLink}
-              onClick={closeMenu}
-            >
-              <span className={styles.drawerLinkMain}>Zaloguj</span>
-              <span className={styles.drawerLinkSub}>
-                Wróć do swojego workspace
-              </span>
-            </Link>
-          </div>
+                <div className={styles.drawerNav}>
+                  <Link
+                    href="/#pricing"
+                    className={styles.drawerLink}
+                    onClick={closeMenu}
+                  >
+                    <span className={styles.drawerLinkMain}>Cennik</span>
+                    <span className={styles.drawerLinkSub}>
+                      Jednorazowe pakiety, bez subskrypcji
+                    </span>
+                  </Link>
+                  <Link
+                    href="/#examples"
+                    className={styles.drawerLink}
+                    onClick={closeMenu}
+                  >
+                    <span className={styles.drawerLinkMain}>Przykłady</span>
+                    <span className={styles.drawerLinkSub}>
+                      Zobacz, jak wyglądają gotowe opisy
+                    </span>
+                  </Link>
+                  <Link
+                    href="/login"
+                    className={styles.drawerLink}
+                    onClick={closeMenu}
+                  >
+                    <span className={styles.drawerLinkMain}>Zaloguj</span>
+                    <span className={styles.drawerLinkSub}>
+                      Wróć do swojego workspace
+                    </span>
+                  </Link>
+                </div>
 
-          <div className={styles.drawerFoot}>
-            <Link
-              href="/register"
-              className={styles.drawerCta}
-              onClick={closeMenu}
-            >
-              Zacznij za darmo
-            </Link>
-          </div>
-        </div>
-      </nav>
+                <div className={styles.drawerFoot}>
+                  <Link
+                    href="/register"
+                    className={styles.drawerCta}
+                    onClick={closeMenu}
+                  >
+                    Zacznij za darmo
+                  </Link>
+                </div>
+              </div>
+            </nav>
+          </>,
+          document.body
+        )}
     </header>
   );
 };

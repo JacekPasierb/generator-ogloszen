@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./Hero.module.css";
@@ -16,13 +17,23 @@ const Hero = () => {
     "keywords"
   );
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!menuOpen) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
     };
   }, [menuOpen]);
 
@@ -68,8 +79,7 @@ const Hero = () => {
 
   return (
     <div className={styles.heroRoot}>
-      {/* ===== NAV ===== */}
-      <header className={styles.nav}>
+      <header className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`}>
         <div className={styles.navInner}>
           <Link href="/" className={styles.brand} onClick={closeMenu}>
             <Image
@@ -83,46 +93,102 @@ const Hero = () => {
             <span className={styles.brandName}>Generator Ogłoszeń</span>
           </Link>
 
-          <nav
-            className={`${styles.navLinks} ${menuOpen ? styles.navLinksOpen : ""}`}
-            aria-label="Główne"
-          >
-            <a href="#pricing" className={styles.navLink} onClick={closeMenu}>
+          <nav className={styles.desktopLinks} aria-label="Główne">
+            <a href="#pricing" className={styles.navLink}>
               Cennik
             </a>
-            <a href="#examples" className={styles.navLink} onClick={closeMenu}>
+            <a href="#examples" className={styles.navLink}>
               Przykłady
             </a>
-            <Link
-              href="/login"
-              className={styles.navLink}
-              onClick={closeMenu}
-            >
+            <Link href="/login" className={styles.navLink}>
               Zaloguj
             </Link>
-            <Link
-              href="/register"
-              className={styles.navCta}
-              onClick={closeMenu}
-            >
+            <Link href="/register" className={styles.navCta}>
               Zacznij za darmo
             </Link>
           </nav>
 
           <button
             type="button"
-            className={styles.menuToggle}
+            className={`${styles.menuToggle} ${menuOpen ? styles.menuToggleOpen : ""}`}
             aria-label={menuOpen ? "Zamknij menu" : "Otwórz menu"}
             aria-expanded={menuOpen}
+            aria-controls="hero-mobile-menu"
             onClick={() => setMenuOpen((v) => !v)}
           >
-            <span className={styles.menuBar} data-open={menuOpen} />
-            <span className={styles.menuBar} data-open={menuOpen} />
+            <span className={styles.menuBar} />
+            <span className={styles.menuBar} />
+            <span className={styles.menuBar} />
           </button>
         </div>
       </header>
 
-      {/* ===== HERO ===== */}
+      {mounted &&
+        createPortal(
+          <>
+            <div
+              className={`${styles.backdrop} ${menuOpen ? styles.backdropOpen : ""}`}
+              onClick={closeMenu}
+              aria-hidden={!menuOpen}
+            />
+            <nav
+              id="hero-mobile-menu"
+              className={`${styles.drawer} ${menuOpen ? styles.drawerOpen : ""}`}
+              aria-label="Menu mobilne"
+              aria-hidden={!menuOpen}
+            >
+              <div className={styles.drawerInner}>
+                <div className={styles.drawerHead}>
+                  <p className={styles.drawerEyebrow}>Nawigacja</p>
+                  <p className={styles.drawerTitle}>Generator Ogłoszeń</p>
+                </div>
+                <div className={styles.drawerNav}>
+                  <a
+                    href="#pricing"
+                    className={styles.drawerLink}
+                    onClick={closeMenu}
+                  >
+                    <span className={styles.drawerLinkMain}>Cennik</span>
+                    <span className={styles.drawerLinkSub}>
+                      Jednorazowe pakiety, bez subskrypcji
+                    </span>
+                  </a>
+                  <a
+                    href="#examples"
+                    className={styles.drawerLink}
+                    onClick={closeMenu}
+                  >
+                    <span className={styles.drawerLinkMain}>Przykłady</span>
+                    <span className={styles.drawerLinkSub}>
+                      Zobacz gotowe opisy
+                    </span>
+                  </a>
+                  <Link
+                    href="/login"
+                    className={styles.drawerLink}
+                    onClick={closeMenu}
+                  >
+                    <span className={styles.drawerLinkMain}>Zaloguj</span>
+                    <span className={styles.drawerLinkSub}>
+                      Wróć do workspace
+                    </span>
+                  </Link>
+                </div>
+                <div className={styles.drawerFoot}>
+                  <Link
+                    href="/register"
+                    className={styles.drawerCta}
+                    onClick={closeMenu}
+                  >
+                    Zacznij za darmo
+                  </Link>
+                </div>
+              </div>
+            </nav>
+          </>,
+          document.body
+        )}
+
       <section className={styles.hero} aria-label="Hero">
         <div className={styles.atmosphere} aria-hidden />
         <div className={styles.grid} aria-hidden />
