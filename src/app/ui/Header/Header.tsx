@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Header.module.css";
 import { MeResponse, useUser } from "../../hooks/useUser";
 import ModalDescriptions from "../../components/ModalDescription/ModalDescription";
@@ -41,6 +41,26 @@ const Header = () => {
   const isGenerator = pathname === "/dashboard";
   const isBilling = pathname?.startsWith("/dashboard/billing");
 
+  useEffect(() => {
+    if (!menuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [menuOpen]);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  const closeMenu = () => setMenuOpen(false);
+
   const fetchSavedDescriptions = async () => {
     try {
       const descriptions = await fetchDescription();
@@ -51,7 +71,7 @@ const Header = () => {
   };
 
   const handleOpenModal = async () => {
-    setMenuOpen(false);
+    closeMenu();
     await fetchSavedDescriptions();
     setIsModalOpen(true);
   };
@@ -65,7 +85,7 @@ const Header = () => {
   const handleLogout = () => {
     if (isLoggingOut) return;
     setIsLoggingOut(true);
-    setMenuOpen(false);
+    closeMenu();
 
     const loggedOut: MeResponse = { error: "Unauthorized" };
     mutate(loggedOut, { revalidate: false });
@@ -90,16 +110,46 @@ const Header = () => {
     ? `${safeLeft}/${safeLimit}`
     : `${totalCredits} kredyt${totalCredits === 1 ? "" : "ów"}`;
 
+  const creditsTone = isPaid
+    ? styles.creditsPaid
+    : trialCredits > 0
+      ? styles.creditsTrial
+      : styles.creditsFree;
+
+  const creditsTitle = isPaid
+    ? `Pozostało ${safeLeft} z ${safeLimit} opisów`
+    : trialCredits > 0
+      ? `${trialCredits} kredytów testowych`
+      : "Brak kredytów — wybierz pakiet";
+
   const emailShort = user?.email
     ? user.email.length > 22
       ? `${user.email.slice(0, 18)}…`
       : user.email
     : "—";
 
+  const creditsBlock = !isLoadingUser ? (
+    <div className={`${styles.creditsPill} ${creditsTone}`} title={creditsTitle}>
+      <span className={styles.creditsPlan}>{planName}</span>
+      <span className={styles.creditsSep} aria-hidden />
+      <span className={styles.creditsValue}>{creditsLabel}</span>
+      {isPaid && (
+        <span className={styles.miniBar} aria-hidden>
+          <span
+            className={`${styles.miniProgress} ${
+              safeLeft === 0 ? styles.miniEmpty : ""
+            }`}
+            style={{ width: `${progressPct}%` }}
+          />
+        </span>
+      )}
+    </div>
+  ) : null;
+
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${menuOpen ? styles.headerOpen : ""}`}>
       <div className={styles.navInner}>
-        <Link href="/dashboard" className={styles.brand}>
+        <Link href="/dashboard" className={styles.brand} onClick={closeMenu}>
           <Image
             src="/logo.png"
             width={40}
@@ -111,46 +161,13 @@ const Header = () => {
           <span className={styles.brandName}>Generator Ogłoszeń</span>
         </Link>
 
-        <div
-          className={`${styles.actions} ${menuOpen ? styles.actionsOpen : ""}`}
-        >
-          {!isLoadingUser && (
-            <div
-              className={`${styles.creditsPill} ${
-                isPaid
-                  ? styles.creditsPaid
-                  : trialCredits > 0
-                    ? styles.creditsTrial
-                    : styles.creditsFree
-              }`}
-              title={
-                isPaid
-                  ? `Pozostało ${safeLeft} z ${safeLimit} opisów`
-                  : trialCredits > 0
-                    ? `${trialCredits} kredytów testowych`
-                    : "Brak kredytów — wybierz pakiet"
-              }
-            >
-              <span className={styles.creditsPlan}>{planName}</span>
-              <span className={styles.creditsSep} aria-hidden />
-              <span className={styles.creditsValue}>{creditsLabel}</span>
-              {isPaid && (
-                <span className={styles.miniBar} aria-hidden>
-                  <span
-                    className={`${styles.miniProgress} ${
-                      safeLeft === 0 ? styles.miniEmpty : ""
-                    }`}
-                    style={{ width: `${progressPct}%` }}
-                  />
-                </span>
-              )}
-            </div>
-          )}
+        {/* Desktop */}
+        <div className={styles.desktopNav}>
+          {creditsBlock}
 
           <Link
             href="/dashboard"
             className={`${styles.navBtn} ${isGenerator ? styles.navBtnActive : ""}`}
-            onClick={() => setMenuOpen(false)}
             aria-current={isGenerator ? "page" : undefined}
           >
             Generator
@@ -167,7 +184,6 @@ const Header = () => {
           <Link
             href="/dashboard/billing"
             className={`${styles.navBtn} ${isBilling ? styles.navBtnActive : ""}`}
-            onClick={() => setMenuOpen(false)}
             aria-current={isBilling ? "page" : undefined}
           >
             Konto
@@ -193,15 +209,118 @@ const Header = () => {
 
         <button
           type="button"
-          className={styles.menuToggle}
+          className={`${styles.menuToggle} ${menuOpen ? styles.menuToggleOpen : ""}`}
           aria-label={menuOpen ? "Zamknij menu" : "Otwórz menu"}
           aria-expanded={menuOpen}
+          aria-controls="dashboard-mobile-menu"
           onClick={() => setMenuOpen((v) => !v)}
         >
-          <span className={styles.menuBar} data-open={menuOpen} />
-          <span className={styles.menuBar} data-open={menuOpen} />
+          <span className={styles.menuBar} />
+          <span className={styles.menuBar} />
+          <span className={styles.menuBar} />
         </button>
       </div>
+
+      {/* Mobile drawer */}
+      <div
+        className={`${styles.backdrop} ${menuOpen ? styles.backdropOpen : ""}`}
+        onClick={closeMenu}
+        aria-hidden={!menuOpen}
+      />
+
+      <nav
+        id="dashboard-mobile-menu"
+        className={`${styles.drawer} ${menuOpen ? styles.drawerOpen : ""}`}
+        aria-label="Menu dashboardu"
+        aria-hidden={!menuOpen}
+      >
+        <div className={styles.drawerInner}>
+          <div className={styles.drawerHead}>
+            <p className={styles.drawerEyebrow}>Menu</p>
+            <p className={styles.drawerTitle}>Twój workspace</p>
+          </div>
+
+          {!isLoadingUser && (
+            <div className={styles.accountCard}>
+              <div className={styles.accountRow}>
+                <span className={styles.emailDot} aria-hidden />
+                <span className={styles.accountEmail} title={user?.email}>
+                  {user?.email ?? "—"}
+                </span>
+              </div>
+              <div className={`${styles.drawerCredits} ${creditsTone}`}>
+                <span className={styles.creditsPlan}>{planName}</span>
+                <span className={styles.creditsValue}>{creditsLabel}</span>
+                {isPaid && (
+                  <span className={styles.drawerBar} aria-hidden>
+                    <span
+                      className={`${styles.miniProgress} ${
+                        safeLeft === 0 ? styles.miniEmpty : ""
+                      }`}
+                      style={{ width: `${progressPct}%` }}
+                    />
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
+
+          <div className={styles.drawerNav}>
+            <p className={styles.drawerSection}>Nawigacja</p>
+
+            <Link
+              href="/dashboard"
+              className={`${styles.drawerLink} ${
+                isGenerator ? styles.drawerLinkActive : ""
+              }`}
+              onClick={closeMenu}
+              aria-current={isGenerator ? "page" : undefined}
+            >
+              <span className={styles.drawerLinkMain}>Generator</span>
+              <span className={styles.drawerLinkSub}>
+                Słowa kluczowe → opis ogłoszenia
+              </span>
+            </Link>
+
+            <button
+              type="button"
+              className={styles.drawerLink}
+              onClick={handleOpenModal}
+            >
+              <span className={styles.drawerLinkMain}>Zapisane</span>
+              <span className={styles.drawerLinkSub}>
+                Biblioteka Twoich opisów
+              </span>
+            </button>
+
+            <Link
+              href="/dashboard/billing"
+              className={`${styles.drawerLink} ${
+                isBilling ? styles.drawerLinkActive : ""
+              }`}
+              onClick={closeMenu}
+              aria-current={isBilling ? "page" : undefined}
+            >
+              <span className={styles.drawerLinkMain}>Konto</span>
+              <span className={styles.drawerLinkSub}>
+                Plan, kredyty i aktywność
+              </span>
+            </Link>
+          </div>
+
+          <div className={styles.drawerFoot}>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className={styles.drawerLogout}
+              disabled={isLoggingOut}
+              aria-busy={isLoggingOut}
+            >
+              {isLoggingOut ? "Wylogowywanie…" : "Wyloguj"}
+            </button>
+          </div>
+        </div>
+      </nav>
 
       {isModalOpen && (
         <ModalDescriptions
