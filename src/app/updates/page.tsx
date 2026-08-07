@@ -18,6 +18,7 @@ type ChangeGroup = {
 type Release = {
   version: string;
   date: string;
+  dateIso: string;
   current?: boolean;
   summary: string;
   groups: ChangeGroup[];
@@ -25,9 +26,61 @@ type Release = {
 
 const releases: Release[] = [
   {
+    version: "0.3.0",
+    date: "08.08.2026",
+    dateIso: "2026-08-08",
+    current: true,
+    summary:
+      "Odświeżony dashboard w stylu światowych marek SaaS, trial kredyty, szablony branżowe i nowa strona Konta.",
+    groups: [
+      {
+        title: "Dashboard i nawigacja",
+        items: [
+          "Nowy sticky Header: brand, Generator, Zapisane, Konto, kredyty i wylogowanie",
+          "Menu hamburger jako boczny drawer z overlay (działa poprawnie na telefonie)",
+          "Aktywna strona podświetlana w menu",
+        ],
+      },
+      {
+        title: "Generator opisów",
+        items: [
+          "Workspace „Nowe ogłoszenie” z nowoczesnym layoutem",
+          "Szablony branż jako chipy: ogólny, auto, wynajem, praca, usługi, marketplace",
+          "Composer na słowa kluczowe, przełącznik pełnego pakietu treści (tytuł + krótki + długi)",
+          "Odświeżony podgląd wyniku: Kopiuj / Zapisz bez zbędnych odstępów",
+        ],
+      },
+      {
+        title: "Konto i kredyty",
+        items: [
+          "Nowa strona Konto: plan, progress kredytów, timeline aktywności",
+          "Pakiety Start / Standard / Pro widoczne przy braku kredytów",
+          "2 darmowe kredyty trial dla nowych kont (zużycie trial → płatne)",
+          "Soft paywall gdy skończą się generacje",
+        ],
+      },
+      {
+        title: "Modal Zapisane",
+        items: [
+          "Przebudowany modal biblioteki opisów",
+          "Nawigacja Poprzedni / Następny, Kopiuj, Usuń",
+          "Poprawione otwieranie na telefonie (sheet od dołu, bez uciętej góry)",
+        ],
+      },
+      {
+        title: "Landing i system",
+        items: [
+          "Spójne menu mobilne na landingu i podstronach (SiteNav / Hero)",
+          "Nowy Loader w stylu Linear: logo, pierścień, status",
+          "Eventy analityczne: signup, generate, checkout, purchase, paywall_view",
+        ],
+      },
+    ],
+  },
+  {
     version: "0.2.0",
     date: "14.12.2025",
-    current: true,
+    dateIso: "2025-12-14",
     summary:
       "Pakiety kredytów, płatności Stripe i nowy dashboard — solidna baza pod monetyzację.",
     groups: [
@@ -102,7 +155,7 @@ export default function UpdatesPage() {
                         <span className={styles.badge}>Aktualna</span>
                       )}
                     </div>
-                    <time className={styles.date} dateTime="2025-12-14">
+                    <time className={styles.date} dateTime={release.dateIso}>
                       {release.date}
                     </time>
                   </div>
