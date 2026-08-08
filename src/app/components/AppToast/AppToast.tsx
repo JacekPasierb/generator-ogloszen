@@ -2,7 +2,7 @@
 
 import { Slide, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "../styles/toast.css";
+import "../../styles/toast.css";
 
 const AppToast = () => {
   return (
