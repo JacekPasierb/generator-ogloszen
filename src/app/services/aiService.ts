@@ -2,6 +2,7 @@ export interface GenerateParams {
   input: string;
   templateId?: string;
   outputFormat?: "simple" | "full";
+  imageDataUrl?: string;
 }
 
 export interface GenerateResponse {
@@ -21,6 +22,7 @@ export const generateDescription = async (
       input: params.input,
       templateId: params.templateId ?? "default",
       outputFormat: params.outputFormat ?? "simple",
+      imageDataUrl: params.imageDataUrl || undefined,
     }),
   });
 

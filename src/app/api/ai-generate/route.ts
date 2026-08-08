@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getUserIdFromToken } from "../../lib/auth/getUserIdFromToken";
-import { generateDescription } from "../../lib/ai/generateDescription";
+import {
+  generateDescription,
+  isValidImageDataUrl,
+} from "../../lib/ai/generateDescription";
 import { consumeCredit, getAvailableCredits } from "../../lib/db/consumeCredit";
 import { checkRateLimit } from "../../lib/rateLimit";
 import handleError from "../../lib/errors/userErrors";
@@ -10,7 +13,14 @@ import User from "../../models/User";
 import { trackEvent } from "../../lib/analytics/trackEvent";
 import type { TemplateId } from "../../data/templates";
 
-const VALID_TEMPLATES = ["default", "car", "rental", "job", "services", "marketplace"];
+const VALID_TEMPLATES = [
+  "default",
+  "car",
+  "rental",
+  "job",
+  "services",
+  "marketplace",
+];
 
 export const POST = async (req: Request) => {
   try {
@@ -34,15 +44,34 @@ export const POST = async (req: Request) => {
     }
 
     const body = await req.json();
-    const input = body?.input;
-    const templateId = typeof body?.templateId === "string" && VALID_TEMPLATES.includes(body.templateId)
-      ? (body.templateId as TemplateId)
-      : "default";
+    const input = typeof body?.input === "string" ? body.input : "";
+    const imageDataUrl =
+      typeof body?.imageDataUrl === "string" ? body.imageDataUrl.trim() : "";
+    const hasImage = imageDataUrl.length > 0;
+
+    const templateId =
+      typeof body?.templateId === "string" &&
+      VALID_TEMPLATES.includes(body.templateId)
+        ? (body.templateId as TemplateId)
+        : "default";
     const outputFormat = body?.outputFormat === "full" ? "full" : "simple";
 
-    if (!input || typeof input !== "string" || input.trim().length === 0) {
-      throw handleError(400, "Brak lub nieprawidłowy input");
+    if (hasImage && !isValidImageDataUrl(imageDataUrl)) {
+      throw handleError(
+        400,
+        "Nieprawidłowe zdjęcie (dozwolone: JPG/PNG/WebP, max ~1 MB po kompresji)."
+      );
     }
+
+    if (!hasImage) {
+      if (!input.trim()) {
+        throw handleError(400, "Podaj słowa kluczowe albo dodaj zdjęcie");
+      }
+      if (input.trim().length < 10) {
+        throw handleError(400, "Opis musi mieć co najmniej 10 znaków");
+      }
+    }
+
     if (input.length > 500) {
       throw handleError(400, "Input zbyt długi (max 500 znaków)");
     }
@@ -66,11 +95,12 @@ export const POST = async (req: Request) => {
     const result = await generateDescription(input, {
       templateId,
       outputFormat,
+      imageDataUrl: hasImage ? imageDataUrl : undefined,
     });
 
     await trackEvent("generate", {
       userId: String(userId),
-      payload: { templateId, outputFormat },
+      payload: { templateId, outputFormat, hasImage },
     });
 
     const description = typeof result === "string" ? result : result.long;

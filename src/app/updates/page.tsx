@@ -47,6 +47,7 @@ const releases: Release[] = [
           "Workspace „Nowe ogłoszenie” z nowoczesnym layoutem",
           "Szablony branż jako chipy: ogólny, auto, wynajem, praca, usługi, marketplace",
           "Composer na słowa kluczowe, przełącznik pełnego pakietu treści (tytuł + krótki + długi)",
+          "Generowanie opisu na podstawie zdjęcia produktu (Vision AI)",
           "Odświeżony podgląd wyniku: Kopiuj / Zapisz bez zbędnych odstępów",
         ],
       },

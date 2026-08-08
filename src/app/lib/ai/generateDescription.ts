@@ -10,6 +10,8 @@ const openai = new OpenAI({
 export type GenerateOptions = {
   templateId?: TemplateId | string;
   outputFormat?: "simple" | "full";
+  /** data:image/...;base64,... */
+  imageDataUrl?: string;
 };
 
 export interface GeneratedFull {
@@ -18,9 +20,15 @@ export interface GeneratedFull {
   long: string;
 }
 
+const DATA_URL_RE = /^data:image\/(jpeg|jpg|png|webp);base64,/i;
+
+export function isValidImageDataUrl(value: string): boolean {
+  return DATA_URL_RE.test(value) && value.length > 32 && value.length <= 1_400_000;
+}
+
 /**
  * Generuje opis (prosty) lub tytuł + wersje krótka/długa.
- * templateId: szablon branżowy (default, car, rental, job, services, marketplace).
+ * Opcjonalnie na podstawie zdjęcia (Vision).
  */
 export const generateDescription = async (
   input: string,
@@ -29,20 +37,56 @@ export const generateDescription = async (
   const template = getTemplateById(options?.templateId ?? "default");
   const promptPrefix = template.promptPrefix;
   const isFull = options?.outputFormat === "full";
+  const imageDataUrl = options?.imageDataUrl?.trim();
+  const hasImage = Boolean(imageDataUrl);
+
+  if (hasImage && imageDataUrl && !isValidImageDataUrl(imageDataUrl)) {
+    throw handleError(400, "Nieprawidłowy format zdjęcia");
+  }
 
   const systemPrompt = isFull
-    ? "Odpowiedz wyłącznie w formacie JSON (bez markdown, bez ```): {\"title\": \"tytuł ogłoszenia\", \"short\": \"krótki opis do 160 znaków\", \"long\": \"pełny opis ogłoszenia\"}. Tytuł max 80 znaków."
-    : "Odpowiedz tylko treścią ogłoszenia, bez dodatkowych nagłówków ani komentarzy.";
+    ? "Odpowiedz wyłącznie w formacie JSON (bez markdown, bez ```): {\"title\": \"tytuł ogłoszenia\", \"short\": \"krótki opis do 160 znaków\", \"long\": \"pełny opis ogłoszenia\"}. Tytuł max 80 znaków. Pisz po polsku, styl sprzedażowy pod OLX / Marketplace. Nie zmyślaj faktów niewidocznych na zdjęciu — jeśli czegoś nie widać, pomiń lub napisz ogólnie."
+    : "Odpowiedz tylko treścią ogłoszenia po polsku, bez dodatkowych nagłówków ani komentarzy. Styl sprzedażowy pod OLX / Marketplace. Nie zmyślaj faktów niewidocznych na zdjęciu — jeśli czegoś nie widać, pomiń lub napisz ogólnie.";
 
-  const userPrompt = `${promptPrefix}\n\n${input}`;
+  const textParts = [
+    promptPrefix,
+    hasImage
+      ? "Na podstawie ZAŁĄCZONEGO ZDJĘCIA rozpoznaj produkt/przedmiot i stwórz atrakcyjne ogłoszenie. Wyodrębnij widoczne cechy (rodzaj, kolor, stan, marka jeśli czytelna, kontekst)."
+      : null,
+    input.trim()
+      ? `Dodatkowe informacje od sprzedającego:\n${input.trim()}`
+      : hasImage
+        ? "Brak dodatkowych słów kluczowych — bazuj na zdjęciu."
+        : null,
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+
+  const model = hasImage
+    ? process.env.OPENAI_VISION_MODEL ||
+      process.env.OPENAI_MODEL ||
+      "gpt-4o-mini"
+    : process.env.OPENAI_MODEL || "gpt-3.5-turbo";
+
+  const userContent: OpenAI.Chat.Completions.ChatCompletionContentPart[] =
+    hasImage && imageDataUrl
+      ? [
+          { type: "text", text: textParts },
+          {
+            type: "image_url",
+            image_url: { url: imageDataUrl, detail: "low" },
+          },
+        ]
+      : [{ type: "text", text: textParts }];
 
   try {
     const response = await openai.chat.completions.create({
-      model: process.env.OPENAI_MODEL || "gpt-3.5-turbo",
+      model,
       messages: [
         { role: "system", content: systemPrompt },
-        { role: "user", content: userPrompt },
+        { role: "user", content: userContent },
       ],
+      max_tokens: isFull ? 900 : 600,
     });
     const raw = response.choices[0].message.content;
     if (!raw || !raw.trim()) {
@@ -51,15 +95,19 @@ export const generateDescription = async (
 
     if (isFull) {
       const cleaned = raw.replace(/^```\w*\n?|\n?```$/g, "").trim();
-      const parsed = JSON.parse(cleaned) as GeneratedFull;
-      if (
-        typeof parsed.title !== "string" ||
-        typeof parsed.short !== "string" ||
-        typeof parsed.long !== "string"
-      ) {
-        return { title: "", short: raw, long: raw };
+      try {
+        const parsed = JSON.parse(cleaned) as GeneratedFull;
+        if (
+          typeof parsed.title === "string" &&
+          typeof parsed.short === "string" &&
+          typeof parsed.long === "string"
+        ) {
+          return parsed;
+        }
+      } catch {
+        /* fallback below */
       }
-      return parsed;
+      return { title: "", short: raw, long: raw };
     }
 
     return raw.trim();

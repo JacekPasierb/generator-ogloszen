@@ -102,6 +102,118 @@
   outline-offset: 2px;
 }
 
+/* ---------- Image upload ---------- */
+.fileInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.uploadZone {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+  padding: 18px 16px;
+  border-radius: 14px;
+  border: 1px dashed var(--neutral-300);
+  background: var(--neutral-50);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.15s var(--ease-out),
+    background 0.15s var(--ease-out);
+}
+
+.uploadZone:hover:not(:disabled) {
+  border-color: var(--neutral-500);
+  background: #fff;
+}
+
+.uploadZone:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.uploadTitle {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--neutral-900);
+}
+
+.uploadSub {
+  font-size: 0.75rem;
+  color: var(--neutral-500);
+}
+
+.imagePreview {
+  display: flex;
+  gap: 14px;
+  align-items: stretch;
+  width: 100%;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid var(--neutral-200);
+  background: #fff;
+}
+
+.imageThumb {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 10px;
+  flex-shrink: 0;
+  background: var(--neutral-100);
+}
+
+.imageMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+}
+
+.imageStatus {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--neutral-900);
+}
+
+.imageHint {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--neutral-500);
+}
+
+.imageRemove {
+  margin-top: auto;
+  align-self: flex-start;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--neutral-200);
+  background: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--neutral-700);
+  cursor: pointer;
+}
+
+.imageRemove:hover:not(:disabled) {
+  background: var(--neutral-50);
+  border-color: var(--neutral-300);
+}
+
 /* ---------- Composer ---------- */
 .composer {
   width: 100%;

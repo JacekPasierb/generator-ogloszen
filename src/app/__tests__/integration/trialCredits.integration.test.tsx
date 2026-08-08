@@ -50,10 +50,10 @@ describe("Trial Credits Integration", () => {
     );
 
     const user = userEvent.setup();
-    const textarea = screen.getByPlaceholderText(
-      /opisz, co chcesz sprzedać lub zaoferować/i
+    const textarea = screen.getByLabelText(
+      /pole do wpisania słów kluczowych ogłoszenia/i
     );
-    const button = screen.getByRole("button", {name: /generuj opis ai/i});
+    const button = screen.getByRole("button", { name: /generuj opis/i });
 
     await user.type(textarea, "Sprzedam rower");
     await user.click(button);
@@ -79,10 +79,10 @@ describe("Trial Credits Integration", () => {
     );
 
     const user = userEvent.setup();
-    const textarea = screen.getByPlaceholderText(
-      /opisz, co chcesz sprzedać lub zaoferować/i
+    const textarea = screen.getByLabelText(
+      /pole do wpisania słów kluczowych ogłoszenia/i
     );
-    const button = screen.getByRole("button", {name: /generuj opis ai/i});
+    const button = screen.getByRole("button", { name: /generuj opis/i });
 
     await user.type(textarea, "Sprzedam rower");
     await user.click(button);

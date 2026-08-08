@@ -67,8 +67,8 @@ const Generator = () => {
 
         {canGenerate && !isExhausted && (
           <p className={styles.subTitle}>
-            Wpisz cechy oferty — AI zbuduje sprzedażowy opis pod OLX,
-            Marketplace i social.
+            Wpisz cechy oferty lub dodaj zdjęcie — AI zbuduje sprzedażowy opis
+            pod OLX, Marketplace i social.
           </p>
         )}
 
