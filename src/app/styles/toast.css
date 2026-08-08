@@ -16,7 +16,7 @@
 
   --toastify-toast-width: 360px;
   --toastify-toast-offset: 16px;
-  --toastify-toast-padding: 0;
+  --toastify-toast-padding: 12px 14px;
   --toastify-toast-min-height: 0;
   --toastify-toast-bd-radius: 14px;
   --toastify-toast-shadow:
@@ -44,6 +44,8 @@
   position: relative;
   margin-bottom: 10px;
   overflow: hidden;
+  padding: 12px 14px;
+  padding-left: 16px;
   border: 1px solid rgba(0, 0, 0, 0.06);
   background: #fff;
   color: var(--neutral-800);
@@ -57,9 +59,10 @@
 
 .Toastify__toast-body {
   margin: 0;
-  padding: 14px 40px 14px 16px;
+  padding: 0;
+  padding-right: 28px;
   align-items: flex-start;
-  gap: 12px;
+  gap: 10px;
 }
 
 .Toastify__toast-body > div:last-child {
@@ -67,16 +70,20 @@
 }
 
 .Toastify__toast-icon {
-  width: 20px;
+  width: 18px;
   margin-inline-end: 0;
   flex-shrink: 0;
-  margin-top: 1px;
+  margin-top: 2px;
 }
 
 .Toastify__close-button {
   position: absolute;
   top: 10px;
   right: 10px;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
   align-self: auto;
   opacity: 0.45;
   color: var(--neutral-700);
@@ -155,8 +162,18 @@
 
   .Toastify__toast {
     margin-bottom: 8px;
+    padding: 12px 12px 12px 14px;
     border-radius: 14px;
     width: 100%;
+  }
+
+  .Toastify__toast-body {
+    padding-right: 26px;
+  }
+
+  .Toastify__close-button {
+    top: 8px;
+    right: 8px;
   }
 }
 
