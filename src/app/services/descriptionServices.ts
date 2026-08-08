@@ -9,11 +9,26 @@ export const fetchDescription = async () => {
   return data.descriptions;
 };
 
-export const saveDescription = async (description: string) => {
+export type SaveDescriptionPayload = {
+  description: string;
+  title?: string;
+  short?: string;
+};
+
+export const saveDescription = async (payload: SaveDescriptionPayload | string) => {
+  const body =
+    typeof payload === "string"
+      ? { description: payload }
+      : {
+          description: payload.description,
+          title: payload.title,
+          short: payload.short,
+        };
+
   const res = await fetch("/api/descriptions", {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({description}),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
   });
 
   const data = await res.json();

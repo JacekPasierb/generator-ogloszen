@@ -82,10 +82,19 @@ const ModalDescriptions: React.FC<ModalProps> = ({
     if (currentPage < data.length - 1) setCurrentPage((prev) => prev + 1);
   };
 
+  const formatSavedPackage = (item: SavedDescription) => {
+    const parts = [
+      item.title?.trim() ? `Tytuł:\n${item.title.trim()}` : null,
+      item.short?.trim() ? `Krótko:\n${item.short.trim()}` : null,
+      `Opis:\n${item.text.trim()}`,
+    ].filter(Boolean);
+    return parts.join("\n\n");
+  };
+
   const handleCopy = async () => {
     if (!currentDescription?.text) return;
     try {
-      await navigator.clipboard.writeText(currentDescription.text);
+      await navigator.clipboard.writeText(formatSavedPackage(currentDescription));
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -158,6 +167,23 @@ const ModalDescriptions: React.FC<ModalProps> = ({
 
         {hasItems ? (
           <div className={styles.body}>
+            {(currentDescription.title || currentDescription.short) && (
+              <div className={styles.metaBlocks}>
+                {currentDescription.title && (
+                  <div className={styles.metaBlock}>
+                    <span className={styles.metaLabel}>Tytuł</span>
+                    <p className={styles.metaValue}>{currentDescription.title}</p>
+                  </div>
+                )}
+                {currentDescription.short && (
+                  <div className={styles.metaBlock}>
+                    <span className={styles.metaLabel}>Krótko</span>
+                    <p className={styles.metaValue}>{currentDescription.short}</p>
+                  </div>
+                )}
+              </div>
+            )}
+
             <div className={styles.preview}>
               <textarea
                 readOnly

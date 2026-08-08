@@ -40,7 +40,12 @@ const Description = () => {
 
   const handleCopy = () => {
     if (!description?.trim()) return;
-    navigator.clipboard.writeText(description);
+    const parts = [
+      title?.trim() ? `Tytuł:\n${title.trim()}` : null,
+      short?.trim() ? `Krótko:\n${short.trim()}` : null,
+      `Opis:\n${description.trim()}`,
+    ].filter(Boolean);
+    navigator.clipboard.writeText(parts.join("\n\n"));
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -53,7 +58,11 @@ const Description = () => {
     setIsSaving(true);
 
     try {
-      await saveDescription(description);
+      await saveDescription({
+        description,
+        title: title || undefined,
+        short: short || undefined,
+      });
 
       setSaved(true);
       setDescription("");

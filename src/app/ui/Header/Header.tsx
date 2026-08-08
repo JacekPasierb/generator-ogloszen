@@ -13,6 +13,8 @@ import { usePathname, useRouter } from "next/navigation";
 
 export interface SavedDescription {
   text: string;
+  title?: string;
+  short?: string;
   date: string;
   _id: string;
 }

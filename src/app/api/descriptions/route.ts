@@ -47,10 +47,26 @@ export const POST = async (req: NextRequest) => {
       throw handleError(400, "Można zapisać maksymalnie 5 opisów");
     }
 
-    const { description } = await req.json();
+    const body = await req.json();
+    const description =
+      typeof body?.description === "string" ? body.description.trim() : "";
+    const title =
+      typeof body?.title === "string" && body.title.trim()
+        ? body.title.trim().slice(0, 120)
+        : undefined;
+    const short =
+      typeof body?.short === "string" && body.short.trim()
+        ? body.short.trim().slice(0, 200)
+        : undefined;
+
     if (!description) throw handleError(400, "Brak opisu do zapisania");
 
-    user.savedDescriptions.push({ text: description, date: new Date() });
+    user.savedDescriptions.push({
+      text: description,
+      title: title || undefined,
+      short: short || undefined,
+      date: new Date(),
+    });
     await user.save();
 
     return NextResponse.json({ message: "Opis zapisany pomyślnie" });

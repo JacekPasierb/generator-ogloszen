@@ -2,6 +2,8 @@ import mongoose, {Document, Schema} from "mongoose";
 
 interface Description {
   text: string;
+  title?: string;
+  short?: string;
   date: Date;
 }
 export type Plan = "free" | "start" | "standard" | "pro";
@@ -25,6 +27,8 @@ export interface IUser extends Document {
 
 const descriptionSchema = new Schema<Description>({
   text: {type: String, required: true},
+  title: {type: String, default: null},
+  short: {type: String, default: null},
   date: {type: Date, default: Date.now},
 });
 

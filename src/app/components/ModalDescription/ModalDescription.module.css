@@ -172,6 +172,37 @@
   padding: 16px 20px 20px;
 }
 
+.metaBlocks {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.metaBlock {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--neutral-200);
+  background: var(--neutral-50);
+  text-align: left;
+}
+
+.metaLabel {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.metaValue {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--neutral-800);
+}
+
 .preview {
   flex: 1;
   min-height: 120px;
