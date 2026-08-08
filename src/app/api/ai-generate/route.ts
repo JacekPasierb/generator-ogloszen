@@ -84,6 +84,12 @@ export const POST = async (req: Request) => {
       );
     }
 
+    const result = await generateDescription(input, {
+      templateId,
+      outputFormat,
+      imageDataUrl: hasImage ? imageDataUrl : undefined,
+    });
+
     const creditConsumed = await consumeCredit(userId);
     if (!creditConsumed) {
       throw handleError(
@@ -91,12 +97,6 @@ export const POST = async (req: Request) => {
         "Brak dostępnych kredytów. Wybierz pakiet, aby kontynuować."
       );
     }
-
-    const result = await generateDescription(input, {
-      templateId,
-      outputFormat,
-      imageDataUrl: hasImage ? imageDataUrl : undefined,
-    });
 
     await trackEvent("generate", {
       userId: String(userId),

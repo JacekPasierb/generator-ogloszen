@@ -62,10 +62,9 @@ export const generateDescription = async (
     .filter(Boolean)
     .join("\n\n");
 
+  // Vision wymaga modelu z obrazami — NIE używamy OPENAI_MODEL (często gpt-3.5-turbo).
   const model = hasImage
-    ? process.env.OPENAI_VISION_MODEL ||
-      process.env.OPENAI_MODEL ||
-      "gpt-4o-mini"
+    ? process.env.OPENAI_VISION_MODEL || "gpt-4o-mini"
     : process.env.OPENAI_MODEL || "gpt-3.5-turbo";
 
   const userContent: OpenAI.Chat.Completions.ChatCompletionContentPart[] =
@@ -111,9 +110,42 @@ export const generateDescription = async (
     }
 
     return raw.trim();
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("OPENAI ERROR:", error);
-    if (error && typeof error === "object" && "status" in error) throw error;
+
+    if (error && typeof error === "object" && "status" in error) {
+      const apiErr = error as {
+        status?: number;
+        message?: string;
+        code?: string;
+      };
+      const status = apiErr.status || 500;
+      const rawMsg = apiErr.message || "";
+
+      if (
+        status === 400 &&
+        /image|vision|content/i.test(rawMsg)
+      ) {
+        throw handleError(
+          400,
+          "Model AI nie przyjął zdjęcia. Spróbuj innego pliku JPG/PNG."
+        );
+      }
+      if (status === 429) {
+        throw handleError(429, "Limit OpenAI — spróbuj za chwilę.");
+      }
+      if (status >= 500) {
+        throw handleError(
+          502,
+          "Chwilowy błąd OpenAI przy analizie zdjęcia. Spróbuj ponownie."
+        );
+      }
+      throw handleError(
+        status >= 400 && status < 600 ? status : 500,
+        "Błąd podczas generowania opisu"
+      );
+    }
+
     throw handleError(500, "Błąd podczas generowania opisu");
   }
 };
