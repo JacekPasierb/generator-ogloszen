@@ -3,11 +3,11 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ReactNode } from "react";
 import Footer from "./ui/Footer/Footer";
-import { Bounce, ToastContainer } from "react-toastify";
 import { DescriptionProvider } from "./context/DescriptionContext";
 import Script from "next/script";
 import AnalyticsTracker from "./AnalyticsTracker";
 import BackToTop from "./components/BackToTop/BackToTop";
+import AppToast from "./components/AppToast/AppToast";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -45,7 +45,6 @@ const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="pl" className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <body>
-        {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-EBP2HDV362"
           strategy="afterInteractive"
@@ -62,22 +61,9 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         <AnalyticsTracker />
 
         <DescriptionProvider>
-          <main >
+          <main>
             {children}
-
-            <ToastContainer
-              position="top-right"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick={false}
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="light"
-              transition={Bounce}
-            />
+            <AppToast />
           </main>
 
           <Footer />
