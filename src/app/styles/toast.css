@@ -63,7 +63,7 @@
   align-items: flex-start !important;
   margin: 0 !important;
   padding: 0 !important;
-  gap: 12px !important;
+  gap: 14px !important;
 }
 
 .Toastify__toast-body > div:last-child {
@@ -78,7 +78,7 @@
   width: 20px !important;
   height: 20px !important;
   margin: 0 !important;
-  margin-inline-end: 0 !important;
+  margin-inline-end: 4px !important;
   flex-shrink: 0 !important;
   margin-top: 1px !important;
 }
@@ -185,7 +185,7 @@
   }
 
   .Toastify__toast-body {
-    gap: 10px !important;
+    gap: 12px !important;
   }
 
   .Toastify__close-button {
