@@ -5,10 +5,15 @@ import { createPortal } from "react-dom";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./SiteNav.module.css";
+import { useUser } from "../../hooks/useUser";
 
 const SiteNav = () => {
+  const { user } = useUser();
   const [menuOpen, setMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+
+  const isAuthed = Boolean(user);
+  const authReady = user !== undefined;
 
   useEffect(() => {
     setMounted(true);
@@ -33,7 +38,11 @@ const SiteNav = () => {
   return (
     <header className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`}>
       <div className={styles.navInner}>
-        <Link href="/" className={styles.brand} onClick={closeMenu}>
+        <Link
+          href={isAuthed ? "/dashboard" : "/"}
+          className={styles.brand}
+          onClick={closeMenu}
+        >
           <Image
             src="/logo.png"
             width={40}
@@ -52,12 +61,30 @@ const SiteNav = () => {
           <Link href="/#examples" className={styles.navLink}>
             Przykłady
           </Link>
-          <Link href="/login" className={styles.navLink}>
-            Zaloguj
+          <Link href="/updates" className={styles.navLink}>
+            Co nowego
           </Link>
-          <Link href="/register" className={styles.navCta}>
-            Zacznij za darmo
-          </Link>
+
+          {authReady &&
+            (isAuthed ? (
+              <>
+                <Link href="/dashboard/billing" className={styles.navLink}>
+                  Konto
+                </Link>
+                <Link href="/dashboard" className={styles.navCta}>
+                  Generator
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className={styles.navLink}>
+                  Zaloguj
+                </Link>
+                <Link href="/register" className={styles.navCta}>
+                  Zacznij za darmo
+                </Link>
+              </>
+            ))}
         </nav>
 
         <button
@@ -94,8 +121,9 @@ const SiteNav = () => {
                   <p className={styles.drawerEyebrow}>Nawigacja</p>
                   <p className={styles.drawerTitle}>Generator Ogłoszeń</p>
                   <p className={styles.drawerLead}>
-                    Opisy marketingowe ze słów kluczowych — gotowe pod OLX i
-                    Marketplace.
+                    {isAuthed
+                      ? "Wróć do workspace i generuj opisy ze słów kluczowych lub zdjęcia."
+                      : "Opisy marketingowe ze słów kluczowych — gotowe pod OLX i Marketplace."}
                   </p>
                 </div>
 
@@ -121,25 +149,61 @@ const SiteNav = () => {
                     </span>
                   </Link>
                   <Link
-                    href="/login"
+                    href="/updates"
                     className={styles.drawerLink}
                     onClick={closeMenu}
                   >
-                    <span className={styles.drawerLinkMain}>Zaloguj</span>
+                    <span className={styles.drawerLinkMain}>Co nowego</span>
                     <span className={styles.drawerLinkSub}>
-                      Wróć do swojego workspace
+                      Changelog i aktualizacje
                     </span>
                   </Link>
+
+                  {authReady &&
+                    (isAuthed ? (
+                      <Link
+                        href="/dashboard/billing"
+                        className={styles.drawerLink}
+                        onClick={closeMenu}
+                      >
+                        <span className={styles.drawerLinkMain}>Konto</span>
+                        <span className={styles.drawerLinkSub}>
+                          Plan, kredyty i aktywność
+                        </span>
+                      </Link>
+                    ) : (
+                      <Link
+                        href="/login"
+                        className={styles.drawerLink}
+                        onClick={closeMenu}
+                      >
+                        <span className={styles.drawerLinkMain}>Zaloguj</span>
+                        <span className={styles.drawerLinkSub}>
+                          Wróć do swojego workspace
+                        </span>
+                      </Link>
+                    ))}
                 </div>
 
                 <div className={styles.drawerFoot}>
-                  <Link
-                    href="/register"
-                    className={styles.drawerCta}
-                    onClick={closeMenu}
-                  >
-                    Zacznij za darmo
-                  </Link>
+                  {authReady &&
+                    (isAuthed ? (
+                      <Link
+                        href="/dashboard"
+                        className={styles.drawerCta}
+                        onClick={closeMenu}
+                      >
+                        Otwórz generator
+                      </Link>
+                    ) : (
+                      <Link
+                        href="/register"
+                        className={styles.drawerCta}
+                        onClick={closeMenu}
+                      >
+                        Zacznij za darmo
+                      </Link>
+                    ))}
                 </div>
               </div>
             </nav>

@@ -5,12 +5,17 @@ import { createPortal } from "react-dom";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./Hero.module.css";
+import { useUser } from "../../hooks/useUser";
 
 const DEMO_KEYWORDS = "rower górski · 2022 · mało używany · Warszawa";
 const DEMO_OUTPUT =
   "Sprzedam rower górski z 2022 roku — stan prawie nowy, regularnie serwisowany. Idealny na trasy i codzienne dojazdy. Odbiór osobisty w Warszawie. Zapraszam do kontaktu!";
 
 const Hero = () => {
+  const { user } = useUser();
+  const isAuthed = Boolean(user);
+  const authReady = user !== undefined;
+
   const [typedKeywords, setTypedKeywords] = useState("");
   const [typedOutput, setTypedOutput] = useState("");
   const [phase, setPhase] = useState<"keywords" | "pause" | "output" | "done">(
@@ -81,7 +86,11 @@ const Hero = () => {
     <div className={styles.heroRoot}>
       <header className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`}>
         <div className={styles.navInner}>
-          <Link href="/" className={styles.brand} onClick={closeMenu}>
+          <Link
+            href={isAuthed ? "/dashboard" : "/"}
+            className={styles.brand}
+            onClick={closeMenu}
+          >
             <Image
               src="/logo.png"
               width={40}
@@ -100,12 +109,26 @@ const Hero = () => {
             <a href="#examples" className={styles.navLink}>
               Przykłady
             </a>
-            <Link href="/login" className={styles.navLink}>
-              Zaloguj
-            </Link>
-            <Link href="/register" className={styles.navCta}>
-              Zacznij za darmo
-            </Link>
+            {authReady &&
+              (isAuthed ? (
+                <>
+                  <Link href="/dashboard/billing" className={styles.navLink}>
+                    Konto
+                  </Link>
+                  <Link href="/dashboard" className={styles.navCta}>
+                    Generator
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link href="/login" className={styles.navLink}>
+                    Zaloguj
+                  </Link>
+                  <Link href="/register" className={styles.navCta}>
+                    Zacznij za darmo
+                  </Link>
+                </>
+              ))}
           </nav>
 
           <button
@@ -163,25 +186,50 @@ const Hero = () => {
                       Zobacz gotowe opisy
                     </span>
                   </a>
-                  <Link
-                    href="/login"
-                    className={styles.drawerLink}
-                    onClick={closeMenu}
-                  >
-                    <span className={styles.drawerLinkMain}>Zaloguj</span>
-                    <span className={styles.drawerLinkSub}>
-                      Wróć do workspace
-                    </span>
-                  </Link>
+                  {authReady &&
+                    (isAuthed ? (
+                      <Link
+                        href="/dashboard/billing"
+                        className={styles.drawerLink}
+                        onClick={closeMenu}
+                      >
+                        <span className={styles.drawerLinkMain}>Konto</span>
+                        <span className={styles.drawerLinkSub}>
+                          Plan, kredyty i aktywność
+                        </span>
+                      </Link>
+                    ) : (
+                      <Link
+                        href="/login"
+                        className={styles.drawerLink}
+                        onClick={closeMenu}
+                      >
+                        <span className={styles.drawerLinkMain}>Zaloguj</span>
+                        <span className={styles.drawerLinkSub}>
+                          Wróć do workspace
+                        </span>
+                      </Link>
+                    ))}
                 </div>
                 <div className={styles.drawerFoot}>
-                  <Link
-                    href="/register"
-                    className={styles.drawerCta}
-                    onClick={closeMenu}
-                  >
-                    Zacznij za darmo
-                  </Link>
+                  {authReady &&
+                    (isAuthed ? (
+                      <Link
+                        href="/dashboard"
+                        className={styles.drawerCta}
+                        onClick={closeMenu}
+                      >
+                        Otwórz generator
+                      </Link>
+                    ) : (
+                      <Link
+                        href="/register"
+                        className={styles.drawerCta}
+                        onClick={closeMenu}
+                      >
+                        Zacznij za darmo
+                      </Link>
+                    ))}
                 </div>
               </div>
             </nav>
@@ -207,12 +255,20 @@ const Hero = () => {
             </p>
 
             <div className={styles.ctaGroup}>
-              <Link href="/register" className={styles.ctaPrimary}>
-                Wygeneruj pierwszy opis
-              </Link>
-              <Link href="/login" className={styles.ctaSecondary}>
-                Mam już konto
-              </Link>
+              {isAuthed ? (
+                <Link href="/dashboard" className={styles.ctaPrimary}>
+                  Otwórz generator
+                </Link>
+              ) : (
+                <>
+                  <Link href="/register" className={styles.ctaPrimary}>
+                    Wygeneruj pierwszy opis
+                  </Link>
+                  <Link href="/login" className={styles.ctaSecondary}>
+                    Mam już konto
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 
