@@ -26,10 +26,43 @@ type Release = {
 
 const releases: Release[] = [
   {
-    version: "0.3.0",
+    version: "0.3.1",
     date: "08.08.2026",
     dateIso: "2026-08-08",
     current: true,
+    summary:
+      "Opisy ze zdjęcia, pełny pakiet w bibliotece, mądrzejsza nawigacja po zalogowaniu i odświeżone toasty.",
+    groups: [
+      {
+        title: "Generator i zdjęcia",
+        items: [
+          "Generowanie opisu na podstawie zdjęcia produktu (Vision AI, model gpt-4o-mini)",
+          "Zdjęcie + opcjonalne słowa kluczowe w jednym flow",
+          "Kompresja fotki w przeglądarce — pliki nie są przechowywane na serwerze",
+          "Kredyt schodzi dopiero po udanym wygenerowaniu",
+        ],
+      },
+      {
+        title: "Pełny pakiet treści",
+        items: [
+          "Zapis tytułu, wersji krótkiej i długiego opisu do biblioteki",
+          "Podgląd tytułu i shortu w modalu Zapisane",
+          "Kopiuj składa cały pakiet (tytuł / krótko / opis)",
+        ],
+      },
+      {
+        title: "Nawigacja i UX",
+        items: [
+          "Po zalogowaniu SiteNav / Hero pokazują Generator i Konto zamiast Zaloguj",
+          "Nowoczesne toasty w stylu Linear (karta, pasek typu, animacja Slide)",
+        ],
+      },
+    ],
+  },
+  {
+    version: "0.3.0",
+    date: "08.08.2026",
+    dateIso: "2026-08-08",
     summary:
       "Odświeżony dashboard w stylu światowych marek SaaS, trial kredyty, szablony branżowe i nowa strona Konta.",
     groups: [
@@ -47,7 +80,6 @@ const releases: Release[] = [
           "Workspace „Nowe ogłoszenie” z nowoczesnym layoutem",
           "Szablony branż jako chipy: ogólny, auto, wynajem, praca, usługi, marketplace",
           "Composer na słowa kluczowe, przełącznik pełnego pakietu treści (tytuł + krótki + długi)",
-          "Generowanie opisu na podstawie zdjęcia produktu (Vision AI)",
           "Odświeżony podgląd wyniku: Kopiuj / Zapisz bez zbędnych odstępów",
         ],
       },
