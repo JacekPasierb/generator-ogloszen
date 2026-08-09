@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
+import React, {useEffect, useState} from "react";
+import {createPortal} from "react-dom";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./Hero.module.css";
-import { useUser } from "../../hooks/useUser";
+import {useUser} from "../../hooks/useUser";
 
 const DEMO_KEYWORDS = "2022 · mało używany · Warszawa";
 const DEMO_OUTPUT =
@@ -14,7 +14,7 @@ const DEMO_OUTPUT =
 type DemoPhase = "photo" | "keywords" | "pause" | "output" | "done";
 
 const Hero = () => {
-  const { user } = useUser();
+  const {user} = useUser();
   const isAuthed = Boolean(user);
   const authReady = user !== undefined;
 
@@ -145,7 +145,9 @@ const Hero = () => {
 
           <button
             type="button"
-            className={`${styles.menuToggle} ${menuOpen ? styles.menuToggleOpen : ""}`}
+            className={`${styles.menuToggle} ${
+              menuOpen ? styles.menuToggleOpen : ""
+            }`}
             aria-label={menuOpen ? "Zamknij menu" : "Otwórz menu"}
             aria-expanded={menuOpen}
             aria-controls="hero-mobile-menu"
@@ -162,13 +164,17 @@ const Hero = () => {
         createPortal(
           <>
             <div
-              className={`${styles.backdrop} ${menuOpen ? styles.backdropOpen : ""}`}
+              className={`${styles.backdrop} ${
+                menuOpen ? styles.backdropOpen : ""
+              }`}
               onClick={closeMenu}
               aria-hidden={!menuOpen}
             />
             <nav
               id="hero-mobile-menu"
-              className={`${styles.drawer} ${menuOpen ? styles.drawerOpen : ""}`}
+              className={`${styles.drawer} ${
+                menuOpen ? styles.drawerOpen : ""
+              }`}
               aria-label="Menu mobilne"
               aria-hidden={!menuOpen}
             >
@@ -272,8 +278,8 @@ const Hero = () => {
               <span className={styles.headlineAccent}>Gotowe ogłoszenie.</span>
             </h1>
             <p className={styles.support}>
-              AI rozpoznaje produkt na fotce i pisze opis pod OLX, Vinted i
-              Marketplace — możesz dopisać słowa kluczowe.
+              Dodaj zdjęcie produktu, a AI przygotuje gotowe ogłoszenie na OLX,
+              Vinted lub Marketplace. Możesz też dodać własne słowa kluczowe.
             </p>
 
             <div className={styles.ctaGroup}>
@@ -312,7 +318,9 @@ const Hero = () => {
                 />
               </div>
 
-              <div className={styles.visualLabel}>Słowa kluczowe · opcjonalnie</div>
+              <div className={styles.visualLabel}>
+                Słowa kluczowe · opcjonalnie
+              </div>
               <p className={styles.visualKeywords}>
                 {typedKeywords}
                 <span
