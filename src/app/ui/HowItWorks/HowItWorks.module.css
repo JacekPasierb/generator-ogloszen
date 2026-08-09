@@ -61,12 +61,28 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 28px;
+  gap: 8px;
+  align-items: start;
 }
 
 .step {
   position: relative;
   padding-top: 8px;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 0 12px;
+  color: var(--primary-500);
+  list-style: none;
+}
+
+.arrowIcon {
+  display: block;
+  flex-shrink: 0;
+  transform: rotate(90deg);
 }
 
 .num {
@@ -110,8 +126,18 @@
   }
 
   .steps {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    gap: 12px 8px;
+    align-items: start;
+  }
+
+  .arrow {
+    align-self: center;
+    padding: 28px 4px 0;
+  }
+
+  .arrowIcon {
+    transform: none;
   }
 }
 
