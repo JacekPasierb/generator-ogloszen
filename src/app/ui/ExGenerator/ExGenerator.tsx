@@ -30,11 +30,11 @@ const ExGenerator = () => {
           <h2 id="examples-heading" className={styles.headline}>
             Ze zdjęcia lub słów.
             <br />
-            <span className={styles.headlineAccent}>Pełny opis sprzedaży.</span>
+            <span className={styles.headlineAccent}>Gotowe ogłoszenie.</span>
           </h2>
           <p className={styles.support}>
-            Tak działa Generator Ogłoszeń: wrzucasz fotkę produktu albo kilka
-            faktów — AI składa tekst gotowy do OLX, Vinted czy Marketplace.
+            Dodaj zdjęcie lub kilka informacji o produkcie. AI przygotuje tytuł
+            i treść gotową do publikacji na OLX, Vinted lub Marketplace.
           </p>
         </header>
 
@@ -68,7 +68,7 @@ const ExGenerator = () => {
 
                 <div className={styles.planeOut}>
                   <div className={styles.planeOutHead}>
-                    <p className={styles.planeLabel}>Opis sprzedażowy</p>
+                    <p className={styles.planeLabel}>GOTOWE OGŁOSZENIE</p>
                     <button
                       type="button"
                       className={styles.copyBtn}
