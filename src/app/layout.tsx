@@ -22,6 +22,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://generator-ogloszen.com"),
   title: "Generator Opisów Ogłoszeń",
   description:
     "Wrzuć zdjęcie produktu lub słowa kluczowe — AI napisze opis pod OLX, Vinted i Marketplace.",
@@ -32,9 +33,24 @@ export const metadata: Metadata = {
       "Ze zdjęcia do gotowego ogłoszenia w kilka sekund. OLX, Vinted i Marketplace.",
     url: "https://generator-ogloszen.com",
     siteName: "Generator Opisów Ogłoszeń",
-    images: [{ url: "https://generator-ogloszen.com/og-image.png", width: 1200, height: 630 }],
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Generator Ogłoszeń — ze zdjęcia do gotowego ogłoszenia",
+        type: "image/jpeg",
+      },
+    ],
     locale: "pl_PL",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Generator Opisów Ogłoszeń",
+    description:
+      "Ze zdjęcia do gotowego ogłoszenia w kilka sekund. OLX, Vinted i Marketplace.",
+    images: ["/og-image.jpg"],
   },
 };
 
