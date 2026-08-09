@@ -409,6 +409,19 @@
   gap: 12px;
 }
 
+.trialNote {
+  margin: 16px 0 0;
+  max-width: 420px;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--neutral-500);
+}
+
+.trialNoteAccent {
+  font-weight: 600;
+  color: var(--primary-700);
+}
+
 .ctaPrimary {
   display: inline-flex;
   align-items: center;

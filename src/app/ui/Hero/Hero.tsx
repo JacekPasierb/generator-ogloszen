@@ -290,7 +290,7 @@ const Hero = () => {
               ) : (
                 <>
                   <Link href="/register" className={styles.ctaPrimary}>
-                    Wygeneruj ze zdjęcia
+                    Wygeneruj 2 za darmo
                   </Link>
                   <Link href="/login" className={styles.ctaSecondary}>
                     Mam już konto
@@ -298,6 +298,14 @@ const Hero = () => {
                 </>
               )}
             </div>
+
+            {!isAuthed && (
+              <p className={styles.trialNote}>
+                <span className={styles.trialNoteAccent}>2 ogłoszenia gratis</span>
+                {" "}
+                po rejestracji — bez karty i bez subskrypcji.
+              </p>
+            )}
           </div>
 
           <div className={styles.visual} aria-hidden="true">
