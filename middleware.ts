@@ -12,6 +12,13 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // zalogowany nie widzi landingu (bez client Loading — ważne dla SEO)
+  if (pathname === "/" && token) {
+    const url = req.nextUrl.clone();
+    url.pathname = "/dashboard";
+    return NextResponse.redirect(url);
+  }
+
   // opcjonalnie: blokuj /login gdy już zalogowany
   if (pathname === "/login" && token) {
     const url = req.nextUrl.clone();
@@ -23,5 +30,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/login"],
+  matcher: ["/", "/dashboard/:path*", "/login"],
 };
