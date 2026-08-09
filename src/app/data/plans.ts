@@ -11,9 +11,9 @@ export const plans = [
     badge: "Na start",
     benefits: [
       "10 opisów AI",
-      "Generowanie ze zdjęcia produktu",
+      "Generowanie ze zdjęcia",
       "Styl sprzedażowy (OLX, Vinted, Marketplace)",
-      "Kopiuj i wklej od razu do ogłoszenia",
+      "Kopiowanie jednym kliknięciem",
     ],
   },
   {
@@ -23,13 +23,13 @@ export const plans = [
     credits: 40,
     aiLimit: 40,
     stripePriceId: process.env.STRIPE_PRICE_STANDARD!,
-    badge: "Najczęściej wybierany",
+    badge: "Polecany",
     benefits: [
       "40 opisów AI",
-      "Generowanie ze zdjęcia produktu",
+      "Generowanie ze zdjęcia",
       "Styl sprzedażowy (OLX, Vinted, Marketplace)",
-      "Kopiuj i wklej od razu do ogłoszenia",
-      "Lepsza cena za opis",
+      "Kopiowanie jednym kliknięciem",
+      "24% taniej za ogłoszenie",
     ],
   },
   {
@@ -42,10 +42,10 @@ export const plans = [
     badge: "Najlepsza cena",
     benefits: [
       "100 opisów AI",
-      "Generowanie ze zdjęcia produktu",
+      "Generowanie ze zdjęcia",
       "Styl sprzedażowy (OLX, Vinted, Marketplace)",
-      "Kopiuj i wklej od razu do ogłoszenia",
-      "Najniższa cena za opis",
+      "Kopiowanie jednym kliknięciem",
+      "42% taniej za ogłoszenie",
       "Dla sprzedających dużo (sklepy/Marketplace)",
     ],
   },

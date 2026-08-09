@@ -5,7 +5,11 @@ import { plans } from "../../data/plans";
 
 const Pricing = () => {
   return (
-    <section id="pricing" className={styles.section} aria-labelledby="pricing-heading">
+    <section
+      id="pricing"
+      className={styles.section}
+      aria-labelledby="pricing-heading"
+    >
       <div className={styles.inner}>
         <header className={styles.header}>
           <p className={styles.eyebrow}>Cennik</p>
@@ -15,8 +19,7 @@ const Pricing = () => {
             <span className={styles.headlineAccent}>Nie za subskrypcję.</span>
           </h2>
           <p className={styles.support}>
-            Jednorazowe pakiety kredytów. 1 generacja = 1 kredyt — także ze
-            zdjęcia. Bez abonamentu, bez niespodzianek.
+            Najpierw wypróbuj za darmo — 2 ogłoszenia bez opłat.
           </p>
         </header>
 
@@ -28,11 +31,11 @@ const Pricing = () => {
             return (
               <article
                 key={plan.id}
-                className={`${styles.card} ${featured ? styles.cardFeatured : ""}`}
+                className={`${styles.card} ${
+                  featured ? styles.cardFeatured : ""
+                }`}
               >
-                {featured && (
-                  <span className={styles.badge}>{plan.badge}</span>
-                )}
+                {featured && <span className={styles.badge}>{plan.badge}</span>}
 
                 <div className={styles.cardTop}>
                   <h3 className={styles.planName}>{plan.name}</h3>
@@ -49,7 +52,12 @@ const Pricing = () => {
                   {plan.benefits.map((benefit) => (
                     <li key={benefit} className={styles.benefit}>
                       <span className={styles.check} aria-hidden>
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                        >
                           <path
                             d="M2.5 7.5L5.5 10.5L11.5 3.5"
                             stroke="currentColor"
@@ -75,9 +83,7 @@ const Pricing = () => {
           })}
         </div>
 
-        <p className={styles.footnote}>
-          2 darmowe generacje po rejestracji. Potem wybierasz pakiet.
-        </p>
+        <p className={styles.footnote}>Jednorazowa płatność · bez abonamentu</p>
       </div>
     </section>
   );
