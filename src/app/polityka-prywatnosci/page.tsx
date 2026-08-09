@@ -6,7 +6,7 @@ import styles from "./PolitykaPrywatnosci.module.css";
 export const metadata: Metadata = {
   title: "Polityka prywatności | Generator Ogłoszeń",
   description:
-    "Jak przetwarzamy dane w Generatorze Ogłoszeń — konto, cookies, płatności Stripe i Twoje prawa RODO.",
+    "Jak przetwarzamy dane w Generatorze Ogłoszeń — konto, generowanie AI (tekst i zdjęcia), OpenAI, Stripe, cookies i Twoje prawa RODO.",
 };
 
 const TOC = [
@@ -15,6 +15,7 @@ const TOC = [
   { id: "cel", label: "Cel przetwarzania" },
   { id: "podstawy", label: "Podstawy prawne" },
   { id: "odbiorcy", label: "Odbiorcy danych" },
+  { id: "ai", label: "Generowanie AI" },
   { id: "okres", label: "Okres przechowywania" },
   { id: "cookies", label: "Pliki cookies" },
   { id: "prawa", label: "Prawa użytkownika" },
@@ -37,6 +38,8 @@ export default function PolitykaPrywatnosci() {
               dane przetwarzamy w Generatorze Ogłoszeń i w jakim celu.
             </p>
             <p className={styles.meta}>
+              Ostatnia aktualizacja: <strong>9.08.2026 r.</strong>
+              {" · "}
               Serwis: <strong>generator-ogloszen.com</strong>
             </p>
           </header>
@@ -64,7 +67,7 @@ export default function PolitykaPrywatnosci() {
 
               <section id="zakres" className={styles.section}>
                 <h2>2. Zakres zbieranych danych</h2>
-                <p>Przetwarzamy tylko niezbędne dane:</p>
+                <p>Przetwarzamy dane niezbędne do działania Serwisu:</p>
                 <ul>
                   <li>
                     adres e-mail i zaszyfrowane hasło — w celu założenia konta,
@@ -74,8 +77,27 @@ export default function PolitykaPrywatnosci() {
                     bezpiecznym cookie,
                   </li>
                   <li>
-                    wygenerowane opisy — zapisywane tylko jeśli użytkownik je
-                    zatwierdzi.
+                    treści wprowadzone przez Użytkownika do generatora (np. słowa
+                    kluczowe, dodatkowe informacje o ofercie),
+                  </li>
+                  <li>
+                    zdjęcia produktów przesłane do generatora w celu utworzenia
+                    opisu (przetwarzane przejściowo — nie są trwale
+                    przechowywane w Serwisie jako biblioteka zdjęć),
+                  </li>
+                  <li>
+                    wygenerowane opisy (oraz opcjonalnie tytuł i wersja krótka)
+                    — zapisywane tylko jeśli Użytkownik je zatwierdzi / zapisze,
+                  </li>
+                  <li>
+                    dane techniczne i analityczne związane z korzystaniem z
+                    Serwisu (np. zdarzenia w ramach Google Analytics — w zakresie
+                    wynikającym z konfiguracji narzędzi),
+                  </li>
+                  <li>
+                    dane związane z płatnościami i statusem pakietu (plan,
+                    limity generacji) — bez przechowywania numerów kart przez
+                    Serwis.
                   </li>
                 </ul>
               </section>
@@ -84,8 +106,16 @@ export default function PolitykaPrywatnosci() {
                 <h2>3. Cel przetwarzania danych</h2>
                 <ul>
                   <li>autoryzacja użytkownika i dostęp do funkcji konta,</li>
-                  <li>generowanie i zapisywanie treści ogłoszeń,</li>
-                  <li>obsługa płatności poprzez Stripe.</li>
+                  <li>
+                    generowanie treści ogłoszeń przy użyciu AI (na podstawie
+                    tekstu i/lub zdjęcia),
+                  </li>
+                  <li>zapisywanie i zarządzanie zapisanymi opisami,</li>
+                  <li>obsługa płatności i aktywacja pakietów kredytów,</li>
+                  <li>
+                    poprawa działania Serwisu, bezpieczeństwo oraz podstawowa
+                    analityka ruchu.
+                  </li>
                 </ul>
               </section>
 
@@ -99,6 +129,11 @@ export default function PolitykaPrywatnosci() {
                     RODO),
                   </li>
                   <li>
+                    prawnie uzasadnionego interesu Administratora, m.in.
+                    bezpieczeństwo i analityka działania Serwisu (art. 6 ust. 1
+                    lit. f RODO),
+                  </li>
+                  <li>
                     obowiązków prawnych, np. księgowość (art. 6 ust. 1 lit. c
                     RODO).
                   </li>
@@ -108,14 +143,70 @@ export default function PolitykaPrywatnosci() {
               <section id="odbiorcy" className={styles.section}>
                 <h2>5. Odbiorcy danych</h2>
                 <p>
-                  Dane mogą być przekazywane firmie Stripe w celu obsługi
-                  płatności. Dane nie są przekazywane do innych podmiotów bez
-                  zgody użytkownika.
+                  Dane mogą być przekazywane zaufanym podmiotom przetwarzającym
+                  je w naszym imieniu lub niezależnie w zakresie niezbędnym do
+                  świadczenia usług:
+                </p>
+                <ul>
+                  <li>
+                    <strong>OpenAI, L.L.C.</strong> (lub powiązane podmioty
+                    świadczące API) — w celu wygenerowania treści ogłoszenia.
+                    Przekazywane mogą być m.in. wprowadzony tekst (słowa
+                    kluczowe / dodatkowe informacje) oraz — gdy Użytkownik
+                    skorzysta z tej funkcji — przesłane zdjęcie produktu.
+                    Przetwarzanie odbywa się zgodnie z warunkami i polityką
+                    prywatności dostawcy API AI,
+                  </li>
+                  <li>
+                    <strong>Stripe, Inc.</strong> — w celu obsługi płatności,
+                  </li>
+                  <li>
+                    dostawcy hostingu / infrastruktury technicznej Serwisu,
+                  </li>
+                  <li>
+                    <strong>Google</strong> (Google Analytics) — w zakresie
+                    analityki ruchu, jeśli skrypt jest aktywny w Serwisie.
+                  </li>
+                </ul>
+                <p>
+                  Dane nie są sprzedawane ani udostępniane innym podmiotom w
+                  celach marketingowych podmiotów trzecich. Przekazanie danych
+                  poza Europejski Obszar Gospodarczy (EOG) może następować w
+                  związku z korzystaniem z usług ww. dostawców mających siedzibę
+                  lub infrastrukturę poza EOG — na zasadach przewidzianych przez
+                  RODO (m.in. standardowe klauzule umowne lub inne mechanizmy
+                  stosowane przez dostawcę).
                 </p>
               </section>
 
+              <section id="ai" className={styles.section}>
+                <h2>6. Generowanie treści przy użyciu AI</h2>
+                <ul>
+                  <li>
+                    Aby wygenerować opis, Serwis przesyła do dostawcy modelu AI
+                    (OpenAI) dane wejściowe Użytkownika: tekst i/lub obraz.
+                  </li>
+                  <li>
+                    Zdjęcia produktów służą wyłącznie do wygenerowania opisu;
+                    nie prowadzimy trwałej galerii przesłanych zdjęć w Serwisie.
+                    Po przetworzeniu żądania obraz nie jest przechowywany jako
+                    osobny zasób użytkownika.
+                  </li>
+                  <li>
+                    Zapisane w koncie mogą być wyłącznie wygenerowane treści
+                    tekstowe (opis / tytuł / wersja krótka), jeśli Użytkownik je
+                    zapisze — w ramach limitu biblioteki.
+                  </li>
+                  <li>
+                    Użytkownik powinien unikać przesyłania w generatorze danych
+                    wrażliwych oraz treści, do których nie ma prawa (w tym zdjęć
+                    osób trzecich bez podstawy do ich użycia).
+                  </li>
+                </ul>
+              </section>
+
               <section id="okres" className={styles.section}>
-                <h2>6. Okres przechowywania danych</h2>
+                <h2>7. Okres przechowywania danych</h2>
                 <ul>
                   <li>
                     dane konta — do czasu usunięcia konta przez użytkownika,
@@ -125,31 +216,49 @@ export default function PolitykaPrywatnosci() {
                     lub usunięcia konta,
                   </li>
                   <li>
+                    dane wejściowe do generowania (tekst / obraz w żądaniu) —
+                    przetwarzane w zakresie niezbędnym do realizacji generacji;
+                    zdjęcia nie są trwale archiwizowane w Serwisie,
+                  </li>
+                  <li>
                     dane związane z płatnościami — zgodnie z obowiązującymi
-                    przepisami księgowymi.
+                    przepisami księgowymi,
+                  </li>
+                  <li>
+                    dane analityczne — zgodnie z ustawieniami narzędzia
+                    analitycznego i okresem retencji u dostawcy.
                   </li>
                 </ul>
               </section>
 
               <section id="cookies" className={styles.section}>
-                <h2>7. Pliki cookies</h2>
+                <h2>8. Pliki cookies</h2>
                 <p>
                   Korzystamy z technicznych plików cookies w celu
                   uwierzytelniania użytkownika. Przechowujemy w nich token
                   dostępu w formie bezpiecznego{" "}
                   <code>httpOnly cookie</code>, niedostępnego dla JavaScript.
-                  Nie wykorzystujemy cookies do śledzenia użytkowników ani do
-                  celów marketingowych.
+                </p>
+                <p>
+                  W Serwisie może być używany skrypt Google Analytics, który
+                  wykorzystuje własne mechanizmy pomiaru (w tym cookies /
+                  identyfikatory po stronie przeglądarki) w celu statystyk
+                  odwiedzin. Szczegóły przetwarzania danych przez Google
+                  opisuje polityka prywatności Google.
                 </p>
               </section>
 
               <section id="prawa" className={styles.section}>
-                <h2>8. Prawa użytkownika</h2>
+                <h2>9. Prawa użytkownika</h2>
                 <ul>
                   <li>dostęp do danych,</li>
                   <li>poprawianie danych,</li>
                   <li>usunięcie konta,</li>
                   <li>ograniczenie przetwarzania,</li>
+                  <li>
+                    w przypadkach przewidzianych prawem — wniesienie sprzeciwu
+                    lub cofnięcie zgody,
+                  </li>
                   <li>
                     prawo do wniesienia skargi do Prezesa UODO.
                   </li>
@@ -157,7 +266,7 @@ export default function PolitykaPrywatnosci() {
               </section>
 
               <section id="platnosci" className={styles.section}>
-                <h2>9. Płatności</h2>
+                <h2>10. Płatności</h2>
                 <p>
                   Płatności realizowane są za pomocą zewnętrznej platformy
                   Stripe, Inc. Dane płatnicze (np. numer karty) trafiają
@@ -167,7 +276,7 @@ export default function PolitykaPrywatnosci() {
               </section>
 
               <section id="kontakt" className={styles.section}>
-                <h2>10. Kontakt</h2>
+                <h2>11. Kontakt</h2>
                 <p>
                   W sprawach związanych z ochroną danych osobowych możesz
                   napisać na adres e-mail{" "}

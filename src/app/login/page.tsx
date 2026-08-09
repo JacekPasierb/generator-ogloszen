@@ -35,8 +35,8 @@ const LoginPage = () => {
               <span className={styles.panelAccent}>Twórz opisy w sekundy.</span>
             </h1>
             <p className={styles.panelText}>
-              Zaloguj się i wróć do generowania opisów sprzedażowych z kilku
-              słów kluczowych — OLX, Vinted, Marketplace.
+              Zaloguj się i wróć do generowania opisów ze zdjęcia lub słów
+              kluczowych — OLX, Vinted, Marketplace.
             </p>
 
             <ul className={styles.benefits}>
@@ -66,7 +66,7 @@ const LoginPage = () => {
                     />
                   </svg>
                 </span>
-                Szablony branżowe pod konkretne ogłoszenia
+                Generowanie ze zdjęcia i szablony branżowe
               </li>
               <li>
                 <span className={styles.check} aria-hidden>

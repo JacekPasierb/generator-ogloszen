@@ -32,13 +32,13 @@ const RegisterPage = () => {
           <aside className={styles.panel} aria-hidden="false">
             <p className={styles.eyebrow}>Generator Ogłoszeń</p>
             <h1 className={styles.panelTitle}>
-              Zacznij od kilku słów.
+              Zacznij od zdjęcia.
               <br />
               <span className={styles.panelAccent}>Dostań opis, który sprzedaje.</span>
             </h1>
             <p className={styles.panelText}>
-              Załóż konto i wygeneruj pierwsze opisy za darmo — na OLX, Vinted i
-              Marketplace.
+              Załóż konto i wygeneruj pierwsze opisy za darmo — ze zdjęcia lub
+              słów kluczowych, na OLX, Vinted i Marketplace.
             </p>
 
             <ul className={styles.benefits}>
@@ -68,7 +68,7 @@ const RegisterPage = () => {
                     />
                   </svg>
                 </span>
-                Szablony branżowe i gotowy styl sprzedażowy
+                Szablony branżowe i generowanie ze zdjęcia
               </li>
               <li>
                 <span className={styles.check} aria-hidden>

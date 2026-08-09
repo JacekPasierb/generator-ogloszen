@@ -15,8 +15,8 @@ const Pricing = () => {
             <span className={styles.headlineAccent}>Nie za subskrypcję.</span>
           </h2>
           <p className={styles.support}>
-            Jednorazowe pakiety kredytów. 1 generacja = 1 kredyt. Bez abonamentu,
-            bez niespodzianek.
+            Jednorazowe pakiety kredytów. 1 generacja = 1 kredyt — także ze
+            zdjęcia. Bez abonamentu, bez niespodzianek.
           </p>
         </header>
 

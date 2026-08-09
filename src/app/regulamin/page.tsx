@@ -6,13 +6,14 @@ import styles from "./Regulamin.module.css";
 export const metadata: Metadata = {
   title: "Regulamin | Generator Ogłoszeń",
   description:
-    "Regulamin serwisu Generator Ogłoszeń — pakiety, płatności Stripe, limity generacji i zasady korzystania z AI.",
+    "Regulamin serwisu Generator Ogłoszeń — generowanie opisów ze słów kluczowych lub zdjęcia, pakiety, Stripe i zasady korzystania z AI.",
 };
 
 const TOC = [
   { id: "ogolne", label: "Postanowienia ogólne" },
   { id: "definicje", label: "Definicje" },
   { id: "warunki", label: "Warunki korzystania" },
+  { id: "generator", label: "Generator AI" },
   { id: "platne", label: "Usługi płatne" },
   { id: "odpowiedzialnosc", label: "Odpowiedzialność" },
   { id: "konto", label: "Usunięcie konta" },
@@ -33,10 +34,13 @@ export default function Regulamin() {
             <h1 className={styles.title}>Regulamin serwisu</h1>
             <p className={styles.lede}>
               Zasady korzystania z Generatora Ogłoszeń — generowania opisów
-              sprzedażowych z słów kluczowych przy użyciu AI.
+              sprzedażowych ze słów kluczowych lub zdjęcia produktu przy użyciu
+              AI.
             </p>
             <p className={styles.meta}>
               Obowiązuje od: <strong>26.05.2025 r.</strong>
+              {" · "}
+              Ostatnia aktualizacja: <strong>9.08.2026 r.</strong>
               {" · "}
               Serwis: <strong>generator-ogloszen.com</strong>
             </p>
@@ -62,7 +66,8 @@ export default function Regulamin() {
                   internetowego dostępnego pod adresem{" "}
                   <strong>generator-ogloszen.com</strong>, który umożliwia
                   generowanie opisów ogłoszeń przy użyciu technologii sztucznej
-                  inteligencji (AI).
+                  inteligencji (AI) — na podstawie słów kluczowych i/lub zdjęcia
+                  produktu.
                 </p>
                 <p>
                   Korzystając z serwisu, Użytkownik oświadcza, że zapoznał się z
@@ -87,9 +92,19 @@ export default function Regulamin() {
                     fizyczna prowadząca działalność nierejestrowaną.
                   </li>
                   <li>
+                    <strong>Generator</strong> – funkcja Serwisu służąca do
+                    tworzenia treści ogłoszeń (w tym tytułu, wersji krótkiej i
+                    długiej) przy użyciu AI.
+                  </li>
+                  <li>
+                    <strong>Dane wejściowe</strong> – treści przekazane przez
+                    Użytkownika do Generatora: słowa kluczowe / opis faktów
+                    oraz opcjonalnie zdjęcie produktu.
+                  </li>
+                  <li>
                     <strong>Pakiet</strong> – jednorazowo płatna usługa
                     umożliwiająca generowanie opisów ogłoszeń przy użyciu AI w
-                    ramach limitu zapytań.
+                    ramach limitu zapytań (kredytów).
                   </li>
                   <li>
                     <strong>Plany / Pakiety</strong> – warianty Pakietu dostępne
@@ -100,7 +115,7 @@ export default function Regulamin() {
                   <li>
                     <strong>Limit zapytań</strong> – maksymalna liczba opisów,
                     które Użytkownik może wygenerować w ramach wykupionego
-                    Pakietu.
+                    Pakietu lub kredytów testowych.
                   </li>
                 </ul>
               </section>
@@ -131,8 +146,55 @@ export default function Regulamin() {
                 </ul>
               </section>
 
+              <section id="generator" className={styles.section}>
+                <h2>4. Generator AI — tekst i zdjęcia</h2>
+                <ul>
+                  <li>
+                    Generator umożliwia tworzenie opisów ogłoszeń na podstawie:{" "}
+                    <strong>słów kluczowych / informacji tekstowych</strong>{" "}
+                    oraz opcjonalnie <strong>zdjęcia produktu</strong>.
+                  </li>
+                  <li>
+                    Jedna generacja (również ze zdjęciem lub w trybie pełnego
+                    pakietu treści: tytuł + wersja krótka + opis) zużywa limity
+                    zapytań zgodnie z informacją prezentowaną w Serwisie
+                    (zazwyczaj 1 kredyt = 1 generacja).
+                  </li>
+                  <li>
+                    Dane wejściowe są przekazywane do zewnętrznego dostawcy
+                    modelu AI (OpenAI) wyłącznie w celu wygenerowania treści.
+                    Szczegóły przetwarzania danych opisuje{" "}
+                    <Link href="/polityka-prywatnosci">
+                      Polityka prywatności
+                    </Link>
+                    .
+                  </li>
+                  <li>
+                    Zdjęcia przesłane do Generatora służą wyłącznie do
+                    wygenerowania opisu; Serwis nie prowadzi trwałej galerii
+                    zdjęć Użytkownika.
+                  </li>
+                  <li>
+                    Użytkownik oświadcza, że posiada prawo do przesłanych treści
+                    i zdjęć (w tym prawo do ich wykorzystania w celu
+                    wygenerowania opisu) oraz że nie naruszają one prawa osób
+                    trzecich, w szczególności praw autorskich i wizerunku.
+                  </li>
+                  <li>
+                    Zabrania się przesyłania treści i zdjęć nielegalnych,
+                    obraźliwych, zawierających dane wrażliwe bez podstawy prawnej
+                    lub służących do wprowadzania w błąd nabywców.
+                  </li>
+                  <li>
+                    Użytkownik powinien przed publikacją ogłoszenia samodzielnie
+                    zweryfikować wygenerowaną treść (fakty, cenę, stan, cechy
+                    produktu).
+                  </li>
+                </ul>
+              </section>
+
               <section id="platne" className={styles.section}>
-                <h2>4. Usługi płatne</h2>
+                <h2>5. Usługi płatne</h2>
                 <ul>
                   <li>
                     Użytkownik może wykupić Pakiet w jednym z planów:{" "}
@@ -174,7 +236,7 @@ export default function Regulamin() {
               </section>
 
               <section id="odpowiedzialnosc" className={styles.section}>
-                <h2>5. Odpowiedzialność</h2>
+                <h2>6. Odpowiedzialność</h2>
                 <ul>
                   <li>
                     Administrator dokłada starań, aby Serwis działał poprawnie i
@@ -189,15 +251,15 @@ export default function Regulamin() {
                   </li>
                   <li>
                     Administrator nie gwarantuje, że wygenerowane opisy będą
-                    wolne od błędów lub w pełni dopasowane do oczekiwań
-                    Użytkownika; Użytkownik powinien zweryfikować treść przed
-                    publikacją.
+                    wolne od błędów, kompletne lub w pełni zgodne z rzeczywistymi
+                    cechami produktu widocznymi na zdjęciu; Użytkownik powinien
+                    zweryfikować treść przed publikacją.
                   </li>
                   <li>
                     Administrator nie ponosi odpowiedzialności za przerwy w
                     działaniu Serwisu wynikające z konieczności przeprowadzenia
-                    prac technicznych, awarii lub przyczyn niezależnych od
-                    Administratora.
+                    prac technicznych, awarii, niedostępności zewnętrznych API
+                    AI lub przyczyn niezależnych od Administratora.
                   </li>
                   <li>
                     Użytkownik korzysta z Serwisu na własną odpowiedzialność.
@@ -206,7 +268,7 @@ export default function Regulamin() {
               </section>
 
               <section id="konto" className={styles.section}>
-                <h2>6. Usunięcie konta</h2>
+                <h2>7. Usunięcie konta</h2>
                 <ul>
                   <li>
                     Użytkownik może w każdej chwili zażądać usunięcia konta,
@@ -226,12 +288,12 @@ export default function Regulamin() {
               </section>
 
               <section id="dane" className={styles.section}>
-                <h2>7. Dane osobowe</h2>
+                <h2>8. Dane osobowe</h2>
                 <p>
                   Zasady przetwarzania danych osobowych Użytkowników, w tym
                   informacje o administratorze danych, celach, podstawach
-                  prawnych i uprawnieniach Użytkownika, zostały opisane w
-                  dokumencie{" "}
+                  prawnych, odbiorcach (w tym OpenAI i Stripe) oraz uprawnieniach
+                  Użytkownika, zostały opisane w dokumencie{" "}
                   <Link href="/polityka-prywatnosci">
                     Polityka prywatności
                   </Link>
@@ -244,7 +306,7 @@ export default function Regulamin() {
               </section>
 
               <section id="reklamacje" className={styles.section}>
-                <h2>8. Reklamacje</h2>
+                <h2>9. Reklamacje</h2>
                 <ul>
                   <li>
                     Użytkownik może zgłaszać reklamacje dotyczące działania
@@ -268,7 +330,7 @@ export default function Regulamin() {
               </section>
 
               <section id="koncowe" className={styles.section}>
-                <h2>9. Postanowienia końcowe</h2>
+                <h2>10. Postanowienia końcowe</h2>
                 <ul>
                   <li>
                     Administrator zastrzega sobie prawo do zmiany niniejszego

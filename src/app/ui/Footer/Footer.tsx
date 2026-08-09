@@ -23,14 +23,17 @@ const Footer = () => {
               <span className={styles.brandName}>Generator Ogłoszeń</span>
             </Link>
             <p className={styles.tagline}>
-              Opisy sprzedażowe z kilku słów kluczowych — gotowe na OLX, Vinted
-              i Marketplace.
+              Opisy sprzedażowe ze zdjęcia lub słów kluczowych — gotowe na OLX,
+              Vinted i Marketplace.
             </p>
           </div>
 
           <nav className={styles.columns} aria-label="Stopka">
             <div className={styles.col}>
               <p className={styles.colTitle}>Produkt</p>
+              <a href="/#how" className={styles.link}>
+                Jak to działa
+              </a>
               <a href="/#pricing" className={styles.link}>
                 Cennik
               </a>

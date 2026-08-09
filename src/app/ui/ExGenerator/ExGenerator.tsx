@@ -28,13 +28,13 @@ const ExGenerator = () => {
         <header className={styles.header}>
           <p className={styles.eyebrow}>Przykłady</p>
           <h2 id="examples-heading" className={styles.headline}>
-            Z kilku słów.
+            Ze zdjęcia lub słów.
             <br />
             <span className={styles.headlineAccent}>Pełny opis sprzedaży.</span>
           </h2>
           <p className={styles.support}>
-            Tak działa Generator Ogłoszeń: wpisujesz fakty o ofercie, a AI
-            składa tekst gotowy do OLX, Vinted czy Marketplace.
+            Tak działa Generator Ogłoszeń: wrzucasz fotkę produktu albo kilka
+            faktów — AI składa tekst gotowy do OLX, Vinted czy Marketplace.
           </p>
         </header>
 
@@ -50,7 +50,7 @@ const ExGenerator = () => {
 
               <div className={styles.planes}>
                 <div className={styles.planeIn}>
-                  <p className={styles.planeLabel}>Słowa kluczowe</p>
+                  <p className={styles.planeLabel}>Wejście</p>
                   <p className={styles.keywords}>{ex.keywords}</p>
                 </div>
 
@@ -88,10 +88,10 @@ const ExGenerator = () => {
 
         <div className={styles.footer}>
           <p className={styles.footerText}>
-            Twój produkt. Twoje słowa. Gotowy opis w kilka sekund.
+            Twoje zdjęcie. Twoje słowa. Gotowy opis w kilka sekund.
           </p>
           <Link href="/register" className={styles.cta}>
-            Wygeneruj swój opis
+            Wygeneruj ze zdjęcia
           </Link>
         </div>
       </div>

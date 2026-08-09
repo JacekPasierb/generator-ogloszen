@@ -1,0 +1,122 @@
+/* =========================================================
+   How it works — photo → listing
+   ========================================================= */
+
+.section {
+  position: relative;
+  width: 100%;
+  padding: 72px 0 80px;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 70% 50% at 80% 0%, rgba(20, 184, 166, 0.07), transparent 55%),
+    var(--neutral-50);
+  border-top: 1px solid var(--neutral-100);
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.header {
+  max-width: 520px;
+  margin: 0 0 48px;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary-700);
+}
+
+.headline {
+  margin: 0 0 16px;
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+  color: var(--neutral-900);
+}
+
+.headlineAccent {
+  color: var(--primary-700);
+}
+
+.support {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--neutral-500);
+  max-width: 420px;
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 28px;
+}
+
+.step {
+  position: relative;
+  padding-top: 8px;
+}
+
+.num {
+  display: block;
+  margin-bottom: 10px;
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--primary-600);
+}
+
+.stepTitle {
+  margin: 0 0 8px;
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--neutral-900);
+}
+
+.stepText {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--neutral-500);
+  max-width: 340px;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: 88px 0 96px;
+  }
+
+  .inner {
+    padding: 0 40px;
+  }
+
+  .header {
+    margin-bottom: 56px;
+  }
+
+  .steps {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .inner {
+    padding: 0 48px;
+  }
+}

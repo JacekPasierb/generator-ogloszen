@@ -123,7 +123,7 @@ const SiteNav = () => {
                   <p className={styles.drawerLead}>
                     {isAuthed
                       ? "Wróć do workspace i generuj opisy ze słów kluczowych lub zdjęcia."
-                      : "Opisy marketingowe ze słów kluczowych — gotowe pod OLX i Marketplace."}
+                      : "Opisy ze zdjęcia lub słów kluczowych — gotowe pod OLX i Marketplace."}
                   </p>
                 </div>
 

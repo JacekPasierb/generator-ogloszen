@@ -26,10 +26,41 @@ type Release = {
 
 const releases: Release[] = [
   {
+    version: "0.3.2",
+    date: "09.08.2026",
+    dateIso: "2026-08-09",
+    current: true,
+    summary:
+      "Landing pod generowanie ze zdjęcia, aktualizacja dokumentów prawnych oraz poprawka SEO strony głównej.",
+    groups: [
+      {
+        title: "Landing page",
+        items: [
+          "Hero i demo: zdjęcie produktu → opcjonalne słowa kluczowe → gotowy opis",
+          "Nowa sekcja „Jak to działa” (3 kroki od fotki do publikacji)",
+          "Cennik, przykłady, stopka i CTA podkreślają generowanie ze zdjęcia",
+        ],
+      },
+      {
+        title: "Dokumenty prawne",
+        items: [
+          "Polityka prywatności: OpenAI (tekst i zdjęcia), Stripe, Analytics; zdjęcia bez trwałej galerii",
+          "Regulamin: Generator ze słów kluczowych i/lub zdjęcia, prawa do treści, weryfikacja przed publikacją",
+        ],
+      },
+      {
+        title: "SEO i system",
+        items: [
+          "Strona główna oddaje treść marketingową w HTML (bez loadera „Przygotowujemy Twój workspace” dla robotów)",
+          "Zalogowani przekierowywani z / na dashboard przez middleware",
+        ],
+      },
+    ],
+  },
+  {
     version: "0.3.1",
     date: "08.08.2026",
     dateIso: "2026-08-08",
-    current: true,
     summary:
       "Opisy ze zdjęcia, pełny pakiet w bibliotece, mądrzejsza nawigacja po zalogowaniu i odświeżone toasty.",
     groups: [

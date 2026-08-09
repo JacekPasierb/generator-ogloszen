@@ -23,12 +23,13 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: "Generator Opisów Ogłoszeń",
-  description: "Szybko twórz opisy do OLX, Vinted i innych. Sprzedawaj skuteczniej.",
+  description:
+    "Wrzuć zdjęcie produktu lub słowa kluczowe — AI napisze opis pod OLX, Vinted i Marketplace.",
   icons: { icon: "/favicon.ico" },
   openGraph: {
     title: "Generator Opisów Ogłoszeń",
     description:
-      "Gotowy opis ogłoszenia w 10 sekund. Sprzedawaj szybciej na OLX, Vinted i Marketplace.",
+      "Ze zdjęcia do gotowego ogłoszenia w kilka sekund. OLX, Vinted i Marketplace.",
     url: "https://generator-ogloszen.com",
     siteName: "Generator Opisów Ogłoszeń",
     images: [{ url: "https://generator-ogloszen.com/og-image.png", width: 1200, height: 630 }],

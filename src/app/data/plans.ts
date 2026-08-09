@@ -11,6 +11,7 @@ export const plans = [
     badge: "Na start",
     benefits: [
       "10 opisów AI",
+      "Generowanie ze zdjęcia produktu",
       "Styl sprzedażowy (OLX, Vinted, Marketplace)",
       "Kopiuj i wklej od razu do ogłoszenia",
     ],
@@ -25,6 +26,7 @@ export const plans = [
     badge: "Najczęściej wybierany",
     benefits: [
       "40 opisów AI",
+      "Generowanie ze zdjęcia produktu",
       "Styl sprzedażowy (OLX, Vinted, Marketplace)",
       "Kopiuj i wklej od razu do ogłoszenia",
       "Lepsza cena za opis",
@@ -40,6 +42,7 @@ export const plans = [
     badge: "Najlepsza cena",
     benefits: [
       "100 opisów AI",
+      "Generowanie ze zdjęcia produktu",
       "Styl sprzedażowy (OLX, Vinted, Marketplace)",
       "Kopiuj i wklej od razu do ogłoszenia",
       "Najniższa cena za opis",

@@ -7,9 +7,11 @@ import Image from "next/image";
 import styles from "./Hero.module.css";
 import { useUser } from "../../hooks/useUser";
 
-const DEMO_KEYWORDS = "rower górski · 2022 · mało używany · Warszawa";
+const DEMO_KEYWORDS = "2022 · mało używany · Warszawa";
 const DEMO_OUTPUT =
   "Sprzedam rower górski z 2022 roku — stan prawie nowy, regularnie serwisowany. Idealny na trasy i codzienne dojazdy. Odbiór osobisty w Warszawie. Zapraszam do kontaktu!";
+
+type DemoPhase = "photo" | "keywords" | "pause" | "output" | "done";
 
 const Hero = () => {
   const { user } = useUser();
@@ -18,9 +20,8 @@ const Hero = () => {
 
   const [typedKeywords, setTypedKeywords] = useState("");
   const [typedOutput, setTypedOutput] = useState("");
-  const [phase, setPhase] = useState<"keywords" | "pause" | "output" | "done">(
-    "keywords"
-  );
+  const [phase, setPhase] = useState<DemoPhase>("photo");
+  const [photoVisible, setPhotoVisible] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -45,13 +46,20 @@ const Hero = () => {
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>;
 
+    if (phase === "photo") {
+      timeout = setTimeout(() => {
+        setPhotoVisible(true);
+        setTimeout(() => setPhase("keywords"), 700);
+      }, 280);
+    }
+
     if (phase === "keywords") {
       if (typedKeywords.length < DEMO_KEYWORDS.length) {
         timeout = setTimeout(() => {
           setTypedKeywords(DEMO_KEYWORDS.slice(0, typedKeywords.length + 1));
         }, 28);
       } else {
-        timeout = setTimeout(() => setPhase("pause"), 600);
+        timeout = setTimeout(() => setPhase("pause"), 500);
       }
     }
 
@@ -71,9 +79,10 @@ const Hero = () => {
 
     if (phase === "done") {
       timeout = setTimeout(() => {
+        setPhotoVisible(false);
         setTypedKeywords("");
         setTypedOutput("");
-        setPhase("keywords");
+        setPhase("photo");
       }, 1200);
     }
 
@@ -103,6 +112,9 @@ const Hero = () => {
           </Link>
 
           <nav className={styles.desktopLinks} aria-label="Główne">
+            <a href="#how" className={styles.navLink}>
+              Jak to działa
+            </a>
             <a href="#pricing" className={styles.navLink}>
               Cennik
             </a>
@@ -166,6 +178,16 @@ const Hero = () => {
                   <p className={styles.drawerTitle}>Generator Ogłoszeń</p>
                 </div>
                 <div className={styles.drawerNav}>
+                  <a
+                    href="#how"
+                    className={styles.drawerLink}
+                    onClick={closeMenu}
+                  >
+                    <span className={styles.drawerLinkMain}>Jak to działa</span>
+                    <span className={styles.drawerLinkSub}>
+                      Ze zdjęcia do gotowego ogłoszenia
+                    </span>
+                  </a>
                   <a
                     href="#pricing"
                     className={styles.drawerLink}
@@ -245,13 +267,13 @@ const Hero = () => {
           <div className={styles.copy}>
             <p className={styles.brandHero}>Generator Ogłoszeń</p>
             <h1 className={styles.headline}>
-              Słowa kluczowe.
+              Wrzuć zdjęcie.
               <br />
               <span className={styles.headlineAccent}>Gotowe ogłoszenie.</span>
             </h1>
             <p className={styles.support}>
-              Wpisz kilka faktów o produkcie — AI napisze opis, który sprzedaje
-              na OLX, Vinted i Marketplace.
+              AI rozpoznaje produkt na fotce i pisze opis pod OLX, Vinted i
+              Marketplace — możesz dopisać słowa kluczowe.
             </p>
 
             <div className={styles.ctaGroup}>
@@ -262,7 +284,7 @@ const Hero = () => {
               ) : (
                 <>
                   <Link href="/register" className={styles.ctaPrimary}>
-                    Wygeneruj pierwszy opis
+                    Wygeneruj ze zdjęcia
                   </Link>
                   <Link href="/login" className={styles.ctaSecondary}>
                     Mam już konto
@@ -274,7 +296,23 @@ const Hero = () => {
 
           <div className={styles.visual} aria-hidden="true">
             <div className={styles.visualPlane}>
-              <div className={styles.visualLabel}>Słowa kluczowe</div>
+              <div className={styles.visualLabel}>Zdjęcie produktu</div>
+              <div
+                className={`${styles.photoSlot} ${
+                  photoVisible ? styles.photoSlotVisible : ""
+                }`}
+              >
+                <Image
+                  src="/hero-demo-bike.jpg"
+                  alt=""
+                  width={640}
+                  height={480}
+                  className={styles.photoImg}
+                  priority
+                />
+              </div>
+
+              <div className={styles.visualLabel}>Słowa kluczowe · opcjonalnie</div>
               <p className={styles.visualKeywords}>
                 {typedKeywords}
                 <span
