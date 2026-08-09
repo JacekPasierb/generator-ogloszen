@@ -35,7 +35,9 @@ export const metadata: Metadata = {
     siteName: "Generator Opisów Ogłoszeń",
     images: [
       {
-        url: "/og-image.jpg",
+        // ?v= wymusza świeży pobór obrazu przez cache Meta / Messengera
+        url: "https://generator-ogloszen.com/og-image.jpg?v=20260809",
+        secureUrl: "https://generator-ogloszen.com/og-image.jpg?v=20260809",
         width: 1200,
         height: 630,
         alt: "Generator Ogłoszeń — ze zdjęcia do gotowego ogłoszenia",
@@ -50,7 +52,7 @@ export const metadata: Metadata = {
     title: "Generator Opisów Ogłoszeń",
     description:
       "Ze zdjęcia do gotowego ogłoszenia w kilka sekund. OLX, Vinted i Marketplace.",
-    images: ["/og-image.jpg"],
+    images: ["https://generator-ogloszen.com/og-image.jpg?v=20260809"],
   },
 };
 
