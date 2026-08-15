@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     title: "Generator Opisów Ogłoszeń",
     description:
       "Ze zdjęcia do gotowego ogłoszenia w kilka sekund. OLX, Vinted i Marketplace.",
-    url: "https://generator-ogloszen.com",
+    url: "https://generator-ogloszen.com/",
     siteName: "Generator Opisów Ogłoszeń",
     images: [
       {

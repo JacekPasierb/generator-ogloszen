@@ -22,7 +22,7 @@ export const POST = async (req: NextRequest) => {
     const newUser = await User.create({
       email,
       passwordHash,
-      trialCredits: 2,
+      trialCredits: 10,
     });
 
     await trackEvent("signup", {
