@@ -37,6 +37,9 @@ const Footer = () => {
               <a href="/#pricing" className={styles.link}>
                 Cennik
               </a>
+              <a href="/#feedback" className={styles.link}>
+                Feedback
+              </a>
               <a href="/#examples" className={styles.link}>
                 Przykłady
               </a>

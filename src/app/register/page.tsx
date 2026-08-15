@@ -9,10 +9,17 @@ import RegisterForm from "../components/RegisterForm/RegisterForm";
 import { useUser } from "../hooks/useUser";
 import Loading from "../components/Loading/Loading";
 import styles from "./Register.module.css";
+import {
+  isTrialPromoActive,
+  TRIAL_DEFAULT_CREDITS,
+  TRIAL_PROMO_CREDITS,
+} from "@/app/config/trial";
 
 const RegisterPage = () => {
   const { user, loading } = useUser();
   const router = useRouter();
+  const promoActive = isTrialPromoActive();
+  const trialCredits = promoActive ? TRIAL_PROMO_CREDITS : TRIAL_DEFAULT_CREDITS;
 
   useEffect(() => {
     if (!loading && user) {
@@ -54,7 +61,9 @@ const RegisterPage = () => {
                     />
                   </svg>
                 </span>
-                2 darmowe generacje po rejestracji
+                {promoActive
+                  ? `${trialCredits} kredytów testowych do końca sierpnia`
+                  : `${trialCredits} darmowe generacje po rejestracji`}
               </li>
               <li>
                 <span className={styles.check} aria-hidden>

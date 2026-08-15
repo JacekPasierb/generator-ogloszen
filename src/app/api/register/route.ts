@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import User from "../../models/User";
 import handleError from "../../lib/errors/userErrors";
 import { trackEvent } from "../../lib/analytics/trackEvent";
+import { getTrialCreditsForSignup } from "@/app/config/trial";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -18,15 +19,17 @@ export const POST = async (req: NextRequest) => {
       throw handleError(400, "Użytkownik już istnieje");
     }
     const passwordHash = await bcrypt.hash(password, 10);
+    const trialCredits = getTrialCreditsForSignup();
 
     const newUser = await User.create({
       email,
       passwordHash,
-      trialCredits: 10,
+      trialCredits,
     });
 
     await trackEvent("signup", {
       userId: String(newUser._id),
+      payload: { trialCredits },
     });
 
     return NextResponse.json({
@@ -34,10 +37,10 @@ export const POST = async (req: NextRequest) => {
       userId: newUser._id,
     });
   } catch (err) {
-    const error = err as {status?: number; message?: string};
+    const error = err as { status?: number; message?: string };
     return NextResponse.json(
-      {error: error.message || "Wewnętrzny błąd serwera"},
-      {status: error.status || 500}
+      { error: error.message || "Wewnętrzny błąd serwera" },
+      { status: error.status || 500 }
     );
   }
 };

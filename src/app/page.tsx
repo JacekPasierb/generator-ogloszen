@@ -1,5 +1,6 @@
 import HowItWorks from "./ui/HowItWorks/HowItWorks";
 import ExGenerator from "./ui/ExGenerator/ExGenerator";
+import Feedback from "./ui/Feedback/Feedback";
 import Hero from "./ui/Hero/Hero";
 import Pricing from "./ui/Pricing/Pricing";
 
@@ -14,6 +15,7 @@ const Home = () => {
       <HowItWorks />
       <Pricing />
       <ExGenerator />
+      <Feedback />
     </>
   );
 };

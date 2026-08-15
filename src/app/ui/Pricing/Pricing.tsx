@@ -2,8 +2,16 @@ import React from "react";
 import Link from "next/link";
 import styles from "./Pricing.module.css";
 import { plans } from "../../data/plans";
+import {
+  isTrialPromoActive,
+  TRIAL_DEFAULT_CREDITS,
+  TRIAL_PROMO_CREDITS,
+} from "@/app/config/trial";
 
 const Pricing = () => {
+  const promoActive = isTrialPromoActive();
+  const trialCredits = promoActive ? TRIAL_PROMO_CREDITS : TRIAL_DEFAULT_CREDITS;
+
   return (
     <section
       id="pricing"
@@ -19,7 +27,9 @@ const Pricing = () => {
             <span className={styles.headlineAccent}>Nie za subskrypcję.</span>
           </h2>
           <p className={styles.support}>
-            Najpierw wypróbuj za darmo — 2 ogłoszenia bez opłat.
+            {promoActive
+              ? `Do końca sierpnia: ${trialCredits} kredytów testowych dla nowych kont — potem wybierasz pakiet.`
+              : `Najpierw wypróbuj za darmo — ${trialCredits} ogłoszenia bez opłat.`}
           </p>
         </header>
 
@@ -83,7 +93,11 @@ const Pricing = () => {
           })}
         </div>
 
-        <p className={styles.footnote}>Jednorazowa płatność · bez abonamentu</p>
+        <p className={styles.footnote}>
+          {promoActive
+            ? `${trialCredits} kredytów testowych do 31.08 · potem jednorazowe pakiety, bez abonamentu`
+            : "Jednorazowa płatność · bez abonamentu"}
+        </p>
       </div>
     </section>
   );

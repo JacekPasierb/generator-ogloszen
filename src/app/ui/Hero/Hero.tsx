@@ -6,6 +6,11 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "./Hero.module.css";
 import {useUser} from "../../hooks/useUser";
+import {
+  isTrialPromoActive,
+  TRIAL_DEFAULT_CREDITS,
+  TRIAL_PROMO_CREDITS,
+} from "@/app/config/trial";
 
 const DEMO_KEYWORDS = "2022 · mało używany · Warszawa";
 const DEMO_OUTPUT =
@@ -17,6 +22,8 @@ const Hero = () => {
   const {user} = useUser();
   const isAuthed = Boolean(user);
   const authReady = user !== undefined;
+  const promoActive = isTrialPromoActive();
+  const trialCredits = promoActive ? TRIAL_PROMO_CREDITS : TRIAL_DEFAULT_CREDITS;
 
   const [typedKeywords, setTypedKeywords] = useState("");
   const [typedOutput, setTypedOutput] = useState("");
@@ -290,7 +297,7 @@ const Hero = () => {
               ) : (
                 <>
                   <Link href="/register" className={styles.ctaPrimary}>
-                    Wygeneruj 2 za darmo
+                    Wygeneruj {trialCredits} za darmo
                   </Link>
                   <Link href="/login" className={styles.ctaSecondary}>
                     Mam już konto
@@ -301,9 +308,12 @@ const Hero = () => {
 
             {!isAuthed && (
               <p className={styles.trialNote}>
-                <span className={styles.trialNoteAccent}>2 ogłoszenia gratis</span>
-                {" "}
-                po rejestracji — bez karty i bez subskrypcji.
+                <span className={styles.trialNoteAccent}>
+                  {trialCredits} ogłoszeń gratis
+                </span>
+                {promoActive
+                  ? " do końca sierpnia — bez karty i bez subskrypcji."
+                  : " po rejestracji — bez karty i bez subskrypcji."}
               </p>
             )}
           </div>

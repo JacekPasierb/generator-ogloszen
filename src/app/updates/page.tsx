@@ -26,10 +26,33 @@ type Release = {
 
 const releases: Release[] = [
   {
+    version: "0.3.3",
+    date: "15.08.2026",
+    dateIso: "2026-08-15",
+    current: true,
+    summary:
+      "Do końca sierpnia 10 kredytów testowych dla nowych kont oraz zachęta do feedbacku.",
+    groups: [
+      {
+        title: "Promo trial",
+        items: [
+          "Nowi użytkownicy dostają 10 kredytów testowych do 31.08.2026 (potem wraca domyślny trial)",
+          "Zaktualizowane CTA na landingu, cenniku i rejestracji",
+        ],
+      },
+      {
+        title: "Feedback",
+        items: [
+          "Nowa sekcja na landingu: opinia e-mailem lub na Facebooku",
+          "Prośba o feedback w zamian za większy trial",
+        ],
+      },
+    ],
+  },
+  {
     version: "0.3.2",
     date: "09.08.2026",
     dateIso: "2026-08-09",
-    current: true,
     summary:
       "Landing pod generowanie ze zdjęcia, aktualizacja dokumentów prawnych oraz poprawka SEO strony głównej.",
     groups: [

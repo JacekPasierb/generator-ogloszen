@@ -7,12 +7,21 @@ import { useUser } from "../../hooks/useUser";
 import CardProduct from "../../components/CardProduct/CardProduct";
 import PaywallModal from "../../components/PaywallModal/PaywallModal";
 import { resetPlan } from "../../services/planService";
+import {
+  FEEDBACK_EMAIL,
+  FEEDBACK_FACEBOOK_URL,
+  isTrialPromoActive,
+} from "@/app/config/trial";
 
 const Generator = () => {
   const { isPaid, plan, aiLeft, trialCredits, totalCredits, mutate } =
     useUser();
   const [isRenewing, setIsRenewing] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
+  const showFeedbackNudge = trialCredits > 0 && isTrialPromoActive();
+  const feedbackMail = `mailto:${FEEDBACK_EMAIL}?subject=${encodeURIComponent(
+    "Feedback — Generator Ogłoszeń"
+  )}`;
 
   const handleRenew = async () => {
     if (isRenewing) return;
@@ -135,6 +144,20 @@ const Generator = () => {
               </span>
             </div>
             <FormGenerator onNoCredits={() => setShowPaywall(true)} />
+            {showFeedbackNudge && (
+              <p className={styles.feedbackNudge}>
+                Masz trial do końca sierpnia — napisz, czego brakuje:{" "}
+                <a href={feedbackMail}>e-mail</a>
+                {" · "}
+                <a
+                  href={FEEDBACK_FACEBOOK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Facebook
+                </a>
+              </p>
+            )}
           </div>
         )
       ) : (
