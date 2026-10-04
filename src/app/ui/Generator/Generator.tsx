@@ -52,60 +52,67 @@ const Generator = () => {
   const isExhausted = isPaid && aiLeft <= 0;
   const hasAnyCredits = totalCredits > 0;
   const canGenerate = hasAnyCredits || isPaid;
+  const planLabel = isPaid
+    ? plan.charAt(0).toUpperCase() + plan.slice(1)
+    : trialCredits > 0
+      ? "Trial"
+      : "Free";
 
   return (
-    <section className={`section container ${styles.generator}`}>
-      <div className={styles.heading}>
-        <p className={styles.eyebrow}>Workspace</p>
-        <h1 className={styles.title}>
-          {!canGenerate
-            ? "Odblokuj generator opisów"
-            : isExhausted
-              ? "Pakiet wyczerpany"
-              : "Nowe ogłoszenie"}
-        </h1>
-
-        {canGenerate && !isExhausted && (
-          <p className={styles.subTitle}>
-            Wybierz portal, dodaj zdjęcia lub cechy — dostaniesz tytuł, opis i
-            checklistę pod publikację.
-          </p>
-        )}
-
-        {isExhausted && (
-          <p className={styles.subTitle}>
-            Limit opisów w tym pakiecie został wykorzystany. Odnów dostęp i
-            wybierz kolejny pakiet.
-          </p>
-        )}
-
-        {!canGenerate && (
-          <p className={styles.subTitle}>
-            Jednorazowe pakiety kredytów — bez subskrypcji. Generuj, kopiuj,
-            publikuj.
-          </p>
-        )}
+    <section className={`container ${styles.generator}`}>
+      <header className={styles.pageHeader}>
+        <div className={styles.pageHeaderMain}>
+          <p className={styles.eyebrow}>Generator</p>
+          <h1 className={styles.title}>
+            {!canGenerate
+              ? "Odblokuj generator"
+              : isExhausted
+                ? "Pakiet wyczerpany"
+                : "Nowe ogłoszenie"}
+          </h1>
+          {canGenerate && !isExhausted && (
+            <p className={styles.subTitle}>
+              Portal → treść → publikacja. Jeden kredyt na generację.
+            </p>
+          )}
+          {isExhausted && (
+            <p className={styles.subTitle}>
+              Limit w tym pakiecie wykorzystany. Odnów dostęp, aby kontynuować.
+            </p>
+          )}
+          {!canGenerate && (
+            <p className={styles.subTitle}>
+              Jednorazowe pakiety kredytów — bez subskrypcji.
+            </p>
+          )}
+        </div>
 
         {hasAnyCredits && !isExhausted && (
-          <div className={styles.metaRow}>
-            {trialCredits > 0 && (
-              <span className={styles.metaChip} data-tone="trial">
-                Trial · {trialCredits}
-              </span>
-            )}
-            {aiLeft > 0 && (
-              <span className={styles.metaChip} data-tone="paid">
-                Pakiet · {aiLeft}
-              </span>
-            )}
-          </div>
+          <aside className={styles.creditBar} aria-label="Kredyty">
+            <span className={styles.planPill} data-plan={planLabel.toLowerCase()}>
+              {planLabel}
+            </span>
+            <div className={styles.creditStats}>
+              {trialCredits > 0 && (
+                <div className={styles.creditStat}>
+                  <span className={styles.creditLabel}>Trial</span>
+                  <span className={styles.creditValue}>{trialCredits}</span>
+                </div>
+              )}
+              {aiLeft > 0 && (
+                <div className={styles.creditStat}>
+                  <span className={styles.creditLabel}>Pakiet</span>
+                  <span className={styles.creditValue}>{aiLeft}</span>
+                </div>
+              )}
+            </div>
+          </aside>
         )}
-      </div>
+      </header>
 
       {canGenerate ? (
         isExhausted ? (
           <div className={styles.statePanel}>
-            <span className={styles.stateMark} aria-hidden />
             <h2 className={styles.stateTitle}>Czas na kolejny pakiet</h2>
             <p className={styles.stateText}>
               Odnów dostęp, aby wrócić do wyboru Start, Standard lub Pro.
@@ -120,31 +127,17 @@ const Generator = () => {
             </button>
           </div>
         ) : (
-          <div
-            className={styles.workspace}
-            data-plan={isPaid ? plan : trialCredits > 0 ? "trial" : "free"}
-          >
-            <div className={styles.workspaceTop}>
-              <span className={styles.workspaceLabel}>Nowe ogłoszenie</span>
-              <span className={styles.workspaceBadge}>
-                {isPaid
-                  ? plan.charAt(0).toUpperCase() + plan.slice(1)
-                  : trialCredits > 0
-                    ? "Trial"
-                    : "Free"}
-              </span>
-            </div>
+          <div className={styles.workspace}>
             <FormGenerator onNoCredits={() => setShowPaywall(true)} />
           </div>
         )
       ) : (
         <>
           <div className={styles.statePanel}>
-            <span className={styles.stateMark} data-tone="locked" aria-hidden />
             <h2 className={styles.stateTitle}>Generator jest zablokowany</h2>
             <p className={styles.stateText}>
-              Wykup pakiet, aby generować opisy AI i zapisywać je do schowka.
-              Płatność jednorazowa — bez abonamentu.
+              Wykup pakiet, aby generować opisy AI. Płatność jednorazowa — bez
+              abonamentu.
             </p>
             <a href="#pricing" className={styles.primaryBtn}>
               Sprawdź pakiety

@@ -1,62 +1,62 @@
 /* =========================================================
-   Generated description result
+   Generated description — result panel
    ========================================================= */
 
 .section {
   width: 100%;
-  padding-block: 8px 40px;
+  padding-block: 0 40px;
   display: flex;
   justify-content: center;
 }
 
 .panel {
   width: 100%;
-  max-width: 720px;
-  padding: 20px;
-  border-radius: 20px;
+  max-width: 760px;
+  padding: 0;
+  border-radius: 14px;
   background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.8) inset,
-    0 12px 32px rgba(24, 24, 27, 0.05);
+  border: 1px solid var(--neutral-200);
+  box-shadow: 0 1px 2px rgba(24, 24, 27, 0.04);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 0;
   text-align: left;
-  animation: rise 0.4s var(--ease-out) both;
+  overflow: hidden;
+  animation: rise 0.35s var(--ease-out) both;
 }
 
 .panelTop {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding-bottom: 4px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--neutral-100);
+  background: var(--neutral-50);
 }
 
 .eyebrow {
   margin: 0;
   font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--primary-700);
+  color: var(--neutral-500);
 }
 
 .title {
   margin: 0;
   font-family: var(--font-heading), system-ui, sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 700;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
   color: var(--neutral-900);
 }
 
 .boxMeta {
   width: 100%;
-  padding: 12px 14px;
-  border-radius: 14px;
-  background: var(--neutral-50);
-  border: 1px solid var(--neutral-200);
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--neutral-100);
+  background: #fff;
 }
 
 .metaLabel {
@@ -64,8 +64,8 @@
   font-size: 0.6875rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  color: var(--neutral-400);
   margin-bottom: 6px;
 }
 
@@ -78,6 +78,8 @@
 
 .boxDescription {
   width: 100%;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--neutral-100);
 }
 
 .result {
@@ -85,8 +87,8 @@
   width: 100%;
   box-sizing: border-box;
   min-height: 120px;
-  padding: 16px;
-  border-radius: 14px;
+  padding: 14px;
+  border-radius: 10px;
   border: 1px solid var(--neutral-200);
   background: var(--neutral-50);
   resize: none;
@@ -100,25 +102,35 @@
 .variantRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 4px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--neutral-100);
+  background: var(--neutral-50);
 }
 
 .variantChip {
-  height: 34px;
-  padding: 0 12px;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--neutral-200);
-  background: #fff;
-  font-size: 0.8125rem;
+  height: 30px;
+  padding: 0 11px;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  background: transparent;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--neutral-600);
   cursor: pointer;
 }
 
+.variantChip:hover {
+  background: #fff;
+  border-color: var(--neutral-200);
+  color: var(--neutral-900);
+}
+
 .variantChipActive {
-  background: var(--neutral-900);
-  border-color: var(--neutral-900);
-  color: #fff;
+  background: #fff;
+  border-color: var(--neutral-200);
+  color: var(--neutral-900);
+  box-shadow: 0 1px 2px rgba(24, 24, 27, 0.06);
 }
 
 .bulletList {
@@ -140,11 +152,11 @@
 
 .tag {
   display: inline-flex;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: #fff;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--neutral-50);
   border: 1px solid var(--neutral-200);
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   color: var(--neutral-700);
 }
@@ -153,18 +165,20 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--neutral-100);
 }
 
 .rewriteActions {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .rewriteBtn {
-  height: 34px;
-  padding: 0 12px;
-  border-radius: var(--radius-md);
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 7px;
   border: 1px solid var(--neutral-200);
   background: #fff;
   font-size: 0.75rem;
@@ -209,37 +223,37 @@
 
 .boxBtn {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
   width: 100%;
-  padding-top: 4px;
+  padding: 14px 20px;
+  background: var(--neutral-50);
+  border-top: 1px solid var(--neutral-200);
 }
 
 .actionButton {
-  min-height: 44px;
-  padding: 0 18px;
+  min-height: 40px;
+  padding: 0 16px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-md);
+  border-radius: 10px;
   border: 1px solid var(--neutral-200);
   background: #fff;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   color: var(--neutral-800);
   cursor: pointer;
   transition:
     background 0.15s var(--ease-out),
     border-color 0.15s var(--ease-out),
-    color 0.15s var(--ease-out),
-    transform 0.15s var(--ease-out);
+    color 0.15s var(--ease-out);
 }
 
 .actionButton:hover:not(:disabled) {
   background: var(--neutral-50);
   border-color: var(--neutral-300);
   color: var(--neutral-900);
-  transform: translateY(-1px);
 }
 
 .btnPrimary {
@@ -257,7 +271,6 @@
 .actionButton:disabled {
   opacity: 0.55;
   cursor: not-allowed;
-  transform: none;
 }
 
 .actionButton:focus-visible {
@@ -268,7 +281,7 @@
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
@@ -278,45 +291,41 @@
 
 @media (min-width: 768px) {
   .section {
-    padding-block: 12px 56px;
+    padding-block: 0 56px;
   }
 
-  .panel {
-    padding: 28px;
-    gap: 18px;
-  }
-
-  .title {
-    font-size: 1.375rem;
-  }
-
-  .boxMeta {
-    padding: 14px 16px;
-  }
-
-  .result {
-    padding: 20px;
-    font-size: 1rem;
-    min-height: 140px;
+  .panelTop,
+  .boxMeta,
+  .boxDescription,
+  .rewriteRow,
+  .variantRow {
+    padding-left: 24px;
+    padding-right: 24px;
   }
 
   .boxBtn {
-    gap: 12px;
+    padding: 16px 24px;
+    gap: 10px;
+  }
+
+  .title {
+    font-size: 1.1875rem;
+  }
+
+  .result {
+    padding: 16px;
+    font-size: 0.9375rem;
+    min-height: 140px;
   }
 
   .actionButton {
-    min-height: 48px;
-    padding: 0 22px;
-    min-width: 140px;
+    min-height: 42px;
+    min-width: 120px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .panel {
     animation: none;
-  }
-
-  .actionButton:hover:not(:disabled) {
-    transform: none;
   }
 }

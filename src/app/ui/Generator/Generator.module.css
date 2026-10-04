@@ -1,217 +1,176 @@
 /* =========================================================
-   Dashboard Generator — product workspace
+   Dashboard Generator — app workspace
    ========================================================= */
 
 .generator {
-  position: relative;
   width: 100%;
-  align-items: stretch;
-  text-align: left;
-  gap: 20px;
-  padding-block: 20px 32px;
-}
-
-.generator::before {
-  content: "";
-  position: absolute;
-  inset: 0 -20px auto;
-  height: 280px;
-  pointer-events: none;
-  z-index: 0;
-  background:
-    radial-gradient(
-      60% 80% at 12% 0%,
-      rgba(20, 184, 166, 0.09) 0%,
-      transparent 70%
-    ),
-    radial-gradient(
-      50% 60% at 92% 8%,
-      rgba(24, 24, 27, 0.04) 0%,
-      transparent 65%
-    );
-}
-
-.heading,
-.workspace,
-.statePanel,
-.pricingWrap {
-  position: relative;
-  z-index: 1;
-}
-
-.heading {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  max-width: 720px;
-  margin: 0 auto;
+  gap: 20px;
+  padding-block: 16px 40px;
+  text-align: left;
+}
+
+.pageHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
   width: 100%;
-  animation: rise 0.5s var(--ease-out) both;
+  max-width: 760px;
+  margin: 0 auto;
+  padding-bottom: 4px;
+}
+
+.pageHeaderMain {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
 }
 
 .eyebrow {
   margin: 0;
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--primary-700);
+  color: var(--neutral-500);
 }
 
 .title {
   margin: 0;
   font-family: var(--font-heading), system-ui, sans-serif;
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-size: clamp(1.375rem, 2.5vw, 1.75rem);
   font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1.15;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
   color: var(--neutral-900);
 }
 
 .subTitle {
   margin: 0;
-  max-width: 520px;
-  font-size: 1rem;
-  line-height: 1.55;
+  max-width: 420px;
+  font-size: 0.875rem;
+  line-height: 1.5;
   color: var(--color-text-muted);
 }
 
-.metaRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 4px;
-}
-
-.metaChip {
-  display: inline-flex;
-  align-items: center;
-  height: 28px;
-  padding: 0 10px;
-  border-radius: var(--radius-full);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  border: 1px solid transparent;
-}
-
-.metaChip[data-tone="trial"] {
-  color: #b45309;
-  background: rgba(245, 158, 11, 0.1);
-  border-color: rgba(245, 158, 11, 0.22);
-}
-
-.metaChip[data-tone="paid"] {
-  color: var(--primary-700);
-  background: rgba(20, 184, 166, 0.1);
-  border-color: rgba(20, 184, 166, 0.22);
-}
-
-/* ---------- Workspace ---------- */
-.workspace {
-  width: 100%;
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 20px;
-  border-radius: 20px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.92) 0%,
-    #fff 40%
-  );
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.8) inset,
-    0 18px 40px rgba(24, 24, 27, 0.06),
-    0 4px 12px rgba(24, 24, 27, 0.04);
-  animation: rise 0.55s var(--ease-out) 0.06s both;
-}
-
-.workspaceTop {
+.creditBar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 0 0 16px;
-  margin-bottom: 4px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid var(--neutral-200);
+  box-shadow: 0 1px 2px rgba(24, 24, 27, 0.04);
 }
 
-.workspaceLabel {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--neutral-500);
-  letter-spacing: -0.01em;
-}
-
-.workspaceBadge {
+.planPill {
   display: inline-flex;
   align-items: center;
   height: 26px;
   padding: 0 10px;
-  border-radius: var(--radius-full);
+  border-radius: 6px;
   font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--primary-700);
-  background: rgba(20, 184, 166, 0.1);
-  border: 1px solid rgba(20, 184, 166, 0.2);
-}
-
-.workspace[data-plan="trial"] .workspaceBadge {
-  color: #b45309;
-  background: rgba(245, 158, 11, 0.1);
-  border-color: rgba(245, 158, 11, 0.25);
-}
-
-.workspace[data-plan="free"] .workspaceBadge {
-  color: var(--neutral-600);
+  color: var(--neutral-700);
   background: var(--neutral-100);
-  border-color: var(--neutral-200);
+  border: 1px solid var(--neutral-200);
+}
+
+.planPill[data-plan="trial"] {
+  color: #92400e;
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+
+.planPill[data-plan="start"],
+.planPill[data-plan="standard"],
+.planPill[data-plan="pro"] {
+  color: var(--primary-700);
+  background: var(--primary-50);
+  border-color: var(--primary-200);
+}
+
+.creditStats {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+.creditStat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  padding: 0 12px;
+  border-left: 1px solid var(--neutral-200);
+}
+
+.creditStat:first-child {
+  border-left: none;
+  padding-left: 0;
+}
+
+.creditLabel {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--neutral-400);
+}
+
+.creditValue {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--neutral-900);
+  line-height: 1.1;
+}
+
+/* ---------- Workspace shell ---------- */
+.workspace {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid var(--neutral-200);
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(24, 24, 27, 0.04);
+  overflow: hidden;
 }
 
 /* ---------- Locked / exhausted ---------- */
 .statePanel {
   width: 100%;
-  max-width: 560px;
+  max-width: 520px;
   margin: 0 auto;
-  padding: 32px 24px;
-  text-align: center;
-  border-radius: 20px;
+  padding: 28px 24px;
+  text-align: left;
+  border-radius: 14px;
   background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: var(--shadow-md);
-  animation: rise 0.5s var(--ease-out) both;
-}
-
-.stateMark {
-  display: block;
-  width: 48px;
-  height: 4px;
-  margin: 0 auto 20px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--primary-500), var(--neutral-800));
-}
-
-.stateMark[data-tone="locked"] {
-  background: linear-gradient(90deg, var(--neutral-400), var(--neutral-800));
+  border: 1px solid var(--neutral-200);
+  box-shadow: 0 1px 2px rgba(24, 24, 27, 0.04);
 }
 
 .stateTitle {
-  margin: 0 0 8px;
-  font-size: 1.375rem;
+  margin: 0 0 6px;
+  font-size: 1.125rem;
   font-weight: 700;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
   color: var(--neutral-900);
 }
 
 .stateText {
-  margin: 0 auto;
+  margin: 0;
   max-width: 400px;
-  font-size: 0.9375rem;
-  line-height: 1.6;
+  font-size: 0.875rem;
+  line-height: 1.55;
   color: var(--color-text-muted);
 }
 
@@ -219,30 +178,28 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
-  min-height: 48px;
-  padding: 0 22px;
+  margin-top: 18px;
+  min-height: 42px;
+  padding: 0 18px;
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: 10px;
   background: var(--neutral-900);
   color: #fff;
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
-  transition: background 0.2s var(--ease-out), transform 0.15s var(--ease-out);
+  transition: background 0.15s var(--ease-out);
 }
 
 .primaryBtn:hover {
   background: var(--neutral-800);
   color: #fff;
-  transform: translateY(-1px);
 }
 
 .primaryBtn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  transform: none;
 }
 
 .pricingWrap {
@@ -251,60 +208,25 @@
   margin: 0 auto;
 }
 
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @media (min-width: 768px) {
   .generator {
-    padding-block: 28px 48px;
+    padding-block: 20px 56px;
+    gap: 22px;
+  }
+
+  .pageHeader {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
     gap: 24px;
   }
 
-  .generator::before {
-    inset: 0 -40px auto;
-    height: 340px;
-  }
-
-  .workspace {
-    padding: 28px;
-  }
-
-  .workspaceTop {
-    padding: 0 0 18px;
-    margin-bottom: 8px;
+  .creditBar {
+    flex-shrink: 0;
+    min-width: 220px;
   }
 
   .statePanel {
-    padding: 40px 36px;
-  }
-
-  .subTitle {
-    font-size: 1.0625rem;
-  }
-}
-
-@media (min-width: 1200px) {
-  .generator::before {
-    inset: 0 -48px auto;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .heading,
-  .workspace,
-  .statePanel {
-    animation: none;
-  }
-
-  .primaryBtn:hover {
-    transform: none;
+    padding: 32px;
   }
 }

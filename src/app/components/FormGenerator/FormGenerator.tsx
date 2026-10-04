@@ -106,9 +106,10 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
       {({ values, isSubmitting, setFieldValue }) => {
         const activePortal = getPortalById(values.portalId);
         const availableTemplates = getTemplatesForPortal(values.portalId);
-        const activeTemplate = availableTemplates.find(
-          (t) => t.id === values.templateId
-        ) ?? availableTemplates[0] ?? getTemplateById("default");
+        const activeTemplate =
+          availableTemplates.find((t) => t.id === values.templateId) ??
+          availableTemplates[0] ??
+          getTemplateById("default");
 
         const syncHasImage = (urls: string[]) => {
           setFieldValue("hasImage", urls.length > 0);
@@ -171,233 +172,254 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
 
         return (
           <Form className={styles.form}>
-            <div className={styles.section}>
-              <div className={styles.sectionHead}>
-                <label className={styles.label} id="portal-label">
-                  Gdzie publikujesz?
-                </label>
-                <p className={styles.hint}>{activePortal.hint}</p>
-              </div>
-
-              <div
-                className={styles.chipRow}
-                role="radiogroup"
-                aria-labelledby="portal-label"
-              >
-                {portals.map((p) => {
-                  const selected = values.portalId === p.id;
-                  return (
-                    <button
-                      key={p.id}
-                      type="button"
-                      role="radio"
-                      aria-checked={selected}
-                      className={`${styles.chip} ${
-                        selected ? styles.chipActive : ""
-                      }`}
-                      onClick={() => selectPortal(p.id)}
-                    >
-                      {p.name}
-                    </button>
-                  );
-                })}
-              </div>
-              <Field type="hidden" name="portalId" />
-            </div>
-
-            {availableTemplates.length > 1 && (
-              <div className={styles.section}>
-                <div className={styles.sectionHead}>
-                  <label className={styles.label} id="template-label">
-                    Typ oferty
+            <div className={styles.body}>
+              <div className={styles.field}>
+                <div className={styles.fieldHead}>
+                  <label className={styles.label} id="portal-label">
+                    Portal
                   </label>
-                  {activeTemplate.hint && (
-                    <p className={styles.hint}>{activeTemplate.hint}</p>
-                  )}
+                  <p className={styles.hint}>{activePortal.hint}</p>
                 </div>
 
                 <div
-                  className={styles.chipRow}
+                  className={styles.segment}
                   role="radiogroup"
-                  aria-labelledby="template-label"
+                  aria-labelledby="portal-label"
                 >
-                  {availableTemplates.map((t) => {
-                    const selected = values.templateId === t.id;
+                  {portals.map((p) => {
+                    const selected = values.portalId === p.id;
                     return (
                       <button
-                        key={t.id}
+                        key={p.id}
                         type="button"
                         role="radio"
                         aria-checked={selected}
-                        className={`${styles.chip} ${
-                          selected ? styles.chipActive : ""
+                        className={`${styles.segmentBtn} ${
+                          selected ? styles.segmentBtnActive : ""
                         }`}
-                        onClick={() => setFieldValue("templateId", t.id)}
+                        onClick={() => selectPortal(p.id)}
                       >
-                        {t.name}
+                        {p.name}
                       </button>
                     );
                   })}
                 </div>
+                <Field type="hidden" name="portalId" />
+              </div>
+
+              {availableTemplates.length > 1 && (
+                <div className={styles.field}>
+                  <div className={styles.fieldHead}>
+                    <label className={styles.label} id="template-label">
+                      Typ oferty
+                    </label>
+                    {activeTemplate.hint && (
+                      <p className={styles.hint}>{activeTemplate.hint}</p>
+                    )}
+                  </div>
+
+                  <div
+                    className={styles.chipRow}
+                    role="radiogroup"
+                    aria-labelledby="template-label"
+                  >
+                    {availableTemplates.map((t) => {
+                      const selected = values.templateId === t.id;
+                      return (
+                        <button
+                          key={t.id}
+                          type="button"
+                          role="radio"
+                          aria-checked={selected}
+                          className={`${styles.chip} ${
+                            selected ? styles.chipActive : ""
+                          }`}
+                          onClick={() => setFieldValue("templateId", t.id)}
+                        >
+                          {t.name}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <Field type="hidden" name="templateId" />
+                </div>
+              )}
+              {availableTemplates.length <= 1 && (
                 <Field type="hidden" name="templateId" />
-              </div>
-            )}
-            {availableTemplates.length <= 1 && (
-              <Field type="hidden" name="templateId" />
-            )}
-            <Field type="hidden" name="hasImage" />
+              )}
+              <Field type="hidden" name="hasImage" />
 
-            <div className={styles.section}>
-              <div className={styles.sectionHead}>
-                <span className={styles.label}>Zdjęcia</span>
-                <p className={styles.hint}>
-                  Opcjonalnie do {MAX_IMAGES} — AI rozpozna produkt i cechy.
-                </p>
-              </div>
+              <div className={styles.field}>
+                <div className={styles.fieldHead}>
+                  <span className={styles.label}>Zdjęcia</span>
+                  <p className={styles.hint}>
+                    Opcjonalnie · do {MAX_IMAGES} szt. · AI wyciągnie cechy
+                  </p>
+                </div>
 
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                multiple
-                className={styles.fileInput}
-                onChange={(e) => onPickFiles(e.target.files)}
-              />
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  multiple
+                  className={styles.fileInput}
+                  onChange={(e) => onPickFiles(e.target.files)}
+                />
 
-              {imageDataUrls.length > 0 ? (
-                <div className={styles.imageGrid}>
-                  {imageDataUrls.map((url, index) => (
-                    <div
-                      key={`${index}-${url.slice(0, 24)}`}
-                      className={styles.imagePreview}
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={url}
-                        alt={`Podgląd zdjęcia ${index + 1}`}
-                        className={styles.imageThumb}
-                      />
+                {imageDataUrls.length > 0 ? (
+                  <div className={styles.imageGrid}>
+                    {imageDataUrls.map((url, index) => (
+                      <div
+                        key={`${index}-${url.slice(0, 24)}`}
+                        className={styles.imagePreview}
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={url}
+                          alt={`Podgląd zdjęcia ${index + 1}`}
+                          className={styles.imageThumb}
+                        />
+                        <button
+                          type="button"
+                          className={styles.imageRemove}
+                          onClick={() => removeImageAt(index)}
+                          disabled={imageBusy || isSubmitting}
+                        >
+                          Usuń
+                        </button>
+                      </div>
+                    ))}
+                    <div className={styles.imageMeta}>
+                      <p className={styles.imageStatus}>
+                        {imageBusy
+                          ? "Przetwarzanie…"
+                          : `${imageDataUrls.length}/${MAX_IMAGES}`}
+                      </p>
+                      {imageDataUrls.length < MAX_IMAGES && (
+                        <button
+                          type="button"
+                          className={styles.imageRemove}
+                          onClick={() => fileInputRef.current?.click()}
+                          disabled={imageBusy || isSubmitting}
+                        >
+                          Dodaj
+                        </button>
+                      )}
                       <button
                         type="button"
                         className={styles.imageRemove}
-                        onClick={() => removeImageAt(index)}
+                        onClick={clearImages}
                         disabled={imageBusy || isSubmitting}
                       >
-                        Usuń
+                        Wyczyść
                       </button>
                     </div>
-                  ))}
-                  <div className={styles.imageMeta}>
-                    <p className={styles.imageStatus}>
-                      {imageBusy
-                        ? "Przetwarzanie…"
-                        : `${imageDataUrls.length}/${MAX_IMAGES}`}
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    className={styles.uploadZone}
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={imageBusy || isSubmitting}
+                  >
+                    <span className={styles.uploadIcon} aria-hidden>
+                      +
+                    </span>
+                    <span className={styles.uploadCopy}>
+                      <span className={styles.uploadTitle}>
+                        {imageBusy ? "Kompresuję…" : "Dodaj zdjęcia produktu"}
+                      </span>
+                      <span className={styles.uploadSub}>
+                        JPG, PNG, WebP · max 8 MB
+                      </span>
+                    </span>
+                  </button>
+                )}
+              </div>
+
+              <div className={styles.field}>
+                <div className={styles.fieldHead}>
+                  <label className={styles.label} htmlFor="generator-input">
+                    {values.hasImage
+                      ? "Dodatkowe info"
+                      : "Treść ogłoszenia"}
+                  </label>
+                  <p className={styles.hint}>
+                    {values.hasImage
+                      ? "Opcjonalnie — cena, lokalizacja, stan"
+                      : "Kluczowe cechy, cena, lokalizacja"}
+                  </p>
+                </div>
+
+                <div className={styles.composer}>
+                  <Field
+                    as="textarea"
+                    id="generator-input"
+                    name="input"
+                    placeholder={
+                      values.hasImage
+                        ? "np. cena 1200 zł, Warszawa, faktura VAT…"
+                        : "np. iPhone 13, 128 GB, bateria 89%, pudełko, Warszawa…"
+                    }
+                    aria-label="Pole do wpisania słów kluczowych ogłoszenia"
+                    rows={5}
+                    maxLength={MAX_INPUT}
+                    className={styles.textarea}
+                  />
+
+                  <div className={styles.composerFooter}>
+                    <p className={styles.olxHint}>
+                      {`${activePortal.name} · tytuł ≤${activePortal.titleMax} · opis ${activePortal.descriptionMin}–${activePortal.descriptionMax}`}
                     </p>
-                    {imageDataUrls.length < MAX_IMAGES && (
-                      <button
-                        type="button"
-                        className={styles.imageRemove}
-                        onClick={() => fileInputRef.current?.click()}
-                        disabled={imageBusy || isSubmitting}
-                      >
-                        Dodaj
-                      </button>
-                    )}
-                    <button
-                      type="button"
-                      className={styles.imageRemove}
-                      onClick={clearImages}
-                      disabled={imageBusy || isSubmitting}
+                    <p
+                      className={styles.charCounter}
+                      data-near={
+                        values.input.length > MAX_INPUT * 0.9
+                          ? "true"
+                          : "false"
+                      }
                     >
-                      Wyczyść
-                    </button>
+                      {values.input.length}/{MAX_INPUT}
+                    </p>
                   </div>
                 </div>
-              ) : (
-                <button
-                  type="button"
-                  className={styles.uploadZone}
-                  onClick={() => fileInputRef.current?.click()}
-                  disabled={imageBusy || isSubmitting}
-                >
-                  <span className={styles.uploadTitle}>
-                    {imageBusy ? "Kompresuję…" : "Dodaj zdjęcia"}
-                  </span>
-                  <span className={styles.uploadSub}>
-                    JPG, PNG, WebP · max 8 MB · 1 kredyt
-                  </span>
-                </button>
-              )}
-            </div>
 
-            <div className={styles.section}>
-              <label className={styles.label} htmlFor="generator-input">
-                {values.hasImage
-                  ? "Dodatkowe info (opcjonalnie)"
-                  : "Co sprzedajesz / oferujesz?"}
-              </label>
-
-              <div className={styles.composer}>
-                <Field
-                  as="textarea"
-                  id="generator-input"
-                  name="input"
-                  placeholder={
-                    values.hasImage
-                      ? "np. cena 1200 zł, Warszawa, faktura VAT…"
-                      : "np. iPhone 13, 128 GB, bateria 89%, pudełko, Warszawa…"
-                  }
-                  aria-label="Pole do wpisania słów kluczowych ogłoszenia"
-                  rows={6}
-                  maxLength={MAX_INPUT}
-                  className={styles.textarea}
-                />
-
-                <div className={styles.composerFooter}>
-                  <p className={styles.olxHint}>
-                    {`${activePortal.name} · tytuł ≤${activePortal.titleMax} · opis ${activePortal.descriptionMin}–${activePortal.descriptionMax}`}
-                  </p>
-                  <p
-                    className={styles.charCounter}
-                    data-near={
-                      values.input.length > MAX_INPUT * 0.9 ? "true" : "false"
-                    }
-                  >
-                    {values.input.length}/{MAX_INPUT}
-                  </p>
+                <div className={styles.errorContainer}>
+                  <ErrorMessage
+                    name="input"
+                    component="div"
+                    className={styles.errorMessage}
+                  />
                 </div>
               </div>
 
-              <div className={styles.errorContainer}>
-                <ErrorMessage
-                  name="input"
-                  component="div"
-                  className={styles.errorMessage}
-                />
-              </div>
+              <label className={styles.optionRow}>
+                <span className={styles.optionText}>
+                  <span className={styles.optionTitle}>3 warianty opisu</span>
+                  <span className={styles.optionDesc}>
+                    Porównaj ton · nadal 1 kredyt
+                  </span>
+                </span>
+                <span className={styles.switch}>
+                  <Field
+                    type="checkbox"
+                    name="variants"
+                    className={styles.switchInput}
+                  />
+                  <span className={styles.switchTrack} aria-hidden />
+                </span>
+              </label>
             </div>
 
-            <label className={styles.optionRow}>
-              <span className={styles.optionText}>
-                <span className={styles.optionTitle}>3 warianty</span>
-                <span className={styles.optionDesc}>
-                  Porównaj ton — nadal 1 kredyt
-                </span>
-              </span>
-              <span className={styles.switch}>
-                <Field
-                  type="checkbox"
-                  name="variants"
-                  className={styles.switchInput}
-                />
-                <span className={styles.switchTrack} aria-hidden />
-              </span>
-            </label>
-
-            <div className={styles.submitRow}>
-              <BtnAuth isSubmitting={isSubmitting || imageBusy}>
-                {values.hasImage ? "Generuj ze zdjęcia" : "Generuj ogłoszenie"}
-              </BtnAuth>
+            <div className={styles.footer}>
+              <p className={styles.footerHint}>1 kredyt za generację</p>
+              <div className={styles.submitRow}>
+                <BtnAuth isSubmitting={isSubmitting || imageBusy}>
+                  {values.hasImage
+                    ? "Generuj ze zdjęcia"
+                    : "Generuj ogłoszenie"}
+                </BtnAuth>
+              </div>
             </div>
           </Form>
         );

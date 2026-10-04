@@ -1,26 +1,33 @@
 /* =========================================================
-   Form Generator — composer UI
+   Form Generator — app composer
    ========================================================= */
 
 .form {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  padding: 16px 0 0;
   text-align: left;
 }
 
-.section {
+.body {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0;
+  padding: 4px 0;
 }
 
-.sectionHead {
+.field {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 10px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--neutral-100);
+}
+
+.fieldHead {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .label {
@@ -28,42 +35,78 @@
   font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: -0.01em;
-  color: var(--neutral-800);
+  color: var(--neutral-900);
 }
 
 .hint {
   margin: 0;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   line-height: 1.4;
-  color: var(--color-text-muted);
+  color: var(--neutral-500);
 }
 
-/* ---------- Template chips ---------- */
+/* ---------- Segmented control (portals) ---------- */
+.segment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 3px;
+  width: fit-content;
+  max-width: 100%;
+  border-radius: 10px;
+  background: var(--neutral-100);
+  border: 1px solid var(--neutral-200);
+}
+
+.segmentBtn {
+  flex: 0 0 auto;
+  height: 32px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--neutral-600);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.12s var(--ease-out),
+    color 0.12s var(--ease-out),
+    box-shadow 0.12s var(--ease-out);
+}
+
+.segmentBtn:hover {
+  color: var(--neutral-900);
+}
+
+.segmentBtnActive {
+  background: #fff;
+  color: var(--neutral-900);
+  box-shadow:
+    0 1px 2px rgba(24, 24, 27, 0.08),
+    0 0 0 1px rgba(24, 24, 27, 0.04);
+}
+
+.segmentBtn:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ---------- Offer type chips ---------- */
 .chipRow {
   display: flex;
-  flex-wrap: nowrap;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 2px 0 4px;
+  flex-wrap: wrap;
+  gap: 6px;
   margin: 0;
-  scrollbar-width: thin;
-  -webkit-overflow-scrolling: touch;
-}
-
-.chipRow::-webkit-scrollbar {
-  height: 4px;
-}
-
-.chipRow::-webkit-scrollbar-thumb {
-  background: var(--neutral-300);
-  border-radius: 999px;
 }
 
 .chip {
   flex: 0 0 auto;
-  height: 36px;
-  padding: 0 14px;
-  border-radius: var(--radius-full);
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 8px;
   border: 1px solid var(--neutral-200);
   background: #fff;
   color: var(--neutral-600);
@@ -73,10 +116,9 @@
   white-space: nowrap;
   cursor: pointer;
   transition:
-    background 0.15s var(--ease-out),
-    border-color 0.15s var(--ease-out),
-    color 0.15s var(--ease-out),
-    transform 0.15s var(--ease-out);
+    background 0.12s var(--ease-out),
+    border-color 0.12s var(--ease-out),
+    color 0.12s var(--ease-out);
 }
 
 .chip:hover {
@@ -117,12 +159,11 @@
 
 .uploadZone {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
+  align-items: center;
+  gap: 12px;
   width: 100%;
-  padding: 18px 16px;
-  border-radius: 14px;
+  padding: 14px 16px;
+  border-radius: 10px;
   border: 1px dashed var(--neutral-300);
   background: var(--neutral-50);
   text-align: left;
@@ -133,7 +174,7 @@
 }
 
 .uploadZone:hover:not(:disabled) {
-  border-color: var(--neutral-500);
+  border-color: var(--neutral-400);
   background: #fff;
 }
 
@@ -142,8 +183,31 @@
   cursor: wait;
 }
 
+.uploadIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid var(--neutral-200);
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--neutral-700);
+}
+
+.uploadCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
 .uploadTitle {
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--neutral-900);
 }
@@ -156,7 +220,7 @@
 .imageGrid {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
   align-items: flex-start;
   width: 100%;
 }
@@ -164,55 +228,48 @@
 .imagePreview {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  width: 104px;
-  padding: 8px;
-  border-radius: 14px;
+  gap: 6px;
+  width: 96px;
+  padding: 6px;
+  border-radius: 10px;
   border: 1px solid var(--neutral-200);
   background: #fff;
 }
 
 .imageThumb {
   width: 100%;
-  height: 88px;
+  height: 80px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 7px;
   flex-shrink: 0;
   background: var(--neutral-100);
 }
 
 .imageMeta {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 6px;
   min-width: 120px;
   flex: 1;
-  padding: 4px 0;
+  padding: 2px 0;
 }
 
 .imageStatus {
   margin: 0;
-  font-size: 0.875rem;
+  width: 100%;
+  font-size: 0.8125rem;
   font-weight: 600;
   color: var(--neutral-900);
 }
 
-.imageHint {
-  margin: 0;
-  font-size: 0.75rem;
-  line-height: 1.4;
-  color: var(--neutral-500);
-}
-
 .imageRemove {
-  margin-top: auto;
-  align-self: flex-start;
-  height: 32px;
-  padding: 0 10px;
-  border-radius: var(--radius-md);
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 6px;
   border: 1px solid var(--neutral-200);
   background: #fff;
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   color: var(--neutral-700);
   cursor: pointer;
@@ -226,30 +283,28 @@
 /* ---------- Composer ---------- */
 .composer {
   width: 100%;
-  padding: 14px;
-  border-radius: 16px;
-  background: var(--neutral-50);
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #fff;
   border: 1px solid var(--neutral-200);
   transition:
     border-color var(--duration-fast) var(--ease-out),
-    box-shadow var(--duration-fast) var(--ease-out),
-    background var(--duration-fast) var(--ease-out);
+    box-shadow var(--duration-fast) var(--ease-out);
 }
 
 .composer:focus-within {
-  background: #fff;
-  border-color: var(--neutral-900);
-  box-shadow: 0 0 0 3px rgba(24, 24, 27, 0.08);
+  border-color: var(--neutral-400);
+  box-shadow: 0 0 0 3px rgba(24, 24, 27, 0.06);
 }
 
 .textarea {
   width: 100%;
-  min-height: 140px;
+  min-height: 120px;
   border: none;
   resize: vertical;
   background: transparent;
-  font-size: 1rem;
-  line-height: 1.65;
+  font-size: 0.9375rem;
+  line-height: 1.6;
   color: var(--color-text);
   outline: none;
 }
@@ -263,26 +318,26 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 12px;
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--neutral-100);
 }
 
 .olxHint {
   margin: 0;
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   line-height: 1.4;
-  color: var(--color-text-muted);
+  color: var(--neutral-400);
   text-align: left;
 }
 
 .charCounter {
   margin: 0;
   flex-shrink: 0;
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
-  color: var(--color-text-muted);
+  color: var(--neutral-400);
 }
 
 .charCounter[data-near="true"] {
@@ -290,31 +345,30 @@
 }
 
 .errorContainer {
-  min-height: 1.25em;
+  min-height: 0;
 }
 
 .errorMessage {
-  font-size: 0.875rem;
+  margin-top: 4px;
+  font-size: 0.8125rem;
   color: var(--color-error);
   font-weight: 500;
 }
 
-/* ---------- Full version toggle ---------- */
+/* ---------- Options ---------- */
 .optionRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 12px 14px;
-  border-radius: 14px;
-  border: 1px solid var(--neutral-200);
+  margin: 0;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--neutral-100);
   background: #fff;
   cursor: pointer;
-  transition: border-color 0.15s var(--ease-out), background 0.15s var(--ease-out);
 }
 
 .optionRow:hover {
-  border-color: var(--neutral-300);
   background: var(--neutral-50);
 }
 
@@ -327,21 +381,21 @@
 }
 
 .optionTitle {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   color: var(--neutral-900);
 }
 
 .optionDesc {
   font-size: 0.75rem;
-  color: var(--color-text-muted);
+  color: var(--neutral-500);
 }
 
 .switch {
   position: relative;
   flex-shrink: 0;
-  width: 44px;
-  height: 26px;
+  width: 40px;
+  height: 24px;
 }
 
 .switchInput {
@@ -366,13 +420,13 @@
 .switchTrack::after {
   content: "";
   position: absolute;
-  top: 3px;
-  left: 3px;
+  top: 2px;
+  left: 2px;
   width: 20px;
   height: 20px;
   border-radius: 50%;
   background: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
   transition: transform 0.2s var(--ease-out);
 }
 
@@ -381,7 +435,7 @@
 }
 
 .switchInput:checked + .switchTrack::after {
-  transform: translateX(18px);
+  transform: translateX(16px);
 }
 
 .switchInput:focus-visible + .switchTrack {
@@ -389,49 +443,79 @@
   outline-offset: 2px;
 }
 
+/* ---------- Footer action bar ---------- */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 20px;
+  background: var(--neutral-50);
+  border-top: 1px solid var(--neutral-200);
+}
+
+.footerHint {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--neutral-500);
+}
+
 .submitRow {
-  margin-top: 2px;
+  margin: 0;
+  flex-shrink: 0;
 }
 
 .submitRow :global(button[type="submit"]) {
-  width: 100%;
+  width: auto;
+  min-width: 180px;
   margin-top: 0;
-  min-height: 52px;
-  font-size: 1rem;
+  min-height: 42px;
+  padding: 0 18px;
+  font-size: 0.875rem;
+  border-radius: 10px;
 }
 
-@media (min-width: 768px) {
-  .form {
-    padding: 20px 0 0;
-    gap: 20px;
-  }
-
-  .chipRow {
-    flex-wrap: wrap;
-    overflow: visible;
-  }
-
-  .composer {
-    padding: 16px;
-  }
-
-  .textarea {
-    min-height: 160px;
-    font-size: 1.0625rem;
-  }
-
-  .optionRow {
-    padding: 14px 16px;
+@media (max-width: 767px) {
+  .footer {
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .submitRow :global(button[type="submit"]) {
-    width: auto;
-    min-width: 220px;
+    width: 100%;
+  }
+
+  .segment {
+    width: 100%;
+  }
+
+  .segmentBtn {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+}
+
+@media (min-width: 768px) {
+  .field {
+    padding: 20px 24px;
+  }
+
+  .optionRow {
+    padding: 16px 24px;
+  }
+
+  .footer {
+    padding: 16px 24px;
+  }
+
+  .textarea {
+    min-height: 140px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .chip,
+  .segmentBtn,
   .switchTrack,
   .switchTrack::after {
     transition: none;
