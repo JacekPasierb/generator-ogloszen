@@ -23,6 +23,8 @@ const VALID_TEMPLATES = [
   "marketplace",
 ];
 
+const MAX_IMAGES = 3;
+
 export const POST = async (req: Request) => {
   try {
     const cookieStore = await cookies();
@@ -46,9 +48,20 @@ export const POST = async (req: Request) => {
 
     const body = await req.json();
     const input = typeof body?.input === "string" ? body.input : "";
-    const imageDataUrl =
-      typeof body?.imageDataUrl === "string" ? body.imageDataUrl.trim() : "";
-    const hasImage = imageDataUrl.length > 0;
+
+    const rawUrls: string[] = [];
+    if (Array.isArray(body?.imageDataUrls)) {
+      for (const item of body.imageDataUrls) {
+        if (typeof item === "string" && item.trim()) {
+          rawUrls.push(item.trim());
+        }
+      }
+    }
+    if (typeof body?.imageDataUrl === "string" && body.imageDataUrl.trim()) {
+      rawUrls.unshift(body.imageDataUrl.trim());
+    }
+    const imageDataUrls = [...new Set(rawUrls)].slice(0, MAX_IMAGES);
+    const hasImage = imageDataUrls.length > 0;
 
     const templateId =
       typeof body?.templateId === "string" &&
@@ -61,12 +74,15 @@ export const POST = async (req: Request) => {
         ? (body.portalId as PortalId)
         : "olx";
     const outputFormat = body?.outputFormat === "full" ? "full" : "simple";
+    const variants = body?.variants === true;
 
-    if (hasImage && !isValidImageDataUrl(imageDataUrl)) {
-      throw handleError(
-        400,
-        "Nieprawidłowe zdjęcie (dozwolone: JPG/PNG/WebP, max ~1 MB po kompresji)."
-      );
+    for (const url of imageDataUrls) {
+      if (!isValidImageDataUrl(url)) {
+        throw handleError(
+          400,
+          "Nieprawidłowe zdjęcie (dozwolone: JPG/PNG/WebP, max ~1 MB po kompresji)."
+        );
+      }
     }
 
     if (!hasImage) {
@@ -94,7 +110,8 @@ export const POST = async (req: Request) => {
       templateId,
       portalId,
       outputFormat,
-      imageDataUrl: hasImage ? imageDataUrl : undefined,
+      imageDataUrls: hasImage ? imageDataUrls : undefined,
+      variants,
     });
 
     const creditConsumed = await consumeCredit(userId);
@@ -107,17 +124,24 @@ export const POST = async (req: Request) => {
 
     await trackEvent("generate", {
       userId: String(userId),
-      payload: { templateId, portalId, outputFormat, hasImage },
+      payload: {
+        templateId,
+        portalId,
+        outputFormat,
+        hasImage,
+        imageCount: imageDataUrls.length,
+        variants,
+      },
     });
 
-    const description = typeof result === "string" ? result : result.long;
-    const title = typeof result === "string" ? undefined : result.title;
-    const short = typeof result === "string" ? undefined : result.short;
-
     return NextResponse.json({
-      description,
-      title,
-      short,
+      description: result.long,
+      title: result.title || undefined,
+      short: result.short || undefined,
+      keywords: result.keywords ?? [],
+      features: result.features ?? [],
+      checklist: result.checklist ?? [],
+      variants: result.variants ?? undefined,
       credits: await getAvailableCredits(userId),
     });
   } catch (err) {

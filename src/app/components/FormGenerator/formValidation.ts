@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import { VALID_PORTALS } from "../../data/portals";
 
 export const generateDescriptionSchema = Yup.object({
   hasImage: Yup.boolean().default(false),
@@ -14,6 +15,7 @@ export const generateDescriptionSchema = Yup.object({
           .min(10, "Opis musi mieć co najmniej 10 znaków"),
     }),
   templateId: Yup.string().required(),
-  portalId: Yup.string().oneOf(["olx", "marketplace"]).required(),
+  portalId: Yup.string().oneOf([...VALID_PORTALS]).required(),
   fullVersion: Yup.boolean(),
+  variants: Yup.boolean(),
 });

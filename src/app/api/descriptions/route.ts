@@ -39,12 +39,17 @@ export const POST = async (req: NextRequest) => {
     if (!user) throw handleError(404, "Użytkownik nie znaleziony");
 
     const plan = user.plan ?? "free";
-    if (plan === "free") {
-      throw handleError(403, "Brak dostępu do zapisywania opisów");
-    }
+    const savedCount = user.savedDescriptions?.length ?? 0;
+    /** Trial / free: do 2 zapisów; płatne plany: do 5 */
+    const maxSaved = plan === "free" ? 2 : 5;
 
-    if ((user.savedDescriptions?.length ?? 0) >= 5) {
-      throw handleError(400, "Można zapisać maksymalnie 5 opisów");
+    if (savedCount >= maxSaved) {
+      throw handleError(
+        400,
+        plan === "free"
+          ? "W trialu możesz zapisać maksymalnie 2 opisy. Wybierz pakiet, aby zapisać więcej."
+          : "Można zapisać maksymalnie 5 opisów"
+      );
     }
 
     const body = await req.json();

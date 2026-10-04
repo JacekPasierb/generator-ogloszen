@@ -14,12 +14,14 @@ import { getPortalById, portals } from "../../data/portals";
 import { compressImageToDataUrl } from "../../lib/image/compressImage";
 
 const MAX_INPUT = 500;
+const MAX_IMAGES = 3;
 
 interface FormValues {
   input: string;
   templateId: string;
   portalId: string;
   fullVersion: boolean;
+  variants: boolean;
   hasImage: boolean;
 }
 
@@ -31,8 +33,7 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
   const { setResult } = useDescription();
   const { mutate } = useUser();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
+  const [imageDataUrls, setImageDataUrls] = useState<string[]>([]);
   const [imageBusy, setImageBusy] = useState(false);
 
   const handleSubmit = async (
@@ -48,17 +49,21 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
         templateId: values.templateId,
         portalId: values.portalId,
         outputFormat: values.fullVersion ? "full" : "simple",
-        imageDataUrl: imageDataUrl || undefined,
+        imageDataUrls: imageDataUrls.length ? imageDataUrls : undefined,
+        variants: values.variants,
       });
       setResult({
         description: data.description,
         title: data.title,
         short: data.short,
+        keywords: data.keywords,
+        features: data.features,
+        checklist: data.checklist,
+        variants: data.variants,
       });
       mutate();
       resetForm();
-      setImagePreview(null);
-      setImageDataUrl(null);
+      setImageDataUrls([]);
       if (fileInputRef.current) fileInputRef.current.value = "";
     } catch (err: unknown) {
       const error = err as { message?: string };
@@ -91,6 +96,7 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
         templateId: "default",
         portalId: "olx",
         fullVersion: false,
+        variants: false,
         hasImage: false,
       }}
       validationSchema={generateDescriptionSchema}
@@ -100,28 +106,54 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
         const activeTemplate = getTemplateById(values.templateId);
         const activePortal = getPortalById(values.portalId);
 
-        const clearImage = () => {
-          setImagePreview(null);
-          setImageDataUrl(null);
-          setFieldValue("hasImage", false);
+        const syncHasImage = (urls: string[]) => {
+          setFieldValue("hasImage", urls.length > 0);
+        };
+
+        const clearImages = () => {
+          setImageDataUrls([]);
+          syncHasImage([]);
           if (fileInputRef.current) fileInputRef.current.value = "";
         };
 
-        const onPickFile = async (file: File | null) => {
-          if (!file) return;
+        const removeImageAt = (index: number) => {
+          setImageDataUrls((prev) => {
+            const next = prev.filter((_, i) => i !== index);
+            syncHasImage(next);
+            return next;
+          });
+          if (fileInputRef.current) fileInputRef.current.value = "";
+        };
+
+        const onPickFiles = async (fileList: FileList | null) => {
+          if (!fileList?.length) return;
+          const remaining = MAX_IMAGES - imageDataUrls.length;
+          if (remaining <= 0) {
+            toast.info(`Możesz dodać maksymalnie ${MAX_IMAGES} zdjęcia`);
+            return;
+          }
+
+          const files = Array.from(fileList).slice(0, remaining);
           setImageBusy(true);
           try {
-            const dataUrl = await compressImageToDataUrl(file);
-            setImageDataUrl(dataUrl);
-            setImagePreview(dataUrl);
-            setFieldValue("hasImage", true);
+            const urls: string[] = [];
+            for (const file of files) {
+              urls.push(await compressImageToDataUrl(file));
+            }
+            setImageDataUrls((prev) => {
+              const next = [...prev, ...urls].slice(0, MAX_IMAGES);
+              syncHasImage(next);
+              return next;
+            });
           } catch (err: unknown) {
             const message =
-              err instanceof Error ? err.message : "Nie udało się wczytać zdjęcia";
+              err instanceof Error
+                ? err.message
+                : "Nie udało się wczytać zdjęcia";
             toast.error(message);
-            clearImage();
           } finally {
             setImageBusy(false);
+            if (fileInputRef.current) fileInputRef.current.value = "";
           }
         };
 
@@ -200,10 +232,10 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
 
             <div className={styles.section}>
               <div className={styles.sectionHead}>
-                <span className={styles.label}>Zdjęcie produktu</span>
+                <span className={styles.label}>Zdjęcia produktu</span>
                 <p className={styles.hint}>
-                  Opcjonalnie — AI rozpozna przedmiot na fotce. Możesz też dodać
-                  słowa kluczowe poniżej.
+                  Do {MAX_IMAGES} zdjęć — AI wyciągnie cechy z fotek. Słowa
+                  kluczowe poniżej są opcjonalne.
                 </p>
               </div>
 
@@ -211,32 +243,54 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
                 ref={fileInputRef}
                 type="file"
                 accept="image/jpeg,image/png,image/webp"
+                multiple
                 className={styles.fileInput}
-                onChange={(e) => onPickFile(e.target.files?.[0] ?? null)}
+                onChange={(e) => onPickFiles(e.target.files)}
               />
 
-              {imagePreview ? (
-                <div className={styles.imagePreview}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={imagePreview}
-                    alt="Podgląd zdjęcia produktu"
-                    className={styles.imageThumb}
-                  />
+              {imageDataUrls.length > 0 ? (
+                <div className={styles.imageGrid}>
+                  {imageDataUrls.map((url, index) => (
+                    <div key={`${index}-${url.slice(0, 24)}`} className={styles.imagePreview}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={url}
+                        alt={`Podgląd zdjęcia ${index + 1}`}
+                        className={styles.imageThumb}
+                      />
+                      <button
+                        type="button"
+                        className={styles.imageRemove}
+                        onClick={() => removeImageAt(index)}
+                        disabled={imageBusy || isSubmitting}
+                      >
+                        Usuń
+                      </button>
+                    </div>
+                  ))}
                   <div className={styles.imageMeta}>
                     <p className={styles.imageStatus}>
-                      {imageBusy ? "Przetwarzanie…" : "Zdjęcie gotowe"}
+                      {imageBusy
+                        ? "Przetwarzanie…"
+                        : `${imageDataUrls.length}/${MAX_IMAGES} zdjęć`}
                     </p>
-                    <p className={styles.imageHint}>
-                      Sprawdź i uzupełnij cechy w polu poniżej przed publikacją.
-                    </p>
+                    {imageDataUrls.length < MAX_IMAGES && (
+                      <button
+                        type="button"
+                        className={styles.imageRemove}
+                        onClick={() => fileInputRef.current?.click()}
+                        disabled={imageBusy || isSubmitting}
+                      >
+                        Dodaj kolejne
+                      </button>
+                    )}
                     <button
                       type="button"
                       className={styles.imageRemove}
-                      onClick={clearImage}
+                      onClick={clearImages}
                       disabled={imageBusy || isSubmitting}
                     >
-                      Usuń zdjęcie
+                      Usuń wszystkie
                     </button>
                   </div>
                 </div>
@@ -248,10 +302,10 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
                   disabled={imageBusy || isSubmitting}
                 >
                   <span className={styles.uploadTitle}>
-                    {imageBusy ? "Kompresuję zdjęcie…" : "Dodaj zdjęcie"}
+                    {imageBusy ? "Kompresuję zdjęcia…" : "Dodaj zdjęcia"}
                   </span>
                   <span className={styles.uploadSub}>
-                    JPG, PNG lub WebP · max 8 MB · 1 kredyt
+                    JPG, PNG lub WebP · max 8 MB · do {MAX_IMAGES} szt. · 1 kredyt
                   </span>
                 </button>
               )}
@@ -282,9 +336,7 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
 
                 <div className={styles.composerFooter}>
                   <p className={styles.olxHint}>
-                    {activePortal.id === "olx"
-                      ? `OLX · tytuł max ${activePortal.titleMax} · opis ${activePortal.descriptionMin}–${activePortal.descriptionMax} znaków`
-                      : `${activePortal.name} · opis do ~${activePortal.descriptionMax} znaków`}
+                    {`${activePortal.name} · tytuł max ${activePortal.titleMax} · opis ${activePortal.descriptionMin}–${activePortal.descriptionMax} znaków`}
                   </p>
                   <p
                     className={styles.charCounter}
@@ -310,15 +362,30 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
               <span className={styles.optionText}>
                 <span className={styles.optionTitle}>Pełny pakiet treści</span>
                 <span className={styles.optionDesc}>
-                  {activePortal.id === "olx"
-                    ? `Tytuł (max ${activePortal.titleMax}) + short + opis · 1 kredyt`
-                    : "Tytuł + wersja krótka i długa · 1 kredyt"}
+                  Tytuł + short + opis · 1 kredyt
                 </span>
               </span>
               <span className={styles.switch}>
                 <Field
                   type="checkbox"
                   name="fullVersion"
+                  className={styles.switchInput}
+                />
+                <span className={styles.switchTrack} aria-hidden />
+              </span>
+            </label>
+
+            <label className={styles.optionRow}>
+              <span className={styles.optionText}>
+                <span className={styles.optionTitle}>3 warianty opisu</span>
+                <span className={styles.optionDesc}>
+                  Sprzedażowy / konkretny / szybka sprzedaż · nadal 1 kredyt
+                </span>
+              </span>
+              <span className={styles.switch}>
+                <Field
+                  type="checkbox"
+                  name="variants"
                   className={styles.switchInput}
                 />
                 <span className={styles.switchTrack} aria-hidden />

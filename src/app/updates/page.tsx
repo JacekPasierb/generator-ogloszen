@@ -26,10 +26,42 @@ type Release = {
 
 const releases: Release[] = [
   {
+    version: "0.4.0",
+    date: "04.10.2026",
+    dateIso: "2026-10-04",
+    current: true,
+    summary:
+      "Nowoczesny generator: portale OLX/Allegro/Vinted, 3 warianty, multi-zdjęcia, poprawki tekstu i checklista publikacji.",
+    groups: [
+      {
+        title: "Portale i AI",
+        items: [
+          "Portale: OLX, Allegro, Vinted i Marketplace — limity tytułu/opisu i ton pod każdy kanał",
+          "Domyślny model gpt-4o-mini + structured JSON (tytuł, opis, cechy, frazy, checklista)",
+          "3 warianty ogłoszenia w jednym kredycie (sprzedażowy / konkretny / szybka sprzedaż)",
+        ],
+      },
+      {
+        title: "Zdjęcia i wynik",
+        items: [
+          "Do 3 zdjęć produktu — ekstrakcja cech z Vision AI",
+          "Frazy SEO / wyszukiwanie oraz lista cech w podglądzie wyniku",
+          "Checklista przed publikacją (do odhaczenia)",
+          "Szybkie poprawki: skróć, mocniejsze CTA, formalnie, bez emoji (bez dodatkowego kredytu)",
+        ],
+      },
+      {
+        title: "Trial i zapis",
+        items: [
+          "Konta free/trial mogą zapisać do 2 opisów (płatne plany nadal do 5)",
+        ],
+      },
+    ],
+  },
+  {
     version: "0.3.3",
     date: "15.08.2026",
     dateIso: "2026-08-15",
-    current: true,
     summary:
       "Do końca sierpnia 10 kredytów testowych dla nowych kont oraz zachęta do feedbacku.",
     groups: [

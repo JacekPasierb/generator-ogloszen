@@ -153,20 +153,28 @@
   color: var(--neutral-500);
 }
 
+.imageGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-start;
+  width: 100%;
+}
+
 .imagePreview {
   display: flex;
-  gap: 14px;
-  align-items: stretch;
-  width: 100%;
-  padding: 12px;
+  flex-direction: column;
+  gap: 8px;
+  width: 104px;
+  padding: 8px;
   border-radius: 14px;
   border: 1px solid var(--neutral-200);
   background: #fff;
 }
 
 .imageThumb {
-  width: 96px;
-  height: 96px;
+  width: 100%;
+  height: 88px;
   object-fit: cover;
   border-radius: 10px;
   flex-shrink: 0;
@@ -176,9 +184,10 @@
 .imageMeta {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  min-width: 0;
+  gap: 6px;
+  min-width: 120px;
   flex: 1;
+  padding: 4px 0;
 }
 
 .imageStatus {

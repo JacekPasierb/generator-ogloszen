@@ -51,7 +51,8 @@ describe("FormGenerator component", () => {
         templateId: "default",
         portalId: "olx",
         outputFormat: "simple",
-        imageDataUrl: undefined,
+        imageDataUrls: undefined,
+        variants: false,
       });
     });
   });
