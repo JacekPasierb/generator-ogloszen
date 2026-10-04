@@ -49,6 +49,7 @@ describe("FormGenerator component", () => {
       expect(aiService.generateDescription).toHaveBeenCalledWith({
         input: "Sprzedam rower",
         templateId: "default",
+        portalId: "olx",
         outputFormat: "simple",
         imageDataUrl: undefined,
       });

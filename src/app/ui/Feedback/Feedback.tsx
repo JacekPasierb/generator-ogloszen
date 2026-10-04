@@ -1,13 +1,7 @@
 import styles from "./Feedback.module.css";
-import {
-  FEEDBACK_EMAIL,
-  FEEDBACK_FACEBOOK_URL,
-  isTrialPromoActive,
-  TRIAL_PROMO_CREDITS,
-} from "@/app/config/trial";
+import { FEEDBACK_EMAIL, FEEDBACK_FACEBOOK_URL } from "@/app/config/trial";
 
 const Feedback = () => {
-  const promo = isTrialPromoActive();
   const mailHref = `mailto:${FEEDBACK_EMAIL}?subject=${encodeURIComponent(
     "Feedback — Generator Ogłoszeń"
   )}&body=${encodeURIComponent(
@@ -28,9 +22,8 @@ const Feedback = () => {
           <span className={styles.headlineAccent}>Napisz do nas.</span>
         </h2>
         <p className={styles.support}>
-          {promo
-            ? `Do końca sierpnia nowi użytkownicy dostają ${TRIAL_PROMO_CREDITS} kredytów testowych. W zamian prosimy o szczerą opinię — co działa, a czego brakuje.`
-            : "Twoja opinia pomaga nam rozwijać generator. Napisz, czego brakuje albo co warto poprawić."}
+          Twoja opinia pomaga nam rozwijać generator. Napisz, czego brakuje albo
+          co warto poprawić.
         </p>
 
         <div className={styles.actions}>

@@ -10,14 +10,15 @@ import { useDescription } from "../../context/DescriptionContext";
 import { useUser } from "../../hooks/useUser";
 import { generateDescription } from "../../services/aiService";
 import { getTemplateById, templates } from "../../data/templates";
+import { getPortalById, portals } from "../../data/portals";
 import { compressImageToDataUrl } from "../../lib/image/compressImage";
 
 const MAX_INPUT = 500;
-const OLX_HINT_CHARS = 750;
 
 interface FormValues {
   input: string;
   templateId: string;
+  portalId: string;
   fullVersion: boolean;
   hasImage: boolean;
 }
@@ -45,6 +46,7 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
       const data = await generateDescription({
         input: values.input,
         templateId: values.templateId,
+        portalId: values.portalId,
         outputFormat: values.fullVersion ? "full" : "simple",
         imageDataUrl: imageDataUrl || undefined,
       });
@@ -87,6 +89,7 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
       initialValues={{
         input: "",
         templateId: "default",
+        portalId: "olx",
         fullVersion: false,
         hasImage: false,
       }}
@@ -95,6 +98,7 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
     >
       {({ values, isSubmitting, setFieldValue }) => {
         const activeTemplate = getTemplateById(values.templateId);
+        const activePortal = getPortalById(values.portalId);
 
         const clearImage = () => {
           setImagePreview(null);
@@ -123,6 +127,40 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
 
         return (
           <Form className={styles.form}>
+            <div className={styles.section}>
+              <div className={styles.sectionHead}>
+                <label className={styles.label} id="portal-label">
+                  Portal
+                </label>
+                <p className={styles.hint}>{activePortal.hint}</p>
+              </div>
+
+              <div
+                className={styles.chipRow}
+                role="radiogroup"
+                aria-labelledby="portal-label"
+              >
+                {portals.map((p) => {
+                  const selected = values.portalId === p.id;
+                  return (
+                    <button
+                      key={p.id}
+                      type="button"
+                      role="radio"
+                      aria-checked={selected}
+                      className={`${styles.chip} ${
+                        selected ? styles.chipActive : ""
+                      }`}
+                      onClick={() => setFieldValue("portalId", p.id)}
+                    >
+                      {p.name}
+                    </button>
+                  );
+                })}
+              </div>
+              <Field type="hidden" name="portalId" />
+            </div>
+
             <div className={styles.section}>
               <div className={styles.sectionHead}>
                 <label className={styles.label} id="template-label">
@@ -244,8 +282,9 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
 
                 <div className={styles.composerFooter}>
                   <p className={styles.olxHint}>
-                    Idealny opis pod OLX / Marketplace · do ~{OLX_HINT_CHARS}{" "}
-                    znaków
+                    {activePortal.id === "olx"
+                      ? `OLX · tytuł max ${activePortal.titleMax} · opis ${activePortal.descriptionMin}–${activePortal.descriptionMax} znaków`
+                      : `${activePortal.name} · opis do ~${activePortal.descriptionMax} znaków`}
                   </p>
                   <p
                     className={styles.charCounter}
@@ -271,7 +310,9 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
               <span className={styles.optionText}>
                 <span className={styles.optionTitle}>Pełny pakiet treści</span>
                 <span className={styles.optionDesc}>
-                  Tytuł + wersja krótka i długa · 1 kredyt
+                  {activePortal.id === "olx"
+                    ? `Tytuł (max ${activePortal.titleMax}) + short + opis · 1 kredyt`
+                    : "Tytuł + wersja krótka i długa · 1 kredyt"}
                 </span>
               </span>
               <span className={styles.switch}>

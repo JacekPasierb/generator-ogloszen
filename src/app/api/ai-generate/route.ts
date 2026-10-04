@@ -12,6 +12,7 @@ import { connectMongo } from "../../lib/mongoose";
 import User from "../../models/User";
 import { trackEvent } from "../../lib/analytics/trackEvent";
 import type { TemplateId } from "../../data/templates";
+import { VALID_PORTALS, type PortalId } from "../../data/portals";
 
 const VALID_TEMPLATES = [
   "default",
@@ -54,6 +55,11 @@ export const POST = async (req: Request) => {
       VALID_TEMPLATES.includes(body.templateId)
         ? (body.templateId as TemplateId)
         : "default";
+    const portalId =
+      typeof body?.portalId === "string" &&
+      VALID_PORTALS.includes(body.portalId as PortalId)
+        ? (body.portalId as PortalId)
+        : "olx";
     const outputFormat = body?.outputFormat === "full" ? "full" : "simple";
 
     if (hasImage && !isValidImageDataUrl(imageDataUrl)) {
@@ -86,6 +92,7 @@ export const POST = async (req: Request) => {
 
     const result = await generateDescription(input, {
       templateId,
+      portalId,
       outputFormat,
       imageDataUrl: hasImage ? imageDataUrl : undefined,
     });
@@ -100,7 +107,7 @@ export const POST = async (req: Request) => {
 
     await trackEvent("generate", {
       userId: String(userId),
-      payload: { templateId, outputFormat, hasImage },
+      payload: { templateId, portalId, outputFormat, hasImage },
     });
 
     const description = typeof result === "string" ? result : result.long;

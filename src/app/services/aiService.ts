@@ -1,6 +1,7 @@
 export interface GenerateParams {
   input: string;
   templateId?: string;
+  portalId?: string;
   outputFormat?: "simple" | "full";
   imageDataUrl?: string;
 }
@@ -21,6 +22,7 @@ export const generateDescription = async (
     body: JSON.stringify({
       input: params.input,
       templateId: params.templateId ?? "default",
+      portalId: params.portalId ?? "olx",
       outputFormat: params.outputFormat ?? "simple",
       imageDataUrl: params.imageDataUrl || undefined,
     }),

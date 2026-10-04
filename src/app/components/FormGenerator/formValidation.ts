@@ -14,5 +14,6 @@ export const generateDescriptionSchema = Yup.object({
           .min(10, "Opis musi mieć co najmniej 10 znaków"),
     }),
   templateId: Yup.string().required(),
+  portalId: Yup.string().oneOf(["olx", "marketplace"]).required(),
   fullVersion: Yup.boolean(),
 });
