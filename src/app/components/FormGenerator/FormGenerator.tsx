@@ -178,7 +178,6 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
                   <label className={styles.label} id="portal-label">
                     Portal
                   </label>
-                  <p className={styles.hint}>{activePortal.hint}</p>
                 </div>
 
                 <div
@@ -204,6 +203,14 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
                     );
                   })}
                 </div>
+
+                <div className={styles.tipClouds} aria-live="polite">
+                  {activePortal.tips.map((tip) => (
+                    <span key={tip} className={styles.tipCloud}>
+                      {tip}
+                    </span>
+                  ))}
+                </div>
                 <Field type="hidden" name="portalId" />
               </div>
 
@@ -213,9 +220,6 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
                     <label className={styles.label} id="template-label">
                       Typ oferty
                     </label>
-                    {activeTemplate.hint && (
-                      <p className={styles.hint}>{activeTemplate.hint}</p>
-                    )}
                   </div>
 
                   <div
@@ -241,6 +245,14 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
                       );
                     })}
                   </div>
+
+                  {activeTemplate.hint && (
+                    <div className={styles.tipClouds} aria-live="polite">
+                      <span className={styles.tipCloud}>
+                        {activeTemplate.hint}
+                      </span>
+                    </div>
+                  )}
                   <Field type="hidden" name="templateId" />
                 </div>
               )}
@@ -368,9 +380,14 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
                   />
 
                   <div className={styles.composerFooter}>
-                    <p className={styles.olxHint}>
-                      {`${activePortal.name} · tytuł ≤${activePortal.titleMax} · opis ${activePortal.descriptionMin}–${activePortal.descriptionMax}`}
-                    </p>
+                    <div className={styles.tipClouds}>
+                      <span className={styles.tipCloudMuted}>
+                        {activePortal.name}
+                      </span>
+                      <span className={styles.tipCloudMuted}>
+                        Tytuł ≤{activePortal.titleMax}
+                      </span>
+                    </div>
                     <p
                       className={styles.charCounter}
                       data-near={

@@ -3,7 +3,8 @@ export type PortalId = "olx" | "allegro" | "vinted" | "marketplace";
 export interface Portal {
   id: PortalId;
   name: string;
-  hint: string;
+  /** Krótkie tagi / chmurki pod wyborem portalu */
+  tips: string[];
   titleMax: number;
   descriptionMin: number;
   descriptionMax: number;
@@ -15,7 +16,7 @@ export const portals: Portal[] = [
   {
     id: "olx",
     name: "OLX",
-    hint: "Chwytliwy tytuł do 150 znaków · opis 40–9000 znaków",
+    tips: ["Tytuł ≤150", "Opis 40–9000", "Chwytliwy ton"],
     titleMax: 150,
     descriptionMin: 40,
     descriptionMax: 9000,
@@ -25,7 +26,7 @@ export const portals: Portal[] = [
   {
     id: "allegro",
     name: "Allegro",
-    hint: "Tytuł z cechami · opis z bulletami i parametrami",
+    tips: ["Tytuł ≤75", "Opis do 4000", "Cechy + parametry"],
     titleMax: 75,
     descriptionMin: 40,
     descriptionMax: 4000,
@@ -35,7 +36,7 @@ export const portals: Portal[] = [
   {
     id: "vinted",
     name: "Vinted",
-    hint: "Luźny, krótki styl moda/używane · max ~1000 znaków",
+    tips: ["Tytuł ≤100", "Opis ~1000", "Luźny styl moda"],
     titleMax: 100,
     descriptionMin: 40,
     descriptionMax: 1000,
@@ -45,7 +46,7 @@ export const portals: Portal[] = [
   {
     id: "marketplace",
     name: "Marketplace",
-    hint: "Krótki styl Facebook Marketplace · cechy + CTA",
+    tips: ["Tytuł ≤80", "Opis do 2000", "Krótko + CTA"],
     titleMax: 80,
     descriptionMin: 40,
     descriptionMax: 2000,

@@ -16,6 +16,7 @@ describe("portals data", () => {
     expect(olx.titleMax).toBe(150);
     expect(olx.descriptionMin).toBe(40);
     expect(olx.descriptionMax).toBe(9000);
+    expect(olx.tips.length).toBeGreaterThan(0);
   });
 
   it("falls back to OLX for unknown id", () => {
