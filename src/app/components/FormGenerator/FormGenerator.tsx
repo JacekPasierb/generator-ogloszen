@@ -9,7 +9,10 @@ import { toast } from "react-toastify";
 import { useDescription } from "../../context/DescriptionContext";
 import { useUser } from "../../hooks/useUser";
 import { generateDescription } from "../../services/aiService";
-import { getTemplateById, templates } from "../../data/templates";
+import {
+  getTemplateById,
+  getTemplatesForPortal,
+} from "../../data/templates";
 import { getPortalById, portals } from "../../data/portals";
 import { compressImageToDataUrl } from "../../lib/image/compressImage";
 
@@ -20,7 +23,6 @@ interface FormValues {
   input: string;
   templateId: string;
   portalId: string;
-  fullVersion: boolean;
   variants: boolean;
   hasImage: boolean;
 }
@@ -48,7 +50,7 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
         input: values.input,
         templateId: values.templateId,
         portalId: values.portalId,
-        outputFormat: values.fullVersion ? "full" : "simple",
+        outputFormat: "full",
         imageDataUrls: imageDataUrls.length ? imageDataUrls : undefined,
         variants: values.variants,
       });
@@ -95,7 +97,6 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
         input: "",
         templateId: "default",
         portalId: "olx",
-        fullVersion: false,
         variants: false,
         hasImage: false,
       }}
@@ -103,8 +104,11 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
       onSubmit={handleSubmit}
     >
       {({ values, isSubmitting, setFieldValue }) => {
-        const activeTemplate = getTemplateById(values.templateId);
         const activePortal = getPortalById(values.portalId);
+        const availableTemplates = getTemplatesForPortal(values.portalId);
+        const activeTemplate = availableTemplates.find(
+          (t) => t.id === values.templateId
+        ) ?? availableTemplates[0] ?? getTemplateById("default");
 
         const syncHasImage = (urls: string[]) => {
           setFieldValue("hasImage", urls.length > 0);
@@ -157,12 +161,20 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
           }
         };
 
+        const selectPortal = (portalId: string) => {
+          setFieldValue("portalId", portalId);
+          const nextTemplates = getTemplatesForPortal(portalId);
+          if (!nextTemplates.some((t) => t.id === values.templateId)) {
+            setFieldValue("templateId", "default");
+          }
+        };
+
         return (
           <Form className={styles.form}>
             <div className={styles.section}>
               <div className={styles.sectionHead}>
                 <label className={styles.label} id="portal-label">
-                  Portal
+                  Gdzie publikujesz?
                 </label>
                 <p className={styles.hint}>{activePortal.hint}</p>
               </div>
@@ -183,7 +195,7 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
                       className={`${styles.chip} ${
                         selected ? styles.chipActive : ""
                       }`}
-                      onClick={() => setFieldValue("portalId", p.id)}
+                      onClick={() => selectPortal(p.id)}
                     >
                       {p.name}
                     </button>
@@ -193,49 +205,53 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
               <Field type="hidden" name="portalId" />
             </div>
 
-            <div className={styles.section}>
-              <div className={styles.sectionHead}>
-                <label className={styles.label} id="template-label">
-                  Szablon branży
-                </label>
-                {activeTemplate.hint && (
-                  <p className={styles.hint}>{activeTemplate.hint}</p>
-                )}
-              </div>
+            {availableTemplates.length > 1 && (
+              <div className={styles.section}>
+                <div className={styles.sectionHead}>
+                  <label className={styles.label} id="template-label">
+                    Typ oferty
+                  </label>
+                  {activeTemplate.hint && (
+                    <p className={styles.hint}>{activeTemplate.hint}</p>
+                  )}
+                </div>
 
-              <div
-                className={styles.chipRow}
-                role="radiogroup"
-                aria-labelledby="template-label"
-              >
-                {templates.map((t) => {
-                  const selected = values.templateId === t.id;
-                  return (
-                    <button
-                      key={t.id}
-                      type="button"
-                      role="radio"
-                      aria-checked={selected}
-                      className={`${styles.chip} ${
-                        selected ? styles.chipActive : ""
-                      }`}
-                      onClick={() => setFieldValue("templateId", t.id)}
-                    >
-                      {t.name}
-                    </button>
-                  );
-                })}
+                <div
+                  className={styles.chipRow}
+                  role="radiogroup"
+                  aria-labelledby="template-label"
+                >
+                  {availableTemplates.map((t) => {
+                    const selected = values.templateId === t.id;
+                    return (
+                      <button
+                        key={t.id}
+                        type="button"
+                        role="radio"
+                        aria-checked={selected}
+                        className={`${styles.chip} ${
+                          selected ? styles.chipActive : ""
+                        }`}
+                        onClick={() => setFieldValue("templateId", t.id)}
+                      >
+                        {t.name}
+                      </button>
+                    );
+                  })}
+                </div>
+                <Field type="hidden" name="templateId" />
               </div>
+            )}
+            {availableTemplates.length <= 1 && (
               <Field type="hidden" name="templateId" />
-              <Field type="hidden" name="hasImage" />
-            </div>
+            )}
+            <Field type="hidden" name="hasImage" />
 
             <div className={styles.section}>
               <div className={styles.sectionHead}>
-                <span className={styles.label}>Zdjęcia produktu</span>
+                <span className={styles.label}>Zdjęcia</span>
                 <p className={styles.hint}>
-                  Do {MAX_IMAGES} zdjęć — AI wyciągnie cechy z fotek. Słowa
-                  kluczowe poniżej są opcjonalne.
+                  Opcjonalnie do {MAX_IMAGES} — AI rozpozna produkt i cechy.
                 </p>
               </div>
 
@@ -251,7 +267,10 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
               {imageDataUrls.length > 0 ? (
                 <div className={styles.imageGrid}>
                   {imageDataUrls.map((url, index) => (
-                    <div key={`${index}-${url.slice(0, 24)}`} className={styles.imagePreview}>
+                    <div
+                      key={`${index}-${url.slice(0, 24)}`}
+                      className={styles.imagePreview}
+                    >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={url}
@@ -272,7 +291,7 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
                     <p className={styles.imageStatus}>
                       {imageBusy
                         ? "Przetwarzanie…"
-                        : `${imageDataUrls.length}/${MAX_IMAGES} zdjęć`}
+                        : `${imageDataUrls.length}/${MAX_IMAGES}`}
                     </p>
                     {imageDataUrls.length < MAX_IMAGES && (
                       <button
@@ -281,7 +300,7 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
                         onClick={() => fileInputRef.current?.click()}
                         disabled={imageBusy || isSubmitting}
                       >
-                        Dodaj kolejne
+                        Dodaj
                       </button>
                     )}
                     <button
@@ -290,7 +309,7 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
                       onClick={clearImages}
                       disabled={imageBusy || isSubmitting}
                     >
-                      Usuń wszystkie
+                      Wyczyść
                     </button>
                   </div>
                 </div>
@@ -302,10 +321,10 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
                   disabled={imageBusy || isSubmitting}
                 >
                   <span className={styles.uploadTitle}>
-                    {imageBusy ? "Kompresuję zdjęcia…" : "Dodaj zdjęcia"}
+                    {imageBusy ? "Kompresuję…" : "Dodaj zdjęcia"}
                   </span>
                   <span className={styles.uploadSub}>
-                    JPG, PNG lub WebP · max 8 MB · do {MAX_IMAGES} szt. · 1 kredyt
+                    JPG, PNG, WebP · max 8 MB · 1 kredyt
                   </span>
                 </button>
               )}
@@ -314,8 +333,8 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
             <div className={styles.section}>
               <label className={styles.label} htmlFor="generator-input">
                 {values.hasImage
-                  ? "Dodatkowe słowa kluczowe (opcjonalnie)"
-                  : "Słowa kluczowe i cechy oferty"}
+                  ? "Dodatkowe info (opcjonalnie)"
+                  : "Co sprzedajesz / oferujesz?"}
               </label>
 
               <div className={styles.composer}>
@@ -326,7 +345,7 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
                   placeholder={
                     values.hasImage
                       ? "np. cena 1200 zł, Warszawa, faktura VAT…"
-                      : "np. iPhone 13, 128 GB, bateria 89%, pudełko, faktura VAT, Warszawa…"
+                      : "np. iPhone 13, 128 GB, bateria 89%, pudełko, Warszawa…"
                   }
                   aria-label="Pole do wpisania słów kluczowych ogłoszenia"
                   rows={6}
@@ -336,7 +355,7 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
 
                 <div className={styles.composerFooter}>
                   <p className={styles.olxHint}>
-                    {`${activePortal.name} · tytuł max ${activePortal.titleMax} · opis ${activePortal.descriptionMin}–${activePortal.descriptionMax} znaków`}
+                    {`${activePortal.name} · tytuł ≤${activePortal.titleMax} · opis ${activePortal.descriptionMin}–${activePortal.descriptionMax}`}
                   </p>
                   <p
                     className={styles.charCounter}
@@ -360,26 +379,9 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
 
             <label className={styles.optionRow}>
               <span className={styles.optionText}>
-                <span className={styles.optionTitle}>Pełny pakiet treści</span>
+                <span className={styles.optionTitle}>3 warianty</span>
                 <span className={styles.optionDesc}>
-                  Tytuł + short + opis · 1 kredyt
-                </span>
-              </span>
-              <span className={styles.switch}>
-                <Field
-                  type="checkbox"
-                  name="fullVersion"
-                  className={styles.switchInput}
-                />
-                <span className={styles.switchTrack} aria-hidden />
-              </span>
-            </label>
-
-            <label className={styles.optionRow}>
-              <span className={styles.optionText}>
-                <span className={styles.optionTitle}>3 warianty opisu</span>
-                <span className={styles.optionDesc}>
-                  Sprzedażowy / konkretny / szybka sprzedaż · nadal 1 kredyt
+                  Porównaj ton — nadal 1 kredyt
                 </span>
               </span>
               <span className={styles.switch}>
@@ -394,7 +396,7 @@ const FormGenerator = ({ onNoCredits }: FormGeneratorProps) => {
 
             <div className={styles.submitRow}>
               <BtnAuth isSubmitting={isSubmitting || imageBusy}>
-                {values.hasImage ? "Generuj ze zdjęcia" : "Generuj opis"}
+                {values.hasImage ? "Generuj ze zdjęcia" : "Generuj ogłoszenie"}
               </BtnAuth>
             </div>
           </Form>

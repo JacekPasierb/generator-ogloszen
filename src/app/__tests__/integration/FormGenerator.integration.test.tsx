@@ -40,7 +40,7 @@ describe("FormGenerator component", () => {
     const textarea = screen.getByLabelText(
       /pole do wpisania słów kluczowych ogłoszenia/i
     );
-    const button = screen.getByRole("button", { name: /generuj opis/i });
+    const button = screen.getByRole("button", { name: /generuj ogłoszenie/i });
 
     await user.type(textarea, "Sprzedam rower");
     await user.click(button);
@@ -50,7 +50,7 @@ describe("FormGenerator component", () => {
         input: "Sprzedam rower",
         templateId: "default",
         portalId: "olx",
-        outputFormat: "simple",
+        outputFormat: "full",
         imageDataUrls: undefined,
         variants: false,
       });
@@ -73,7 +73,7 @@ describe("FormGenerator component", () => {
     const textarea = screen.getByLabelText(
       /pole do wpisania słów kluczowych ogłoszenia/i
     );
-    const button = screen.getByRole("button", { name: /generuj opis/i });
+    const button = screen.getByRole("button", { name: /generuj ogłoszenie/i });
 
     await user.type(textarea, "Sprzedam rower");
     await user.click(button);

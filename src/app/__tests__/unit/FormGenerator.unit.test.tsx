@@ -42,7 +42,7 @@ describe("FormGenerator component", () => {
     );
 
     expect(
-      screen.getByRole("button", { name: /generuj opis/i })
+      screen.getByRole("button", { name: /generuj ogłoszenie/i })
     ).toBeInTheDocument();
   });
 
@@ -53,7 +53,7 @@ describe("FormGenerator component", () => {
       </DescriptionProvider>
     );
 
-    const button = screen.getByRole("button", { name: /generuj opis/i });
+    const button = screen.getByRole("button", { name: /generuj ogłoszenie/i });
     await userEvent.click(button);
 
     expect(

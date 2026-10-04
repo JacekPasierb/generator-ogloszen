@@ -11,17 +11,11 @@ import handleError from "../../lib/errors/userErrors";
 import { connectMongo } from "../../lib/mongoose";
 import User from "../../models/User";
 import { trackEvent } from "../../lib/analytics/trackEvent";
-import type { TemplateId } from "../../data/templates";
+import {
+  VALID_TEMPLATES,
+  type TemplateId,
+} from "../../data/templates";
 import { VALID_PORTALS, type PortalId } from "../../data/portals";
-
-const VALID_TEMPLATES = [
-  "default",
-  "car",
-  "rental",
-  "job",
-  "services",
-  "marketplace",
-];
 
 const MAX_IMAGES = 3;
 
@@ -73,7 +67,8 @@ export const POST = async (req: Request) => {
       VALID_PORTALS.includes(body.portalId as PortalId)
         ? (body.portalId as PortalId)
         : "olx";
-    const outputFormat = body?.outputFormat === "full" ? "full" : "simple";
+    /** Zawsze pełny pakiet (tytuł + short + opis) — bez osobnego przełącznika w UI */
+    const outputFormat = "full" as const;
     const variants = body?.variants === true;
 
     for (const url of imageDataUrls) {

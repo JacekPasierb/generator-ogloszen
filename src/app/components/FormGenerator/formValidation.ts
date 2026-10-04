@@ -1,5 +1,6 @@
 import * as Yup from "yup";
 import { VALID_PORTALS } from "../../data/portals";
+import { VALID_TEMPLATES } from "../../data/templates";
 
 export const generateDescriptionSchema = Yup.object({
   hasImage: Yup.boolean().default(false),
@@ -14,8 +15,7 @@ export const generateDescriptionSchema = Yup.object({
           .required("Podaj słowa kluczowe albo dodaj zdjęcie")
           .min(10, "Opis musi mieć co najmniej 10 znaków"),
     }),
-  templateId: Yup.string().required(),
+  templateId: Yup.string().oneOf([...VALID_TEMPLATES]).required(),
   portalId: Yup.string().oneOf([...VALID_PORTALS]).required(),
-  fullVersion: Yup.boolean(),
   variants: Yup.boolean(),
 });

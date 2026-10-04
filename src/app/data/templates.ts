@@ -1,62 +1,67 @@
+import type { PortalId } from "./portals";
+
 export type TemplateId =
   | "default"
   | "car"
   | "rental"
   | "job"
-  | "services"
-  | "marketplace";
+  | "services";
 
 export interface Template {
   id: TemplateId;
   name: string;
   promptPrefix: string;
   hint?: string;
+  /** Brak = dostępny na wszystkich portalach */
+  portals?: PortalId[];
 }
 
 export const templates: Template[] = [
   {
     id: "default",
-    name: "Ogólny (sprzedaż)",
+    name: "Sprzedaż",
     promptPrefix:
-      "Na podstawie poniższego opisu stwórz atrakcyjne ogłoszenie sprzedaży w stylu marketingowym (OLX, Vinted, Facebook Marketplace).",
-    hint: "Uniwersalny styl na dowolne ogłoszenie.",
+      "Stwórz atrakcyjne ogłoszenie sprzedaży. Podkreśl stan, kluczowe cechy, cenę (jeśli podana) i wezwanie do kontaktu. Nie zmyślaj faktów.",
+    hint: "Rzeczy, elektronika, moda, wyposażenie.",
   },
   {
     id: "car",
     name: "Samochód",
     promptPrefix:
-      "Na podstawie poniższego opisu stwórz profesjonalne ogłoszenie sprzedaży samochodu. Uwzględnij: markę, model, rok, przebieg, stan, zalety. Styl zwięzły, zachęcający do kontaktu (OLX/Motoryzacja).",
-    hint: "Sprzedaż auta – dopasowane pod portale motoryzacyjne.",
+      "Stwórz ogłoszenie sprzedaży samochodu. Uwzględnij: markę, model, rok, przebieg, stan, wyposażenie i zalety — tylko jeśli są w danych. Styl zwięzły, zachęcający do kontaktu.",
+    hint: "Auto, motocykl, części.",
+    portals: ["olx", "allegro", "marketplace"],
   },
   {
     id: "rental",
-    name: "Wynajem mieszkania",
+    name: "Wynajem",
     promptPrefix:
-      "Na podstawie poniższego opisu stwórz atrakcyjne ogłoszenie wynajmu mieszkania/lokalu. Uwzględnij: lokalizację, metraż, wyposażenie, cenę, dostępność. Styl zachęcający, profesjonalny (OLX/Nieruchomości).",
-    hint: "Wynajem – mieszkanie, pokój, dom.",
+      "Stwórz ogłoszenie wynajmu (mieszkanie, pokój, lokal). Uwzględnij: lokalizację, metraż, wyposażenie, czynsz i dostępność — tylko jeśli są w danych. Ton profesjonalny, zachęcający.",
+    hint: "Mieszkanie, pokój, lokal.",
+    portals: ["olx", "marketplace"],
   },
   {
     id: "job",
-    name: "Oferta pracy",
+    name: "Praca",
     promptPrefix:
-      "Na podstawie poniższego opisu stwórz ogłoszenie rekrutacyjne (oferta pracy). Uwzględnij: stanowisko, wymagania, oferowane warunki, sposób aplikacji. Styl formalny, zachęcający (LinkedIn/Pracuj.pl).",
-    hint: "Rekrutacja – oferta pracy.",
+      "Stwórz ogłoszenie rekrutacyjne. Uwzględnij: stanowisko, obowiązki, wymagania, warunki i sposób aplikacji — tylko jeśli są w danych. Ton formalny, zachęcający.",
+    hint: "Oferta pracy / współpraca.",
+    portals: ["olx"],
   },
   {
     id: "services",
-    name: "Usługi lokalne",
+    name: "Usługi",
     promptPrefix:
-      "Na podstawie poniższego opisu stwórz ogłoszenie oferty usług (np. hydraulik, sprzątanie, remont). Podkreśl korzyści, rejon działania, kontakt. Styl przyjazny, zaufanie (OLX Usługi).",
-    hint: "Usługi – fachowcy, sprzątanie, naprawy.",
-  },
-  {
-    id: "marketplace",
-    name: "Marketplace / e-commerce",
-    promptPrefix:
-      "Na podstawie poniższego opisu stwórz krótkie, sprzedażowe ogłoszenie produktu pod Facebook Marketplace / Allegro. Zwięzły tytuł + opis z cechami i CTA.",
-    hint: "Szybka sprzedaż – Marketplace, Allegro.",
+      "Stwórz ogłoszenie usługi lokalnej (np. remont, sprzątanie, naprawy). Podkreśl korzyści, rejon działania i kontakt — bez zmyślania. Ton przyjazny, budujący zaufanie.",
+    hint: "Fachowcy, naprawy, lokalne usługi.",
+    portals: ["olx", "allegro", "marketplace"],
   },
 ];
 
+export const VALID_TEMPLATES: TemplateId[] = templates.map((t) => t.id);
+
 export const getTemplateById = (id: TemplateId | string): Template =>
   templates.find((t) => t.id === id) ?? templates[0];
+
+export const getTemplatesForPortal = (portalId: string): Template[] =>
+  templates.filter((t) => !t.portals || t.portals.includes(portalId as PortalId));

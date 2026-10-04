@@ -62,13 +62,13 @@ const Generator = () => {
             ? "Odblokuj generator opisów"
             : isExhausted
               ? "Pakiet wyczerpany"
-              : "Słowa kluczowe. Gotowe ogłoszenie."}
+              : "Nowe ogłoszenie"}
         </h1>
 
         {canGenerate && !isExhausted && (
           <p className={styles.subTitle}>
-            Wpisz cechy oferty lub dodaj zdjęcie — AI zbuduje sprzedażowy opis
-            pod OLX, Marketplace i social.
+            Wybierz portal, dodaj zdjęcia lub cechy — dostaniesz tytuł, opis i
+            checklistę pod publikację.
           </p>
         )}
 
